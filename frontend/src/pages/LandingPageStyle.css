@@ -1,0 +1,1060 @@
+
+.landing-page{
+    font-family: "Josefin San", sans-serif;
+    overflow: hidden;
+}
+
+.landing-page .main-section{
+    background-size: cover;
+    background-image: url('../building.jpg');
+    background-position: center;
+    height: 100vh;
+    position: relative;
+}
+
+.landing-page .cover-color{
+    background-color:rgba(32, 43, 49, 0.5);
+    height: 100vh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.landing-page .cover-color .center-text h2{
+    color: #d3b23a;
+    font-size: 60px;
+    font-weight: 600;
+    word-spacing: 15px;
+    letter-spacing: 5px;
+}
+
+.landing-page .cover-color  h2 span{
+    color: #d3b23a;
+    font-size: 80px;
+    font-weight: 700;
+}
+
+
+.landing-page .cover-color  h4{
+    color: WHITE;
+    font-size: 50px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+.landing-page .cover-color button{   
+    background-color:#d3b23a;
+    color: white;
+    border-radius: 10px;
+    width: 200px;
+    height: 60px;
+    padding: 15px;
+    border: none;
+    font-size: 17px;
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.44);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.landing-page .cover-color button:hover{   
+    background-color:#d3b23a42;
+    transition: transform .1s ease-out, background-color .5s ease-out;
+}
+
+
+
+.landing-page .hotel-primary-info{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+.landing-page .hotel-primary-info h2{
+    font-size: 45px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color:#2a4b60 ;
+    margin-bottom: 50px;
+}
+
+.landing-page #lobby-photo{
+    background-image: url('../lobby.jpeg');
+    background-position: center;
+    background-size:cover;
+    width: 70%;
+    height: 700px;
+    margin-bottom: 40px;
+    border-radius: 15px;
+}
+
+.landing-page .hotel-primary-info h1{
+    font-size: 45px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color:#2a4b60 ;
+    margin-bottom: 30px;
+}
+
+.landing-page .hotel-primary-info h3{
+    font-size: 35px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color:#2a4b60 ;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.hotel-primary-info p{
+    width: 50%;
+    height: 50%;
+    text-align: center;
+    font-size: 23px;
+    color:#2a4b60 ;
+    line-height: 2.0; 
+    margin-bottom: 140px;
+}
+
+.hotel-rooms{
+    background-color: #2a4b60 ;
+    color: white;
+    padding: 20px;
+}
+
+.hotel-rooms .rooms-section-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 30px 80px 30px 80px;
+    align-items: center;
+    height: 150px;
+    line-height: .3; 
+}
+
+.hotel-rooms .rooms-section-header .side-text h4{
+    letter-spacing: 1px;
+    font-size: 25px;
+    font-weight: 500;
+    color: rgb(163, 154, 154);
+}
+
+.hotel-rooms .rooms-section-header .side-text h2{
+    letter-spacing: 1px;
+    font-size: 50px;
+    font-weight: 700;
+    color:white;
+}
+
+.hotel-rooms .rooms-section-header  button{
+    font-size: 18px;
+    height: 60px;
+    width: 220px;
+    background-color:#2a4b60 ;
+    color: rgb(187, 172, 90);
+    border: 1px solid rgb(187, 172, 90);
+    border-radius: 20px;
+}
+
+.hotel-rooms .rooms-section-header  button:hover{
+    background-color:rgb(187, 172, 90);
+    color: white;
+    transition: transform .1s ease-out, background-color .3s ease-out;
+}
+
+@keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+
+.rooms{
+    display: flex;
+    opacity: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.rooms-1{
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.rooms-2{
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.room-link {
+    text-decoration: none; 
+    display: block; 
+    color: white;
+    width: 35%;
+    position:relative;
+}
+
+.room-link .room{
+    width: 100%;
+    display: block;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.room-link .room img{
+    width: 100%;
+    height: 700px;
+    margin: 0;
+}
+
+.room-link .room .room-txt{
+    width: 100%;
+    height: 20%;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 5px;
+}
+
+.room-link .room .room-txt h6{
+    font-size: 25px;
+}
+
+.room-link .room .room-txt h4{
+    font-size: 30px;
+    color: rgb(187, 172, 90);
+
+}
+
+.rooms-buttom-sec{
+    width: 100%;
+    margin-top: 40px;
+    display: block;
+    text-align: center;
+}
+
+.rooms-buttom-sec .bottom-butt{
+    margin-bottom: 80px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.rooms-buttom-sec .bottom-butt button{
+    width: 13px;
+    height: 13px;
+    border-radius: 50px;
+    background-color: rgba(240, 240, 240, 0.7);
+    border: none;
+    transition: transform .1s ease-out, background-color .5s ease-out;
+
+}
+
+.rooms-buttom-sec .bottom-butt button:active{
+    background-color:rgb(226, 206, 93);
+    transition: transform .1s ease-out, background-color .5s ease-out;
+}
+
+
+.rooms-buttom-sec h1{
+    font-size: 40px;
+    color: rgb(226, 206, 93);
+    margin-bottom: 30px;
+}
+
+
+
+
+.amenities{
+    display: block;
+    margin: 100px;
+    width: 100%;
+}
+
+.amenities h4{
+    font-size: 25px;
+    letter-spacing: 3px;
+    font-weight: 200;
+    color: rgb(121, 121, 121);
+}
+
+.amenities h2{
+    font-size: 70px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-top: -10px;
+    margin-bottom: 70px;
+    color:#2a4b60 ;
+    
+}
+
+.amenities .photos{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+@keyframes slide-span {
+    from {
+        top: 100%; /* Start from bottom */
+    }
+    to {
+        top: 60%; /* Move to the middle */
+    }
+}
+
+@keyframes slide-span-p {
+    from {
+        top: 150%; /* Start from bottom */
+    }
+    to {
+        top: 90%; /* Move to the middle */
+    }
+}
+
+.photo-container {
+    position: relative;
+    width: 22%;
+    height: 700px;
+}
+
+.color-cover {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+
+.color-cover img {
+    width: 100%;
+    height: 100%;
+}
+
+.color-cover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)); /* Change colors and opacity as needed */
+    z-index: 1; /* Ensure it appears above the image */
+}
+
+
+.overlay-text h3{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(226, 206, 93);
+    font-size: 32px;
+    letter-spacing: 5px;
+    z-index: 2;
+    font-weight: 300;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.overlay-text p{
+    display: none;
+    width: 70%;
+    position: absolute;
+    bottom: -50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+    z-index: 2;
+    text-align: justify;
+}
+
+
+.color-cover:hover .overlay-text h3{
+    animation: slide-span 0.8s ease forwards;
+}
+
+.color-cover:hover .overlay-text p {
+    display: flex;
+    animation: slide-span-p 0.8s ease forwards;
+}
+
+
+@media (max-width: 1440px) {
+    
+
+    .landing-page .cover-color .center-text h2{
+        font-size: 40px;
+        word-spacing: 13px;
+        letter-spacing: 4px;
+    }
+
+    .landing-page .cover-color  h2 span{
+        font-size: 60px;
+        font-weight: 700;
+    }
+
+
+    .landing-page .cover-color  h4{
+        font-size: 40px;
+        font-weight: 600;
+    }
+
+    .landing-page .cover-color button{   
+        width: 150px;
+        height: 50px;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .landing-page .hotel-primary-info{
+        margin-top: 70px;
+    }
+
+    .landing-page #lobby-photo{
+        width: 70%;
+        height: 500px;
+    }
+
+    .landing-page .hotel-primary-info h1{
+        font-size: 40px;
+        font-weight: 700;
+    }
+
+    .landing-page .hotel-primary-info h3{
+        font-size: 35px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        color:#2a4b60 ;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .hotel-primary-info p{
+        width: 70%;
+        font-size: 21px;
+    }
+
+
+    .hotel-rooms .rooms-section-header .side-text h4{
+        font-size: 20px;
+    }
+
+    .hotel-rooms .rooms-section-header .side-text h2{
+        font-size: 40px;
+    }
+
+    .hotel-rooms .rooms-section-header  button{
+        font-size: 16px;
+        height: 50px;
+        width: 180px;
+    }
+
+
+    .room-link .room img{
+        height: 500px;
+    }
+
+
+    .room-link .room .room-txt h6{
+        font-size: 20px;
+    }
+
+    .room-link .room .room-txt h4{
+        font-size: 25px;
+    }
+
+
+    .rooms-buttom-sec .bottom-butt button{
+        width: 11px;
+        height: 11px;
+    }
+
+    .rooms-buttom-sec h1{
+        font-size: 30px;
+    }
+
+    .amenities h4{
+        font-size: 20px;
+    }
+
+    .amenities h2{
+        font-size:55px;
+    }
+
+    .photo-container {
+        width: 20%;
+        height: 500px;
+    }
+
+
+    .overlay-text h3{
+        font-size: 20px;
+    }
+
+    .overlay-text p{
+        width: 80%;
+        font-size: 15px;
+        z-index: 1;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    
+    .landing-page{
+        overflow: hidden;
+    }
+    .overlay-text p{
+        width: 80%;
+        font-size: 13px;
+    }
+
+    .room-link .room img{
+        height: 400px;
+    }
+
+    .room-link .room .room-txt h6{
+        font-size: 16px;
+    }
+
+    .room-link .room .room-txt h4{
+        font-size: 20px;
+    }
+
+}
+
+  @media (max-width: 768px) {
+
+
+    .cover-color .center-text h2{
+        font-size: 35px;
+        font-weight: 500;
+        word-spacing: 12px;
+        letter-spacing: 2px;
+    }
+    
+    .cover-color  h2 span{
+        font-size: 50px;
+        font-weight: 600;
+    }
+    
+    .cover-color  h4{
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    .hotel-primary-info{
+        margin-top: 70px;
+    }
+    
+    .hotel-primary-info h1{
+        font-size: 35px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+    
+    #lobby-photo{
+        height: 500px;
+    }
+    
+    .hotel-primary-info h3{
+        font-size: 35px;
+    }
+    
+    .hotel-primary-info p{
+        font-size: 18px;
+        margin-bottom: 140px;
+        width: 80%;
+    }
+    
+    
+    .hotel-rooms .rooms-section-header{
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        margin: 10px 20px 10px 20px;
+    }
+    
+    .hotel-rooms .rooms-section-header .side-text h4{
+        font-size: 15px;
+        font-weight: 500;
+    }
+    
+    .hotel-rooms .rooms-section-header .side-text h2{
+        font-size: 25px;
+        font-weight: 600;
+    }
+    
+    .hotel-rooms .rooms-section-header  button{
+        font-size: 11px;
+        height: 30px;
+        width: 100px;
+        border-radius: 15px;
+    }
+
+    .room-link .room .room-txt h6{
+        font-size: 13px;
+    }
+
+    .room-link .room .room-txt h4{
+        font-size: 16px;
+    }
+
+    
+    .rooms-buttom-sec .bottom-butt button{
+        width: 15px;
+        height: 15px;
+        border-radius: 50px;
+    }
+    
+    .amenities{
+        display: block;
+        margin: 80px 10px 80px 10px;
+    }
+
+    
+    .amenities h4{
+        font-size: 20px;
+    }
+    
+    .amenities h2{
+        font-size: 40px;
+        margin-bottom: 50px;
+    }
+
+    .photo-container {
+        position: relative;
+        width: 90%;
+        height: 300px;
+    }
+    
+    .color-cover {
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+    }
+    
+    
+    .color-cover img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .amenities .photos{
+        gap: 10px;  
+        height: 40%;
+        margin: 20px;
+    }
+    
+    .overlay-text h3{
+        top: 70%;
+        bottom: 40px;
+    }
+
+    @keyframes slide-span {
+        from {
+            top: 100%; /* Start from bottom */
+        }
+        to {
+            top: 42%; /* Move to the middle */
+        }
+    }
+
+    @keyframes slide-span-p {
+        from {
+            top: 150%; /* Start from bottom */
+        }
+        to {
+            top: 80%; /* Move to the middle */
+        }
+    }
+    
+    .overlay-text p{
+        width: 85%;
+        font-size: 11px;
+        z-index: 1;
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 425px) {
+
+    .landing-page .cover-color .center-text h2{
+        font-size: 30px;
+        word-spacing: 10px;
+        letter-spacing: 3px;
+    }
+
+    .landing-page .cover-color  h2 span{
+        font-size: 45px;
+        font-weight: 700;
+    }
+
+
+    .landing-page .cover-color  h4{
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .landing-page .cover-color button{   
+        width: 150px;
+        height: 50px;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .landing-page .hotel-primary-info{
+        margin-top: 70px;
+    }
+
+    .landing-page #lobby-photo{
+        width: 70%;
+        height: 400px;
+    }
+
+    
+    .landing-page .hotel-primary-info h1{
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .landing-page .hotel-primary-info h3{
+        font-size: 20px;
+    }
+
+    .hotel-primary-info p{
+        width: 80%;
+        font-size: 13px;
+    }
+
+    .hotel-rooms .rooms-section-header{
+        margin: 10px;
+    }
+
+    .hotel-rooms .rooms-section-header .side-text h4{
+        font-size: 12px;
+    }
+
+    .hotel-rooms .rooms-section-header .side-text h2{
+        font-size: 18px;
+    }
+
+    .hotel-rooms .rooms-section-header  button{
+        font-size: 12px;
+        height: 30px;
+        width: 90px;
+    }
+
+
+    .rooms{
+        flex-direction: column;
+    }
+    
+    .rooms-1{
+        flex-direction: column;
+    }
+    
+    .rooms-2{
+        flex-direction: column;
+    }
+    
+    .room-link {
+        width: 99%;
+    }
+    
+    .room-link .room{
+        width: 100%;
+    }
+    
+    .room-link .room img{
+        height: 400px;
+    }
+    
+    
+    .room-link .room .room-txt h6{
+        font-size: 15px;
+    }
+    
+    .room-link .room .room-txt h4{
+        font-size: 20px;    
+    }
+    
+    
+    .rooms-buttom-sec .bottom-butt button{
+        width: 11px;
+        height: 11px;
+    }
+    
+    .rooms-buttom-sec h1{
+        font-size: 25px;
+    }
+    
+    
+    .amenities h4{
+        font-size: 17px;
+        margin-left: 20px;
+    }
+    
+    .amenities h2{
+        font-size: 40px;
+        margin-left: 20px;
+    }
+    
+    .amenities .photos{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px;
+
+    }
+    
+    @keyframes slide-span {
+        from {
+            top: 100%; /* Start from bottom */
+        }
+        to {
+            top: 55%; /* Move to the middle */
+        }
+    }
+    
+    @keyframes slide-span-p {
+        from {
+            top: 150%; /* Start from bottom */
+        }
+        to {
+            top: 90%; /* Move to the middle */
+        }
+    }
+    
+    .photo-container {
+        width: 100%;
+        height: 300px;
+    }
+    
+    .overlay-text h3{
+        font-size: 22px;
+    }
+    
+    .overlay-text p{
+        width: 85%;
+        font-size: 13px;
+    }
+    
+}
+
+
+@media  (max-width: 375px) {
+    .landing-page .cover-color .center-text h2{
+        font-size: 27px;
+    }
+
+    .landing-page .cover-color  h2 span{
+        font-size: 40px;
+    }
+
+
+    .landing-page .cover-color  h4{
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .landing-page .cover-color button{   
+        width: 120px;
+        height: 35px;
+        font-size: 12px;
+    }
+
+
+    .landing-page #lobby-photo{
+        width: 90%;
+        height: 400px;
+    }
+
+    
+    .landing-page .hotel-primary-info h1{
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .landing-page .hotel-primary-info h3{
+        font-size: 18px;
+    }
+
+    .hotel-primary-info p{
+        width: 85%;
+        font-size: 12px;
+    }
+
+    
+    
+    .rooms-buttom-sec .bottom-butt button{
+        width: 9px;
+        height: 9px;
+    }
+    
+    .rooms-buttom-sec h1{
+        font-size: 20px;
+    }
+
+    .amenities .photos{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 25px;
+
+    }
+    
+    
+    .amenities h4{
+        font-size: 15px;
+        margin-left: 20px;
+    }
+    
+    .amenities h2{
+        font-size: 35px;
+        margin-left: 20px;
+    }
+
+    @keyframes slide-span {
+        from {
+            top: 100%; /* Start from bottom */
+        }
+        to {
+            top: 45%; /* Move to the middle */
+        }
+    }
+    
+    @keyframes slide-span-p {
+        from {
+            top: 150%; /* Start from bottom */
+        }
+        to {
+            top: 84%; /* Move to the middle */
+        }
+    }
+    
+}
+
+
+
+@media  (max-width: 325px) {
+
+    .landing-page #lobby-photo{
+        width: 90%;
+        height: 300px;
+    }
+
+    
+    .landing-page .hotel-primary-info h1{
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .landing-page .hotel-primary-info h3{
+        font-size: 16px;
+    }
+
+    .hotel-primary-info p{
+        width: 90%;
+        font-size: 11px;
+    }
+
+
+    
+    .hotel-rooms .rooms-section-header .side-text h4{
+        font-size: 8px;
+        font-weight: 540;
+    }
+    
+    .hotel-rooms .rooms-section-header .side-text h2{
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+  
+    .hotel-rooms .rooms-section-header  button{
+        font-size: 8px;
+        height: 25px;
+        width: 70px;
+    }
+    
+    .rooms-buttom-sec .bottom-butt button{
+        width: 9px;
+        height: 9px;
+    }
+    
+    .rooms-buttom-sec h1{
+        font-size: 17px;
+    }
+
+    .room-link .room .room-txt h6{
+        font-size: 10px;
+    }
+    
+    .room-link .room .room-txt h4{
+        font-size:17px;
+        color: rgb(187, 172, 90);
+    
+    }
+
+    .amenities .photos{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 25px;
+
+    }
+
+    .amenities h4{
+        font-size: 15px;
+        margin-left: 20px;
+    }
+    
+    .amenities h2{
+        font-size: 35px;
+        margin-left: 20px;
+    }
+
+    @keyframes slide-span {
+        from {
+            top: 100%; /* Start from bottom */
+        }
+        to {
+            top: 40%; /* Move to the middle */
+        }
+    }
+    
+    @keyframes slide-span-p {
+        from {
+            top: 150%; /* Start from bottom */
+        }
+        to {
+            top: 80%; /* Move to the middle */
+        }
+    }
+    
+}

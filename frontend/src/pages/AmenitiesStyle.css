@@ -1,0 +1,165 @@
+@keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+
+.amenities-page{
+    font-family: "Josefin San", sans-serif;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    position:relative;
+    animation: slide-in 0.8s ease forwards;
+}
+
+.amenities-page .cover{
+    background-color:rgba(32, 43, 49, 0.5);
+    height: 100vh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.amenities-page .cover h1{
+    font-size: 50px;
+    font-weight: 500;
+    letter-spacing: 8px;
+    color: #d3b23a;
+    margin-bottom: 5px;
+    text-align: center;
+    margin-top: 130px;
+}
+
+.amenities-page .cover p{
+    font-size: 30px;
+    letter-spacing: 3px;
+    word-spacing: 3px;
+    width: 40%;
+    color:white;
+    text-align: center;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.amenities-page .cover button{
+    font-size:25px;
+    letter-spacing: 3px;
+    border-radius: 14px;
+    padding: 20px 30px 20px 30px;
+    color: rgba(255, 255, 255, 0.76);
+    text-align: center;
+    background-color: #d3b23a ;
+    border: none;
+}
+
+
+@media (max-width: 1440px) { 
+
+  .amenities-page .cover{
+      background-color:rgba(32, 43, 49, 0.5);
+      height: 100vh;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .amenities-page .cover h1{
+      font-size: 40px;
+      margin-top: 80px;
+
+  }
+
+  .amenities-page .cover p{
+      font-size: 19px;
+      width: 60%;
+  }
+
+  .amenities-page .cover button{
+      font-size:17px;
+      padding: 10px 25px 10px 25px;
+  }
+}
+
+
+@media (max-width: 768px) { 
+
+  .amenities-page .cover h1{
+      font-size: 35px;
+  }
+
+  .amenities-page .cover p{
+      font-size: 17px;
+      width: 70%;
+  }
+
+  .amenities-page .cover button{
+      font-size:17px;
+      padding: 10px 25px 10px 25px;
+  }
+}
+
+
+@media (max-width: 425px) { 
+
+  .amenities-page .cover h1{
+      font-size: 30px;
+      font-weight: 600;
+      margin-top: 20px;
+
+  }
+
+  .amenities-page .cover p{
+    font-size: 15px;
+    width: 90%;
+    letter-spacing: 1px;
+    word-spacing: 2px;
+  }
+
+  .amenities-page .cover button{
+      font-size:17px;
+      padding: 10px 25px 10px 25px;
+  }
+}
+
+
+@media (max-width: 375px) { 
+
+  .amenities-page .cover h1{
+      font-size: 27px;
+      margin-top: 0px;
+
+  }
+}
+
+@media (max-width: 375px) { 
+
+  .amenities-page .cover h1{
+    font-size: 25px;
+    margin-top: 0px;
+
+  }
+
+  .amenities-page .cover p{
+    font-size: 13px;
+    width: 90%;
+    letter-spacing: 0px;
+    word-spacing: 1px;
+  }
+
+  .amenities-page .cover button{
+      font-size:14px;
+      padding: 10px 20px 10px 20px;
+  }
+}
+
+

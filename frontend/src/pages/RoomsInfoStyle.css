@@ -1,0 +1,254 @@
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+
+
+.roomInfo-container{
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    font-family: "Josefin San", sans-serif;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.cover-color{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color:rgba(32, 43, 49, 0.6);
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.roomInfo-container .room-info-txt{
+    position: absolute;
+    z-index: 2;
+    top: 35%;
+    left: 15%;
+    animation: fadeIn 2.2s ease forwards;
+
+}
+
+
+.roomInfo-container .room-info-txt h2{
+    color: #d3b23a;
+    font-size: 90px;
+    font-weight: 400;
+    word-spacing: 15px;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+    margin-left: 0px;
+}
+
+.roomInfo-container .room-info-txt h5{
+    color: #d3b23a;
+    font-size: 45px;
+    font-weight: 400;
+    word-spacing: 5px;
+    letter-spacing: 5px;
+    margin: 10px;
+}
+
+
+.roomInfo-container .room-info-txt p{
+    color: white;
+    font-size: 22px;
+    font-weight: 400;
+    word-spacing: 2px;
+    letter-spacing: 2px;
+    width: 40%;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+
+.roomInfo-container .room-info-txt button{
+    color: white;
+    background-color:#d3b23a;
+    font-size: 22px;
+    letter-spacing: 4px;
+    padding: 20px 40px 20px 40px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 20px;
+    letter-spacing: 4px;
+    box-shadow: 0px 1px 2px 1px white;
+}
+
+.roomInfo-container .room-info-txt button:hover{
+    background-color:#d3b23a80;
+    transition: transform .1s ease-out, background-color .5s ease-out;
+}
+
+
+.date-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+
+.date-form h1{
+    font-size: 50px;
+    margin: 70px;
+    color: rgb(187, 172, 90);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.date-form .form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+
+.date-form label{
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: rgb(187, 172, 90);
+
+}
+
+.date-form input{
+    width: 350px;
+    height: 10%;
+    font-size: 23px;
+    border-radius: 10px;
+    padding: 15px;
+    border: 3px dotted rgb(187, 172, 90);
+
+}
+
+.date-form button{
+    width: 280px;
+    height: 50px;
+    font-size: 23px;
+    margin-top: 30px;
+    margin-bottom: 100px;    
+    border-radius: 10px;
+    background-color: rgb(204, 182, 57);
+    color: white;
+    border: none;
+}
+
+.date-form button:hover{
+    background-color:#2a4b60;
+    transition: transform .1s ease-out, background-color .5s ease-out;
+    color: white;  
+}
+
+@media (max-width: 1440px) { 
+
+    .roomInfo-container .room-info-txt h2{
+        margin-top: 40px;
+        font-size: 50px;
+        word-spacing: 12px;
+        letter-spacing: 4px;
+    
+    }
+    
+    .roomInfo-container .room-info-txt h5{
+        font-size: 25px;
+    }
+    
+    
+    .roomInfo-container .room-info-txt p{
+        font-size: 18px;
+        width: 60%;
+    
+    }
+    
+    
+    .roomInfo-container .room-info-txt button{
+        font-size: 15px;
+        padding: 12px 20px 12px 20px;
+    }
+    
+}
+
+
+@media (max-width: 1024px) { 
+    .roomInfo-container .room-info-txt h2{
+        margin-top: 10px;
+        font-size: 40px;
+    }
+    
+    .roomInfo-container .room-info-txt h5{
+        font-size: 22px;
+    }
+    
+    
+    .roomInfo-container .room-info-txt p{
+        font-size: 16px;
+    
+    }
+}
+
+@media (max-width: 425px) { 
+
+    .roomInfo-container .room-info-txt{
+        top: 30%;
+        left: 0%;
+        text-align: center;
+    }
+
+    .roomInfo-container .room-info-txt h2{
+        margin-top: 10px;
+        font-size: 30px;
+    }
+    
+    .roomInfo-container .room-info-txt h5{
+        font-size: 22px;
+    }
+    
+    
+    .roomInfo-container .room-info-txt p{
+        font-size: 15px;    
+        margin: 0 auto;
+        width: 80%;
+    }
+}
+
+@media (max-width: 375px) { 
+
+    .roomInfo-container .room-info-txt{
+        top: 30%;
+        left: 0%;
+        text-align: center;
+    }
+
+    .roomInfo-container .room-info-txt h2{
+        margin-top: 10px;
+        font-size: 25px;
+    }
+    
+    .roomInfo-container .room-info-txt h5{
+        font-size: 20px;
+    }
+    
+    
+    .roomInfo-container .room-info-txt p{
+        font-size: 13px;    
+        margin: 0 auto;
+        width: 90%;
+    }
+
+    .roomInfo-container .room-info-txt button{
+        font-size: 13px;
+        padding: 10px 15px 10px 15px;
+    }
+}
+

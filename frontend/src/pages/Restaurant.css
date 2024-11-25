@@ -1,0 +1,274 @@
+.restaurant-content{
+    font-family: "Josefin San", sans-serif;
+    background-image: url('../../public/photos/restaurant-bg.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    position:relative;
+}
+
+.restaurant-content .cover-color{
+    background-color:rgba(32, 43, 49, 0.5);
+    height: 100vh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.restaurant-content .cover-color  h2{
+    color: #d3b15a;
+    font-size: 50px;
+    font-weight: 500;
+    word-spacing: 15px;
+    letter-spacing: 6px;
+}
+
+.restaurant-content .cover-color  p{
+    color: WHITE;
+    font-size: 35px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    width: 60%;
+    word-spacing: 3px;
+    line-height: 1.6;
+    font-family:'Courier New', Courier, monospace;
+
+}
+
+.restaurant-content .cover-color button{   
+    background-color:#d3b23a;
+    color: white;
+    border-radius: 10px;
+    width: 200px;
+    height: 60px;
+    padding: 15px;
+    border: none;
+    font-size: 17px;
+    margin-top: 50px;
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.44);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.restaurant-content .cover-color button:hover{   
+    background-color:#d3b23a42; 
+    transition: transform .1s ease-out, background-color .5s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translate(-0%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+.restaurant-content  .form-container{
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    transform: translate(-50%, -50%);
+    top: 55%;
+    left: 50%;
+    background-color:rgba(240, 232, 232, 0.76); 
+    border-radius: 20px;
+    animation: slideInRight 1s ease forwards;
+}
+
+.restaurant-content .form-container h1{
+    margin:50px 60px 40px 60px;
+    height: 30px ;
+    letter-spacing: 2PX;
+    font-weight: 500;
+    color:#f0bd07;
+}
+
+.restaurant-content .form-container form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.restaurant-content .form-container input{
+    height: 40px;
+    width: 80%;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.restaurant-content .form-container .buttons{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+}
+
+.restaurant-content .form-container .buttons button{
+    width: 70%;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+
+}
+
+.restaurant-content .form-container .buttons button:hover{
+    background-color: rgba(86, 230, 20, 0.877);
+    color: white;
+    box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.793);
+    scale: 1.05;
+    transition: .5s ease;
+}
+
+.restaurant-content .form-container #cancel{
+    width: 10%;
+    font-size: 20px;
+    text-align: center;
+    background-color: transparent;
+    color: rgba(255, 0, 0, 0.589);
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.493);
+}
+
+.restaurant-content .form-container #cancel:hover{
+    background-color: rgba(255, 0, 0, 0.815);
+    color: white;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.493);
+    scale: 1.1;
+    transition: .5s ease;
+}
+
+@media (max-width: 1440px) {   
+    .restaurant-content .cover-color  h2{
+        margin-top: 90px;
+        font-size: 40px;
+        font-weight: 600;
+    }
+    
+    
+    
+    .restaurant-content .cover-color  p{
+        font-size: 25px;
+        width: 80%;
+        margin: 0;
+    }
+    
+    .restaurant-content .cover-color button{   
+        width: 170px;
+        height: 50px;
+        padding: 13px;
+        border: none;
+        font-size: 17px;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {   
+    .restaurant-content .cover-color{
+        line-height: 1.5;
+        position: relative;
+    }
+    
+    
+    .restaurant-content .cover-color  h2{
+        color: #d3b15a;
+        font-size: 33px;
+        margin-top: 100px;
+        font-weight: 600;
+    }
+    
+    
+    
+    .restaurant-content .cover-color  p{
+        font-size: 25px;
+        width: 90%;
+        line-height: 1.4;
+        font-family:'Courier New', Courier, monospace;
+    
+    }
+    
+    .restaurant-content .cover-color button{   
+        background-color:#d3b23a;
+        color: white;
+        border-radius: 10px;
+        width: 200px;
+        height: 60px;
+        padding: 15px;
+        border: none;
+        font-size: 17px;
+        margin-top: 50px;
+        box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.44);
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    
+    .restaurant-content .cover-color button:hover{   
+        background-color:#d3b23a42; 
+        transition: transform .1s ease-out, background-color .5s ease-out;
+    }
+
+
+    .restaurant-content .form-container h1{
+        margin:50px 80px 70px 80px;
+        height: 30px ;
+        letter-spacing: 2PX;
+        font-weight: 500;
+        color:#f0bd07;
+    }
+}
+
+
+
+@media (max-width: 425px) {   
+
+    .restaurant-content .cover-color  h2{
+        color: #d3b15a;
+        font-size: 25px;
+        margin-top: 20px;
+        font-weight: 600;
+    }
+    
+    
+    
+    .restaurant-content .cover-color  p{
+        font-size: 20px;
+        width: 90%;
+        line-height: 1.4;
+        font-family:'Courier New', Courier, monospace;
+    
+    }
+    
+    .restaurant-content .cover-color button{   
+        width: 150px;
+        height: 50px;
+        padding: 15px;
+        font-size: 13px;
+    }
+    
+
+    .restaurant-content .form-container h1{
+        margin:50px 80px 70px 80px;
+        height: 30px ;
+        letter-spacing: 2PX;
+        font-weight: 500;
+        color:#f0bd07;
+    }
+    
+    .restaurant-content .form-container h1{
+        margin:20px 40px 20px 40px;
+    }
+    
+    .restaurant-content .form-container input{
+        height: 25px;
+        font-size: 13px;
+    }
+}

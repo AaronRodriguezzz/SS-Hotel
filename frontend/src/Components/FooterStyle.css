@@ -1,0 +1,40 @@
+.footer{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color:#2a4b60;
+    padding: 30px;
+}
+
+.footer button{
+    background-color:#2a4b60;
+    border: none;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: rgb(226, 206, 93);
+}
+
+.footer button:hover{
+   text-decoration: underline;
+   transition: 1s ease;
+   scale: 1.1;
+}
+
+.footer img{
+    height: 250px;
+    width: 250px;
+}
+
+.footer .social-medias button{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    margin-right: 10px;
+    background-color: white;
+}
+
+.footer .social-medias img{
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}

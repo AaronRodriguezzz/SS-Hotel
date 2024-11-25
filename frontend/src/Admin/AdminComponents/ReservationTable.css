@@ -1,0 +1,61 @@
+/*Table Section */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.table-container {
+    width: 80%;
+    overflow-x: auto; 
+    border: 1px solid #ddd; 
+    margin-left: 350px; 
+    padding-top: 50px;
+    border: none;
+    animation: fadeIn 1s ease-in-out; 
+}
+  
+  table {
+    width: 100%;
+    border-collapse: collapse; /* Collapses the borders between table cells */
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd; /* Adds a border to table cells */
+    word-wrap: break-word; /* Prevents overflow by wrapping long text */
+
+  }
+  
+  th {
+    background-color: #2a4b60;
+    color: white;
+    font-weight: bold;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternates row colors for better readability */
+  }
+
+  tr button{
+   background-color: #2a4b60 ;
+   border: none;
+  }
+  
+  tr:hover {
+    background-color: #2a4b60; /* Adds hover effect on rows */
+    color: white;
+  }
+
+
+@media (max-width: 1440px) {
+    .table-container {
+        width:1050px;
+    }
+}
+
