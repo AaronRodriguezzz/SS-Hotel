@@ -1,6 +1,6 @@
 import './AdminNavStyle.css';
 
-const AdminNav = ({onSectionChange}) => {
+const AdminNav = ({onSectionChange, role}) => {
     return(
         <div className="nav">
            <img src='/photos/logo.png' alt='Logo' />
@@ -13,6 +13,9 @@ const AdminNav = ({onSectionChange}) => {
                 <li onClick={() => onSectionChange('events')}>Events Booking</li>
                 <li onClick={() => onSectionChange('restaurant')}>Restaurant Reservation</li>
                 <li onClick={() => onSectionChange('super-admin')}>Super Admin</li>
+                <li onClick={() => onSectionChange('new-admin')} style={{ display: role === 'super-admin' ? "block" : "none" }}>New Admin</li>
+                <li onClick={() => onSectionChange('admin-reports')} style={{ display: role === 'super-admin' ? "block" : "none" }}>Reports</li>
+                <li onClick={() => onSectionChange('history')} style={{ display: role === 'super-admin' ? "block" : "none" }}>Reservation History</li>
             </ul>
 
             <button>LOG OUT</button>

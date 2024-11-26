@@ -14,21 +14,25 @@ const roomSchema = new mongoose.Schema({
         required: true,
     },
     checkInDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     checkOutDate: {
-        type: Date,
+        type: String,
+        required: true,
+    },
+    contactNumber: {
+        type: String,
         required: true,
     },
     status: {
-        type: Number,
+        type: String,
         required: true,
-        unique: true,
+        enum:['Available', 'Occupied', 'Maintenance', 'Cleaning']
     },  
     
-}, { timestamps: true,  collection: 'RoomInfo'});
+}, { timestamps: true});
 
-const Room = mongoose.model('RoomInfo', roomSchema);
+const Room = mongoose.model('Rooms', roomSchema);
 
 module.exports = Room;

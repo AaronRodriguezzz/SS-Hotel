@@ -13,11 +13,11 @@ const ReservationTable = () => {
     useEffect(() => {
         const fetchReservations = async () => {    
             try{
-                const response = await fetch('http://localhost:4001/get/reservations');
+                const response = await fetch('http://localhost:4000/reservations');
                 const data = await response.json();
 
                 if(response.ok){
-                    setReservations(data.rooms);
+                    setReservations(data.reservations);
                 }
         
             }catch(err){
@@ -31,7 +31,7 @@ const ReservationTable = () => {
 
     return(
         <>
-             <div class="table-container">
+        <div class="table-container">
             <table>
                 <thead>
                     <tr>
@@ -48,10 +48,9 @@ const ReservationTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-
                     {reservations && reservations.length > 0 ? (reservations.map(reservation => {
                         return(
-                            <tr key={reservation._id}>
+                            <tr key={reservation.checkInDate}>
                                 <td>{reservation.roomType}</td>
                                 <td>{reservation.checkInDate}</td>
                                 <td>{reservation.checkOutDate}</td>
@@ -61,9 +60,9 @@ const ReservationTable = () => {
                                 <td>{reservation.totalRooms}</td>
                                 <td>{reservation.totalGuests}</td>
                                 <td>{reservation.totalPrice}</td>
-                                <td>
-                                    <button><img src="/photos/delete.png" alt="delete" onClick={() => handleDelete(reservation._id)}/></button>
-                                     <button><img src="/photos/update.png" alt="Update" /></button>
+                                <td className='buttons'>
+                                    <button><img src="/photos/update.png" alt="Update" style={{width:"30px", height:"30px"}}/></button>
+                                    <button><img src="/photos/delete.png" alt="delete" style={{width:"30px", height:"30px"}} onClick={() => handleDelete(reservation._id)}/></button>
                                 </td>
                             </tr>
                         )
@@ -71,13 +70,6 @@ const ReservationTable = () => {
                 </tbody>
             </table>
         </div>
-
-        <div className="choice-form">
-            <button>ASSIGN ROOM</button>
-                    
-            <button>CANCEL RESERVATION</button>
-        </div>
-
         </>
        
     )

@@ -15,6 +15,7 @@
     background-position: center;
     background-size: cover;
     height: 100vh;
+    width: 100vw;
     position: relative;
     animation: fadeIn 1.8s ease-out;
     font-family: "Josefin San", sans-serif;
@@ -32,16 +33,16 @@
     align-items: center;
     justify-content: start;
     animation: fadeIn 1.5s ease-out;
-
 }
 
 .login-container h1{
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
     font-weight: 400;
     letter-spacing: 3px;
     font-size: 45px;
     color: rgb(187, 172, 90);
-    margin: 100px 40px 140px 40px;  
+    margin: 100px 40px 130px 40px;  
 }
 
 
@@ -113,5 +114,45 @@
     background-color: transparent;
     transform: scale(1.1);
     width: 200px;
-    
+}
+
+
+@media (max-width: 425px) {
+    .login-container h1{
+        font-size: 25px;
+    }
+
+    .login-container input{
+        height: 30px;
+        width:350px;
+        font-size: 17px;
+        padding: 10px;
+    }
+
+    .login-container > button{
+        width: 350px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
+
+
+
+
+@media (max-width: 320px) {
+    .login-container h1{
+        margin: 100px 40px 90px 40px;  
+    }
+
+    .login-container input{
+        height: 30px;
+        width:280px;
+        font-size: 16px;
+    }
+
+    .login-container > button{
+        width: 300px;
+        height: 35px;
+        font-size: 17px;
+    }
 }

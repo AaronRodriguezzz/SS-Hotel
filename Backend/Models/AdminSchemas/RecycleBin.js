@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
-const RoomReservations = new mongoose.Schema({
+const recyclebins = new mongoose.Schema({
+    updatedBy: {
+        type: String,
+        required: true,
+    },
     roomType: {
         type: String,
         required: true,
@@ -37,10 +41,16 @@ const RoomReservations = new mongoose.Schema({
         type: Number,
         require: true,
     },
-   
-}, { timestamps: true});
+    roomAssigned: {
+        type: String,
+        require: true,
+    },
+    remarks: {
+        type: String,
+        require: true,
+        enum:['Cancelled', 'Completed']
+    }
+});
 
-const Schedule = mongoose.model('reservations', RoomReservations);
-
-module.exports = Schedule;
-
+const Bin = mongoose.model('recyclebins', recyclebins);
+module.exports = Bin;

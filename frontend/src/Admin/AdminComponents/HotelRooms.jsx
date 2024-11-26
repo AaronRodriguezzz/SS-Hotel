@@ -10,7 +10,7 @@ const HotelRooms = () => {
     useEffect(() => {
         const fetchRooms = async () => {    
             try{
-                const response = await fetch('http://localhost:4001/get/roomdata');
+                const response = await fetch('http://localhost:4000/roomdata');
                 const data = await response.json();
 
                 if(response.ok){

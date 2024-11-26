@@ -3,8 +3,8 @@ import { useEffect,useState,} from 'react';
 import Navigation from '../AdminComponents/AdminNav'
 import HotelRooms from '../AdminComponents/HotelRooms'
 import Reservations from '../AdminComponents/ReservationTable'
-
-
+import Processed from '../AdminComponents/ProcessedReservations'
+import ReservationHistory from '../AdminComponents/ReservationHistory';
 
 
 const AdminPage = () => {
@@ -18,10 +18,15 @@ const AdminPage = () => {
 
     return(
         <>
-        <Navigation onSectionChange={handleSectionChange}/>
-        {activeSection === 'hotelRooms' && <HotelRooms />}
-        {activeSection === 'reservations' && <Reservations />}
+            <div className="landingPage-container">
+                <Navigation onSectionChange={handleSectionChange} role={activeSection}/>
+                {activeSection === 'hotelRooms' && <HotelRooms />}
+                {activeSection === 'reservations' && <Reservations />}
+                {activeSection === 'processed' && <Processed />}
+                {activeSection === 'history' && <ReservationHistory />}
 
+            </div>
+            
         </>
     )
 }
