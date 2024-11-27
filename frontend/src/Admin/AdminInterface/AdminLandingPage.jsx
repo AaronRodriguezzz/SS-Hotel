@@ -5,7 +5,7 @@ import HotelRooms from '../AdminComponents/HotelRooms'
 import Reservations from '../AdminComponents/ReservationTable'
 import Processed from '../AdminComponents/ProcessedReservations'
 import ReservationHistory from '../AdminComponents/ReservationHistory';
-
+import NewAdmin from '../AdminComponents/NewAdmin';
 
 const AdminPage = () => {
 
@@ -23,6 +23,7 @@ const AdminPage = () => {
                 {activeSection === 'hotelRooms' && <HotelRooms />}
                 {activeSection === 'reservations' && <Reservations />}
                 {activeSection === 'processed' && <Processed />}
+                {activeSection === 'new-admin' && <NewAdmin />}
                 {activeSection === 'history' && <ReservationHistory />}
 
             </div>

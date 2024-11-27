@@ -50,7 +50,7 @@ const recyclebins = new mongoose.Schema({
         require: true,
         enum:['Cancelled', 'Completed']
     }
-});
+},{ timestamps: true});
 
 const Bin = mongoose.model('recyclebins', recyclebins);
 module.exports = Bin;

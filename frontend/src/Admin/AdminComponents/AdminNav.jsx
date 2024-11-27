@@ -13,9 +13,9 @@ const AdminNav = ({onSectionChange, role}) => {
                 <li onClick={() => onSectionChange('events')}>Events Booking</li>
                 <li onClick={() => onSectionChange('restaurant')}>Restaurant Reservation</li>
                 <li onClick={() => onSectionChange('super-admin')}>Super Admin</li>
-                <li onClick={() => onSectionChange('new-admin')} style={{ display: role === 'super-admin' ? "block" : "none" }}>New Admin</li>
-                <li onClick={() => onSectionChange('admin-reports')} style={{ display: role === 'super-admin' ? "block" : "none" }}>Reports</li>
-                <li onClick={() => onSectionChange('history')} style={{ display: role === 'super-admin' ? "block" : "none" }}>Reservation History</li>
+                <li onClick={() => onSectionChange('new-admin')} style={{ display: role === 'super-admin' ? "block" : "" }}>New Admin</li>
+                <li onClick={() => onSectionChange('admin-reports')} style={{ display: role === 'super-admin' ? "block" : "" }}>Reports</li>
+                <li onClick={() => onSectionChange('history')} style={{ display: role === 'super-admin' ? "block" : "" }}>Reservation History</li>
             </ul>
 
             <button>LOG OUT</button>
