@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const recyclebins = new mongoose.Schema({
+const recycleBin = new mongoose.Schema({
     updatedBy: {
         type: String,
         required: true,
@@ -52,5 +52,5 @@ const recyclebins = new mongoose.Schema({
     }
 },{ timestamps: true});
 
-const Bin = mongoose.model('recyclebins', recyclebins);
+const Bin = mongoose.model('Recycle Bin', recycleBin);
 module.exports = Bin;

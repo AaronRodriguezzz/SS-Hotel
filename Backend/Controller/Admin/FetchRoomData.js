@@ -39,9 +39,25 @@ const fetchRoomNum = async (req,res) => {
     return res.status(200).json({roomNums});
 }
 
+const fetchAvailableRooms = async (req,res) => {
+    const roomType = req.params; // Access query parameter
+
+    const availableRooms = await RoomNumbers.find({roomType:roomType, status:'Available'});
+
+    console.log('available' , availableRooms);
+    
+    if(!availableRooms){
+       return res.status(404).json({message:"Empty Room"});
+    }
+
+    return res.status(200).json({availableRooms});
+}
+
+
 
 module.exports = {
     fetchRoom,
     fetchSchedule,
     fetchRoomNum,
+    fetchAvailableRooms
 };

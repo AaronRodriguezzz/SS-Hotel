@@ -17,6 +17,8 @@
     padding-top: 50px;
     border: none;
     animation: fadeIn 1s ease-in-out; 
+    height: 100%;
+    position: relative;
 }
   
   table {
@@ -50,17 +52,54 @@
   }
 
   tr button{
-   background-color: #2a4b60 ;
    border: none;
-   width: 50px;
+   width: 90px;
    height: 50px;
    display: flex;
+   background-color: rgb(212, 188, 52);
+   color: white;
    align-items: center;
    justify-content: center;
   }
   
   tr:hover {
     background-color: #2a4b60; /* Adds hover effect on rows */
+    color: white;
+  } 
+
+  .assigned-form{
+    position: absolute;
+    top: 30%;
+    left: 33%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background-color: #2a4b60; /* Adds hover effect on rows */
+  }
+
+  .assigned-form label{
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: rgb(212, 188, 52);;
+  }
+
+  .assigned-form select{
+    width: 400px;
+    height: 50px;
+    padding: 10px;
+    font-size: 20px;
+    outline: none;
+  }
+
+  .assigned-form button{
+    width: 100%;
+    height: 4%;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 3px;
+    margin-top: 30px;
+    background-color: rgb(212, 188, 52);
     color: white;
   }
 

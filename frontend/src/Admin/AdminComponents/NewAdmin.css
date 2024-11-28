@@ -1,35 +1,56 @@
 .newAdmin-container{
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background-color: rgba(155, 135, 25, 0.802);
-    padding: 60px;
+    background-color: rgba(155, 135, 25, 0.902);
     border-radius: 15px;
-    height: 100vh;
+    height: 100%;
+    width:100%;
+    margin-left: 50px;
+}
+
+.newAdmin-container h1{
+    font-size: 45px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    letter-spacing: 3px;
 }
 
 .newAdmin-container input{
     width:60%;
     height: 40px;
     padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
     outline: rgba(212, 188, 52, 0.317);
     border: none;
 }
 
 .newAdmin-container select{
-    width: 392px;
-    height: 50px;
+    width:61%;
+    height: 60px;
     border: none;
     padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
+    color: gray;
+    outline: none;
 }
 
 .newAdmin-container button{
     margin-top: 40px;
-    width: 390px;
-    height: 30;
+    width: 490px;
+    background-color:#2a4b60;
+    color: white;
+    font-size: 25px;
+    letter-spacing: 5px;
+    border: none;
+    font-weight: 100;
+
+}
+
+.newAdmin-container button:hover{
+    background-color:rgb(16, 198, 16);
+    transition: transform .1s ease-out, background-color .5s ease-out;
 }
