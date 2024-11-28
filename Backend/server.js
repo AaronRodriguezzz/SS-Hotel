@@ -6,6 +6,7 @@ const RenderRooms = require('./Routes/HotelRoutes/RenderingRoomRoutes');
 const Reservation = require('./Routes/HotelRoutes/ReservationRoutes')
 const Admin = require('./Routes/AdminRoutes/FetchRoomData')
 const SuperAdmin = require('./Routes/AdminRoutes/SuperAdminFetch')
+const AdminCrud = require('./Routes/AdminRoutes/CRUDRoute')
 
 const app = express();
 
@@ -14,7 +15,6 @@ const app = express();
         app.listen(process.env.PORT, () => {
             console.log('Listening on port', process.env.PORT)
             console.log('Connected to the Database');
-
         })    
     })
     .catch(err => {
@@ -23,6 +23,7 @@ const app = express();
 
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: 'http://localhost:5173', 
 }));
@@ -35,6 +36,7 @@ app.use((req,res,next) => {
 
 //Routes Usage
 app.use(RenderRooms);
+app.use(AdminCrud);
 app.use(SuperAdmin);
 app.use(Reservation);
 app.use(Admin);

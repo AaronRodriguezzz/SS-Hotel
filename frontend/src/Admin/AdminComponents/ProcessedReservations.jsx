@@ -56,7 +56,7 @@ const ProcessedReservation = () => {
                                 <td>{roomNum.status}</td>
                                 <td>{roomNum.updatedAt}</td>
                                 <td>
-                                    <button>Check Out</button>
+                                    <button style={{width: "100%", fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={console.log('clicked')}>Check Out</button>
                                 </td>
                             </tr>
                         )

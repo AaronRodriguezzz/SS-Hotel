@@ -1,24 +1,30 @@
 const Admin = require('../../Models/AdminSchemas/AdminSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const History = require('../../Models/AdminSchemas/RecycleBin');
+const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
 
 
 const addAdmin = async (req,res) => {
-    const {newAccount} = req.body;
-    
+    const {email,lastName, firstName} = req.body;
+
+    console.log(email);
     try{
-        const email = await AdminAccts.findOne({email: newAccount.email});
+        const emailExist = await Admin.findOne({email: email});
     
-        if(email){
+        if(emailExist){
            return res.status(404).json({message:"Email already exists"});
         }
 
         const code = Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000;
+        const hashedPassword = await bcrypt.hash(String(code), 10);
 
         const newAdmin = new Admin({
-            password: code,
-            ...newAccount
+            password: hashedPassword,
+            ...req.body
         })
+        
+        await newAdmin.save();
 
         if(newAdmin){
 
@@ -28,21 +34,21 @@ const addAdmin = async (req,res) => {
                   user: process.env.EMAIL_USER,
                   pass: process.env.EMAIL_PASS,
                 },
-              });
+            });
               
               // async..await is not allowed in global scope, must use a wrapper
                 // send mail with defined transport object
             const info = await transporter.sendMail({
                 from: "SilverStone Hotel Management", 
-                to: newAccount.email, 
+                to: email, 
                 subject: "SilverStone Account", 
-                text: `Greetings, ${newAccount.lastName} , ${newAccount.firstName}! 
+                text: `Greetings, ${lastName} , ${firstName}! 
                     \n
                     \n Welcome to our growing SilverStone Hotel family staff. we hope you're in a good condition.
-                    \n We would like to congratulate you for passing our screening. This email's purpose is to send you
+                    \n We would like to congratulate you for passing our screening. This email's purpose is to send you 
                     your account for our system. Please don't share your account to anyone to avoid  breaching your contact
-                    \n Username: ${newAccount.email} 
-                    \n Password: ${code} 
+                    \n Email: ${email} 
+                    \n Code: ${code} 
                     \n
                     \n
                     Sincerely Yours, 
@@ -50,7 +56,7 @@ const addAdmin = async (req,res) => {
             });
     
             if(!info){
-                return res.status(500).json({message: 'Adding new account failed'});
+                return res.status(500).json({message: 'Sending Email failed'});
             }
               
             return res.status(200).json({message: 'New Account Successfully Added'});

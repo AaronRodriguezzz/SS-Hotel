@@ -12,20 +12,17 @@ const NewAdmin = () => {
     const [adminStatus, setAdminStatus] = useState('');
     
     const handleSubmit = async () => {
+        const dataToSend = {
+            addedBy,
+            lastName,
+            firstName,
+            email,
+            contactNum,
+            role,
+            adminStatus
+        }
 
         try{
-
-            const dataToSend = {
-                addedBy,
-                lastName,
-                firstName,
-                email,
-                contactNum,
-                role,
-                adminStatus
-            }
-
-            console.log(dataToSend);
 
             const response = await fetch('http://localhost:4000/new-admin', {
                 method: 'POST',
@@ -35,10 +32,16 @@ const NewAdmin = () => {
                 body: JSON.stringify(dataToSend)
             });
 
-            if (response.ok) {
-                const data = await response.json();
+            const data = await response.json();
+
+            if (response.status === 404) {
+                alert(data.message || "Resource not found!");
+            } else if (response.status === 500) {
+                alert(data.message || "Server error occurred!");
+            } else if (response.ok) {
+                alert(data.message || "New admin added successfully!");
             } else {
-                console.log('Failed to fetch room availability');
+                alert("Unexpected error occurred.");
             }
 
         }catch(err){
@@ -46,58 +49,59 @@ const NewAdmin = () => {
         }
 
     }
+
     return(
         <>  
 
-        <form className="newAdmin-container" onSubmit={handleSubmit}>
+        <div className="newAdmin-container">
 
-        <h1>SilverStone Hotel New Admin</h1>
-        <input 
-            type="text"
-            name="lastName"
-            value={lastName}   
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last Name"
-            required
-        />
-        <input 
-            type="text"
-            name="firstName"
-            value={firstName}
-            onChange= {(e) => setFirstName(e.target.value)}
-            placeholder="First Name"
-            required
-        />
-        <input 
-            type="email"
-            name="email"
-            value={email}
-            onChange= {(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-        />
-        <input 
-            type="text" 
-            name="contactNum"
-            value={contactNum}
-            onChange= { (e) => setContactNum(e.target.value)}
-            placeholder="Contact Number"
-            minLength={11} maxLength={11}
-        />
-        <select name="role" value={role} onChange= {(e) => setRole(e.target.value)}>
-            <option value="" disabled>Select Role</option>
-            <option value="Super Admin">Super Admin</option>
-             <option value="Admin">Admin</option>
-        </select>
-        <select name="adminStatus" value={adminStatus} onChange= {(e) => setAdminStatus(e.target.value)}>
-            <option value="" disabled>Select Status</option>
-            <option value="Enabled">Enabled</option>
-            <option value="Disabled">Disabled</option>
-        </select>
+            <h1>SilverStone Hotel New Admin</h1>
+            <input 
+                type="text"
+                name="lastName"
+                value={lastName}   
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+                required
+            />
+            <input 
+                type="text"
+                name="firstName"
+                value={firstName}
+                onChange= {(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
+                required
+            />
+            <input 
+                type="email"
+                name="email"
+                value={email}
+                onChange= {(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                required
+            />
+            <input 
+                type="text" 
+                name="contactNum"
+                value={contactNum}
+                onChange= { (e) => setContactNum(e.target.value)}
+                placeholder="Contact Number"
+                minLength={11} maxLength={11}
+            />
+            <select name="role" value={role} onChange= {(e) => setRole(e.target.value)}>
+                <option value="" disabled>Select Role</option>
+                <option value="Super Admin">Super Admin</option>
+                <option value="Admin">Admin</option>
+            </select>
+            <select name="adminStatus" value={adminStatus} onChange= {(e) => setAdminStatus(e.target.value)}>
+                <option value="" disabled>Select Status</option>
+                <option value="Enabled">Enabled</option>
+                <option value="Disabled">Disabled</option>
+            </select>
 
-            <button type='submit'>SUBMIT</button>
+            <button type='button' onClick={handleSubmit}>SUBMIT</button>
 
-        </form>
+        </div>
         </>
     )
 }
