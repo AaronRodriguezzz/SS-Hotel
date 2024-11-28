@@ -8,6 +8,7 @@ const ReservationTable = () => {
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
+    
     const handleDelete = async (reservation) => {
         try{
 
@@ -119,9 +120,9 @@ const ReservationTable = () => {
                                     <td>{reservation.totalPrice}</td>
     
                                     <td className='buttons'>
-                                        <button onClick={() => handleAssign(reservation)}>Assign Room</button>
+                                        <button onClick={() => handleAssign(reservation)} style={{width: "50%"}}>Assign Room</button>
     
-                                        <button onClick={() => handleDelete(reservation)}>Cancel</button>
+                                        <button onClick={() => handleDelete(reservation)} style={{backgroundColor: "gray"}}>Cancel</button>
                                     </td>
                                 </tr>
                             )

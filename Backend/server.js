@@ -7,6 +7,7 @@ const Reservation = require('./Routes/HotelRoutes/ReservationRoutes')
 const Admin = require('./Routes/AdminRoutes/FetchRoomData')
 const SuperAdmin = require('./Routes/AdminRoutes/SuperAdminFetch')
 const AdminCrud = require('./Routes/AdminRoutes/CRUDRoute')
+const AdminLogin = require('./Routes/AdminRoutes/AdminLogInRoute')
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use((req,res,next) => {
 
 //Routes Usage
 app.use(RenderRooms);
+app.use(AdminLogin);
 app.use(AdminCrud);
 app.use(SuperAdmin);
 app.use(Reservation);

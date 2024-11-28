@@ -1,11 +1,11 @@
 const Admin = require('../../Models/AdminSchemas/AdminSchema');
 
 const adminLogin = async (req,res) => {
-    const { adminId , password } = req.body; // Retrieve credentials from the request body
+    const { email , password } = req.body; // Retrieve credentials from the request body
 
     try {
         // Find the user by profId
-        const admin = await Admin.findOne(adminId);
+        const admin = await Admin.findOne(email);
 
         if (!admin) {
             return res.status(404).json('Admin ID does not exist');
@@ -15,22 +15,22 @@ const adminLogin = async (req,res) => {
         const passMatched = await bcrypt.compare(password, admin.password);
 
         if (!passMatched) {
-            return res.status(200).json({message:"Log In Successful"});
+            return res.status(200).json({message:"Log In Failed"});
         } 
 
-        const maxAge = 1 * 24 * 60 * 60;         
-        const createToken = (adminId) => {
-            return jwt.sign({ adminId }, 'aaron', {
-                expiresIn: maxAge
-            });
-        } 
+        const token = jwt.sign(
+            { email: admin.email }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '2h' } 
+        );
 
-        const token = createToken(adminId);
-        res.cookie('jwt', token, { httpOnly: true, maxAge});
+        console.log('token' , token);
 
-
-        const today = new Date().toISOString().split('T')[0];
-        const updatedAdmin = await Admin.updateOne({ adminId: adminId }, today);
+        // Send back the token and any other relevant info
+        return res.status(200).json({
+            message: 'Login successful',
+            token: token, // Send JWT token
+        });
 
     } catch (err) {
         console.error(err);
@@ -38,32 +38,4 @@ const adminLogin = async (req,res) => {
     }
  }
 
-
- const NewAdmin = async (req, res) => {
-    const {adminId, password} = req.body
-    try{
-
-        const admin = new Admin.findOne(adminId);
-
-        if(admin){
-            res.status(404).json({message:'This ID already exist'});
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const AdminObject = {...req.body};
-        const {password:_, ...AdminInfo } = AdminObject;
-
-
-
-        const newAdmin = new Admin({
-            ...AdminInfo,
-            password: hashedPassword
-        })
-
-        await newAdmin.save();
-        res.status(200).json({message: 'New Admin Added'});
-        
-    }catch(err){
-        res.status(404).json({message:err})
-    }
- }
+module.exports = adminLogin
