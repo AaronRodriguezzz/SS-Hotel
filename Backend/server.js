@@ -8,7 +8,6 @@ const Admin = require('./Routes/AdminRoutes/FetchRoomData')
 const SuperAdmin = require('./Routes/AdminRoutes/SuperAdminFetch')
 const AdminCrud = require('./Routes/AdminRoutes/CRUDRoute')
 const AdminLogin = require('./Routes/AdminRoutes/AdminLogInRoute')
-
 const app = express();
 
  mongoose.connect(process.env.dbURI)
@@ -27,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: 'http://localhost:5173', 
+    credentials: true, 
 }));
 
 

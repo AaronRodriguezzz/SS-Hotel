@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AdminLoginStyle.css';
 
 function AdminLogIn() {
     const [employeeEmail, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleForgetPass = () => {
         
@@ -16,20 +18,21 @@ function AdminLogIn() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ employeeEmail, password }),
+                credentials: 'include', // Ensures cookies are sent and accepted
             }); 
 
             const data = await response.json();
 
             if (data.token) {
-                console.log(data.token);
-                localStorage.setItem('authToken', data.token);
                 alert('Login successful');
+                navigate('/admin', { state: {employeeEmail} });
             } else {
                 alert(data.message);
             }
-        }catch(err){
 
+        }catch(err){
+            console.log('log in error:', err);
         }
     }
 

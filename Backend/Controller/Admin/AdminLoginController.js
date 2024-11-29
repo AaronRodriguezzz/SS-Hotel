@@ -1,4 +1,11 @@
 const Admin = require('../../Models/AdminSchemas/AdminSchema');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+
+const app = express();
+app.use(cookieParser());
 
 const adminLogin = async (req,res) => {
     const { email , password } = req.body; // Retrieve credentials from the request body
@@ -24,7 +31,12 @@ const adminLogin = async (req,res) => {
             { expiresIn: '2h' } 
         );
 
-        console.log('token' , token);
+        res.cookie('jwt', token, 
+            {   
+                httpOnly: true, 
+                maxAge: 1 * 24 * 60 * 60 * 1000,
+                sameSite: 'strict' 
+            }); 
 
         // Send back the token and any other relevant info
         return res.status(200).json({
@@ -38,4 +50,34 @@ const adminLogin = async (req,res) => {
     }
  }
 
-module.exports = adminLogin
+const getToken = (req, res) => {
+    console.log('get token');
+    const token = req.cookies.jwt;
+    
+    try{
+
+        if(!token){
+            return res.status(401).json({ message: 'Unauthorized: No token found' });
+        }
+
+        try {
+
+            const verified = jwt.verify(token, process.env.JWT_SECRET);
+            console.log(verified);
+            return res.status(200).json({ message: 'Token valid', user: verified });
+
+        } catch (err) {
+            return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+        }
+
+    }catch(err){
+        console.log('Getting token err', err);
+    }
+    
+}
+
+
+module.exports = {
+    adminLogin,
+    getToken
+}

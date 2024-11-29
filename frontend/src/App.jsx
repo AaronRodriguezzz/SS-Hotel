@@ -8,6 +8,7 @@ import AdminLogin from './Admin/AdminUnprotected/AdminLogin';
 import BookNow from './pages/BookNow';
 import BookConfirm from './pages/RoomConfirmation';
 import AdminPage from './Admin/AdminInterface/AdminLandingPage'
+import ProtectedRoute from './Admin/AdminComponents/ProtectedRoute';
 
 function App() {
   return (
@@ -52,7 +53,7 @@ function App() {
 
             <Route 
               exact path='/admin'
-              element={<AdminPage />}
+              element={<ProtectedRoute element={AdminPage} />} 
             />
           </Routes>
         </div>
