@@ -53,7 +53,7 @@ function App() {
 
             <Route 
               exact path='/admin'
-              element={<ProtectedRoute element={AdminPage} />} 
+              element={<AdminPage />} 
             />
           </Routes>
         </div>

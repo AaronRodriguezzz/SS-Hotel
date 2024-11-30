@@ -3,7 +3,27 @@ import { useEffect,useState,} from 'react';
 
 const ReservationHistory = () => {
 
-    const [history, setHistory] = useState([]);
+    const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
+    const [searchQuery, setSearchQuery] = useState(""); // Search input value
+
+
+    const handleSearch = (event) => {
+        const query = event.target.value.toLowerCase(); // Normalize input for case-insensitivity
+        setSearchQuery(query);
+
+        // Filter reservations based on the query
+        const filtered = filteredBin.filter((bin) => {
+            return (
+                bin.roomType.toLowerCase().includes(query) || 
+                bin.guestName.toLowerCase().includes(query) ||
+                bin.guestEmail.toLowerCase().includes(query) || 
+                bin.checkInDate.toLowerCase().includes(query) ||
+                bin.checkOutDate.toLowerCase().includes(query) 
+            );
+        });
+
+        setFilteredBin(filtered);
+    };
 
     useEffect(() => {
         const fetchHistory = async () => {    
@@ -14,7 +34,7 @@ const ReservationHistory = () => {
 
                 console.log(data);
                 if(response.ok){
-                    setHistory(data.history);
+                    setFilteredBin(data.history);
                 }
         
             }catch(err){
@@ -28,7 +48,22 @@ const ReservationHistory = () => {
 
     return(
         <>
+
+        
         <div class="table-container">
+            <input
+                type="text"
+                placeholder="Search reservations..."
+                value={searchQuery}
+                onChange={handleSearch}
+                style={{
+                    marginBottom: "20px",
+                    padding: "10px",
+                    fontSize: "16px",
+                    width: "40%",
+                    borderRadius: "15px"
+                }}
+            />
             <table>
                 <thead>
                     <tr>
@@ -48,7 +83,7 @@ const ReservationHistory = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {history && (history.map(history => {
+                    {filteredBin && (filteredBin.map(history => {
                         return(
                             <tr key={history.updatedBy}>
                                 <td>{history.updatedBy}</td>

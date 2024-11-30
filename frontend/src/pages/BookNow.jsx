@@ -63,7 +63,7 @@ const BookNowPage = () => {
                 budget: budget
             }   
 
-            const response = await fetch('http://localhost:4001/api/availabilitySearch', {
+            const response = await fetch('http://localhost:4000/api/availabilitySearch', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
