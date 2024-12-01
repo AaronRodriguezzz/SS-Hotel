@@ -8,14 +8,28 @@ import Footer from '../Components/Footer';
 const RoomConfirmation = () => {
     const location = useLocation();
     const { selectedRooms = [] ,bookedRoom = [], daysGap,checkInDate,checkOutDate } = location.state || {};
-    const rooms = bookedRoom || selectedRooms || [];
+    const [rooms, setRooms] = useState([]);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [guestNumber, setGuestNumber] = useState(rooms.map(room => room.maximumGuest));
-    const [roomCount, setRoomCount] = useState(rooms.map(() => 1));
+    const [guestNumber, setGuestNumber] = useState();
+    const [roomCount, setRoomCount] = useState();
 
-    const handleFinishedClicked = async () => {
+    useEffect(() => {
+        if(selectedRooms || bookedRoom){
+            setRooms(selectedRooms.length > 0 ? selectedRooms : bookedRoom);
+        }
+    }, [])
+
+    useEffect(() => {
+        if(rooms){
+            setRoomCount(rooms.map(() => 1))
+            setGuestNumber(rooms.map(room => room.maximumGuest))
+        }
+    }, [rooms])
+
+    const handleFinishedClicked = async (e) => {
+        e.preventDefault();
         try{
 
             const dataToSend = {
@@ -29,20 +43,20 @@ const RoomConfirmation = () => {
                 roomCount: roomCount,
                 guestNumber: guestNumber
             }
-
-            console.log(dataToSend);
-
-            const response = await fetch('http://localhost:4001/api/reserve', {
+            
+            const response = await fetch('http://localhost:4001/api/payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
                 },
+                credentials: 'include',
                 body: JSON.stringify(dataToSend)
             });
 
             if (response.ok) {
-                const data = await response.json();
-                
+                const result = await response.json();
+                console.log(result);
+                window.open(result.data.attributes.checkout_url, '_blank');
             } else {
                 console.log('Failed to fetch room availability');
             }
@@ -64,9 +78,9 @@ const RoomConfirmation = () => {
 
     const handleRoomCount = (index, value) => {
         setRoomCount(prevState => {
-
             const roomCount = [...prevState];
             roomCount[index] = value;
+            console.log(roomCount[index])
             return roomCount;
 
         })
@@ -75,9 +89,6 @@ const RoomConfirmation = () => {
     if (!rooms) {
         return <Navigate to="/booknow" />;
     }
-
-
-
 
     return(
         <>
@@ -123,6 +134,7 @@ const RoomConfirmation = () => {
                 <h2>Selected Room/s</h2>
 
                 {rooms && rooms.map((room,index) => {
+                    console.log(guestNumber)
                     return(
                         <div className="reserved-rooms" key={room._id}>
                             <h4>{room.roomType}</h4>
@@ -151,7 +163,7 @@ const RoomConfirmation = () => {
                                     type="number" 
                                     name='room-to-available'
                                     placeholder='1'
-                                    onChange={(e) => handleRoomCount(index, e.target.value)}
+                                    onChange={(e) => handleRoomCount(index, e.target.value) }
                                     value={roomCount[index]}
                                     min={1}
                                     max={room.roomLimit}  //change this base on the limit of the room
@@ -169,10 +181,7 @@ const RoomConfirmation = () => {
                     <Link onClick={handleFinishedClicked} to='/'>
                         <button type='cancel' className='cancel'>CANCEL</button>
                     </Link>
-
-                    <Link  onClick={handleFinishedClicked}  to='/' >
-                        <button type='submit' className='finish'>FINISH</button>
-                    </Link>
+                    <button type='submit' className='finish' onClick={handleFinishedClicked}>FINISH</button>
 
                 </div>
             </form>

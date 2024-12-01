@@ -34,7 +34,7 @@ const adminSchema = new mongoose.Schema({
     status:{
         type: String,
         enum:['Enabled, Disabled'],
-    }
+    },
     
 }, { timestamps: true});
 

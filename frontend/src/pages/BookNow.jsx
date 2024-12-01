@@ -19,7 +19,6 @@ const BookNowPage = () => {
 
     const handleCheckboxChange = (roomId) => { 
         setCheckedRooms((prevSelectedRooms) => {
-            
                 if (prevSelectedRooms.includes(roomId)) {
                     // Remove room from selected rooms if it was already selected
                     return prevSelectedRooms.filter(id => id !== roomId);
@@ -61,7 +60,7 @@ const BookNowPage = () => {
                 budget: budget
             }   
 
-            const response = await fetch('http://localhost:4000/api/availabilitySearch', {
+            const response = await fetch('http://localhost:4001/api/availabilitySearch', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
