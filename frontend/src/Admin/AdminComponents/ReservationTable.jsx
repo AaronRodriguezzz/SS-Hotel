@@ -10,7 +10,7 @@ const ReservationTable = () => {
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
     const [disable, setDisable] = useState(true);
-    
+
     const handleDelete = async (reservation) => {
         try{
             const dataToSend = {...reservation, updatedBy: 'Aaron', remarks:'Cancelled'}
@@ -75,13 +75,13 @@ const ReservationTable = () => {
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
                 },
-                body: JSON.stringify({reservation, ...selectedRooms}),
+                body: JSON.stringify({reservation, selectedRooms}),
             });
 
-            const data = await response.json();
 
             if(response.ok){
-                
+                const data = await response.json();
+
             }
         }catch(err){
             console.log(err);

@@ -1,5 +1,6 @@
 const Admin = require('../../Models/AdminSchemas/AdminSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
+const RoomNums = require('../../Models/HotelSchema/RoomNumber');
 const History = require('../../Models/AdminSchemas/RecycleBin');
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
@@ -69,8 +70,55 @@ const addAdmin = async (req,res) => {
 }
 
 
-const processReservation = (req, res) => {
-    
+const processReservation = async (req, res) => {
+    const {reservation, selectedRooms} = req.body;
+
+    try{
+        
+        const roomUpdates = selectedRooms.map(room => 
+            RoomNums.findOneAndUpdate(
+                { roomNumber: room },
+                {
+                    clientName: reservation.guestName,
+                    checkInDate: reservation.checkInDate,
+                    checkOutDate: reservation.checkOutDate,
+                    contactNumber: reservation.guestContact,
+                    status: 'Occupied',
+                }
+            )
+        );
+
+        const processReservationResults = await Promise.all(roomUpdates);
+
+        if (processReservationResults.some(result => !result)) {
+            console.log('Updating Rooms Error');
+            return res.status(404).json({ message: 'Updating Rooms Error' });
+        }
+
+        const roomsAssigned = selectedRooms.join(', ');
+        const addToBin = new History({
+            updatedBy: 'Aaron Rodriguez',
+            ...reservation,
+            roomAssigned: roomsAssigned,
+            remarks: 'Completed',
+        });
+        
+        const isRoomAssigned = await addToBin.save();
+
+        if(!isRoomAssigned){
+            console.log('Error adding to History');
+            return res.status(404).json({message:'Add to Bin Failed'});
+        }
+       
+        const delReservation = await RoomSchedule.findOneAndDelete({id: reservation._id});
+
+        if(delReservation){
+            return res.status(200).json({message: 'Assigning to room/s Successful'});
+        }
+
+    }catch(err){
+        console.log('Process Reservation Error: ', err);
+    }
 }
 
 
