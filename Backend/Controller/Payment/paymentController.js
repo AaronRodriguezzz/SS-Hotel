@@ -7,12 +7,17 @@ const createPaymentCheckout = async (req, res) => {
             const line_items = selectedRooms.map(room => {
                 return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: 1}
             })
+
+            const token = jwt.sign(req.body, process.env.JWT_SECRET);
+            res.cookie('checkoutData', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+            
             const options = {
                 method: 'POST',
                 headers: {
                   accept: 'application/json',
                   'Content-Type': 'application/json',
-                  authorization: 'Basic c2tfdGVzdF9Razh2Q1ZkdUJaOTFZRmtRTEhyTEpXR0E6'
+                  authorization: 'Basic c2tfdGVzdF9RaHROOGZMRGlFVThndXdQVW9yV0FMenU6'
+
                 },
                 body: JSON.stringify({
                   data: {
@@ -30,10 +35,9 @@ const createPaymentCheckout = async (req, res) => {
                 })
               };
               const response = await fetch('https://api.paymongo.com/v1/checkout_sessions', options)
+
               if(response.ok){
                 const result = await response.json();
-                const token = jwt.sign(req.body, process.env.JWT_SECRET);
-                res.cookie('checkoutData', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
                 res.status(200).json(result)
               }
         

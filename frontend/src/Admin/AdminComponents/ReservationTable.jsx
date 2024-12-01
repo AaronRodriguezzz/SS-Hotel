@@ -10,12 +10,13 @@ const ReservationTable = () => {
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
     const [disable, setDisable] = useState(true);
+    const [selectedReservation, setSelectedReservation] = useState();
 
     const handleDelete = async (reservation) => {
         try{
             const dataToSend = {...reservation, updatedBy: 'Aaron', remarks:'Cancelled'}
 
-            const updateBin = await fetch(`http://localhost:4000/updateBin`, {
+            const updateBin = await fetch(`http://localhost:4001/updateBin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
@@ -26,7 +27,7 @@ const ReservationTable = () => {
 
             const updateBinData = await updateBin.json();
             if(updateBinData.ok){
-                const cancel = await fetch(`http://localhost:4000/cancelReservation/${reservation._id}`);
+                const cancel = await fetch(`http://localhost:4001/cancelReservation/${reservation._id}`);
                 const data = await cancel.json();
 
                 if(data.ok){
@@ -46,7 +47,7 @@ const ReservationTable = () => {
         
         try{
 
-            const response = await fetch(`http://localhost:4000/roomsAvailable/${String(reservation.roomType)}`, {
+            const response = await fetch(`http://localhost:4001/roomsAvailable/${String(reservation.roomType)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
@@ -59,23 +60,25 @@ const ReservationTable = () => {
                 setRoomsAvailable(data.availableRooms);
                 setShowForm(true);
                 setRoomCountToAssign(reservation.totalRooms);
+                setSelectedReservation(reservation);
             }
            
         }catch(err){
             console.log(err);
         }
-
     }
 
-    const handleSubmit = async (reservation) => {
+    const handleSubmit = async (e,reservation) => {
+        e.preventDefault();
+        const selectedRoom = Array.from(selectedRooms.current);
         
         try{
-            const response = await fetch(`http://localhost:4000/assignRoom`, {
+            const response = await fetch(`http://localhost:4001/assignRoom`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
                 },
-                body: JSON.stringify({reservation, selectedRooms}),
+                body: JSON.stringify({reservation, selectedRoom}),
             });
 
 
@@ -101,7 +104,7 @@ const ReservationTable = () => {
     useEffect(() => {
         const fetchReservations = async () => {    
             try{
-                const response = await fetch('http://localhost:4000/reservations');
+                const response = await fetch('http://localhost:4001/reservations');
                 const data = await response.json();
 
                 if(response.ok){
@@ -196,7 +199,7 @@ const ReservationTable = () => {
                             );
                         })}
 
-                    <button disabled={disable}>ASSIGN</button>
+                    <button disabled={disable} onClick={(e) => handleSubmit(e,selectedReservation)}>ASSIGN</button>
                 </form> 
             </div>
         </>

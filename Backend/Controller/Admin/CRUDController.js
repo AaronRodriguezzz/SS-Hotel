@@ -71,12 +71,16 @@ const addAdmin = async (req,res) => {
 
 
 const processReservation = async (req, res) => {
-    const {reservation, selectedRooms} = req.body;
+    const {reservation, selectedRoom} = req.body;
+
+    console.log('seleceted rooms' , selectedRoom);
+    console.log('reservation' , reservation);
 
     try{
         
-        const roomUpdates = selectedRooms.map(room => 
-            RoomNums.findOneAndUpdate(
+        const roomUpdates = await selectedRoom.map(async (room) => 
+
+            await RoomNums.findOneAndUpdate(
                 { roomNumber: room },
                 {
                     clientName: reservation.guestName,
@@ -86,7 +90,9 @@ const processReservation = async (req, res) => {
                     status: 'Occupied',
                 }
             )
+
         );
+
 
         const processReservationResults = await Promise.all(roomUpdates);
 
@@ -95,7 +101,7 @@ const processReservation = async (req, res) => {
             return res.status(404).json({ message: 'Updating Rooms Error' });
         }
 
-        const roomsAssigned = selectedRooms.join(', ');
+        const roomsAssigned = selectedRoom.join(', ');
         const addToBin = new History({
             updatedBy: 'Aaron Rodriguez',
             ...reservation,
@@ -105,12 +111,17 @@ const processReservation = async (req, res) => {
         
         const isRoomAssigned = await addToBin.save();
 
+        console.log('pass 2')
+
+
         if(!isRoomAssigned){
             console.log('Error adding to History');
             return res.status(404).json({message:'Add to Bin Failed'});
         }
        
         const delReservation = await RoomSchedule.findOneAndDelete({id: reservation._id});
+
+        console.log('pass 3')
 
         if(delReservation){
             return res.status(200).json({message: 'Assigning to room/s Successful'});

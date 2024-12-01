@@ -7,7 +7,7 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
     useEffect(() => {
         const checkToken = async () => {
             try {
-                const response = await fetch('http://localhost:4000/protection', {
+                const response = await fetch('http://localhost:4001/protection', {
                     method: 'GET',
                     credentials: 'include', // Ensures cookies are sent
                 });

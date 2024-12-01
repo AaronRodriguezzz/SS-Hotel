@@ -63,9 +63,10 @@ const NewReservation = async (req,res) => {
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production'  
           });
-        res.render('http://localhost:5173');
+          res.redirect('http://localhost:5173');
 
     }catch(err){
+        console.log(err);
         res.status(500).json({ message: err.message });
     }
 }
