@@ -15,7 +15,6 @@ const RoomConfirmation = () => {
     const [guestNumber, setGuestNumber] = useState(rooms.map(room => room.maximumGuest));
     const [roomCount, setRoomCount] = useState(rooms.map(() => 1));
 
-
     const handleFinishedClicked = async () => {
         try{
 
@@ -43,6 +42,7 @@ const RoomConfirmation = () => {
 
             if (response.ok) {
                 const data = await response.json();
+                
             } else {
                 console.log('Failed to fetch room availability');
             }
@@ -83,7 +83,7 @@ const RoomConfirmation = () => {
         <>
         <Navbar/>
         <div className="main-page">
-            <form className="container">
+            <form>
                 <h1>Booking Confirmation</h1>
                 <div className="reservation-info">
 
@@ -114,15 +114,14 @@ const RoomConfirmation = () => {
                         title="Only numbers are allowed"                        
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         value={phoneNumber}
-                        min={11}
-                        max={11}
+                        minLength={11}
+                        maxLength={11}
                         required
                     />  
                 </div>
                 
                 <h2>Selected Room/s</h2>
 
-                
                 {rooms && rooms.map((room,index) => {
                     return(
                         <div className="reserved-rooms" key={room._id}>

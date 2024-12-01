@@ -9,6 +9,7 @@ const SuperAdmin = require('./Routes/AdminRoutes/SuperAdminFetch')
 const AdminCrud = require('./Routes/AdminRoutes/CRUDRoute')
 const AdminLogin = require('./Routes/AdminRoutes/AdminLogInRoute')
 const app = express();
+const morgan = require('morgan');
 
  mongoose.connect(process.env.dbURI)
     .then(() => {
@@ -21,7 +22,7 @@ const app = express();
         console.error('MongoDB connection error:', err);
     });
 
-
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({

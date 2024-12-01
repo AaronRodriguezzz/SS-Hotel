@@ -10,11 +10,10 @@ const AvailableRoomSearch = async (req,res) => {
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
-        const roomBudget = await RoomInfo.find({ price: { $lte: budget }});
+        const roomBudget = await RoomInfo.find();
         const roomAvailable = roomBudget.filter(room =>  {
             return(room.roomLimit > 0)
         });
-
 
         return res.status(200).json({roomAvailable,gap:gap});  
 
