@@ -4,7 +4,6 @@ import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 
 const BookNowPage = () => {
-
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [budget, setBudget] = useState(0);
@@ -17,7 +16,6 @@ const BookNowPage = () => {
     const [daysGap , setDaysGap] = useState(0);
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
-
 
     const handleCheckboxChange = (roomId) => { 
         setCheckedRooms((prevSelectedRooms) => {
@@ -98,7 +96,6 @@ const BookNowPage = () => {
             handleSearch();
         }
     },[checkInDate,checkOutDate, budget]);
-   
 
     return(
         <>
