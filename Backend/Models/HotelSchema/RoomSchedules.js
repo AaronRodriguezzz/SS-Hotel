@@ -37,8 +37,9 @@ const RoomReservations = new mongoose.Schema({
         type: Number,
         require: true,
     },
-   
+    
 }, { timestamps: true});
+
 
 const Schedule = mongoose.model('reservations', RoomReservations);
 

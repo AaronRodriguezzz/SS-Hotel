@@ -4,7 +4,6 @@ import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 
 const BookNowPage = () => {
-
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [budget, setBudget] = useState(0);
@@ -18,10 +17,8 @@ const BookNowPage = () => {
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
 
-
     const handleCheckboxChange = (roomId) => { 
         setCheckedRooms((prevSelectedRooms) => {
-            
                 if (prevSelectedRooms.includes(roomId)) {
                     // Remove room from selected rooms if it was already selected
                     return prevSelectedRooms.filter(id => id !== roomId);
@@ -63,14 +60,13 @@ const BookNowPage = () => {
                 budget: budget
             }   
 
-            const response = await fetch('http://localhost:4000/api/availabilitySearch', {
+            const response = await fetch('http://localhost:4001/api/availabilitySearch', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
                 },
                 body: JSON.stringify(dataToSend)
             });
-
             if (response.ok) {
                 const data = await response.json();
                 setRoomsAvailable(data.roomAvailable || []); 
@@ -85,7 +81,6 @@ const BookNowPage = () => {
     }
 
     useEffect(() => {
-
         if (selectedRooms.length > 0 || bookedRoom.length > 0) {
             // Delay navigation until selectedRooms is not empty
             navigate('/booking/confirmation', {
@@ -100,7 +95,6 @@ const BookNowPage = () => {
             handleSearch();
         }
     },[checkInDate,checkOutDate, budget]);
-   
 
     return(
         <>
@@ -148,7 +142,7 @@ const BookNowPage = () => {
                     />
                 </div>
 
-                <button type='button' onClick={handleSearch}>Search</button>
+                <button type='button' onClick={handleSearch} disabled={checkInDate && checkOutDate ? false : true}>Search</button>
             </form>
 
 

@@ -4,10 +4,7 @@ import {Link} from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import Footer from '../Components/Footer';
 import { useScroll } from '../Components/NavScroll';  // Import the custom hook
-
 import './LandingPageStyle.css'
-
-
 
 function FrontPage(){
     const [rooomNum, setRoomNum] = useState(0);

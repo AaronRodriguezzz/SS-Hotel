@@ -9,7 +9,7 @@
 }
 
 
-.main-page .container {
+.main-page form {
     background-color: #2a4b60;
     width: 60%;
     padding: 30px;
@@ -19,23 +19,23 @@
     color: rgba(204, 182, 57,.8);
 }
 
-.main-page .container  h1, h2{
+.main-page form h1, h2{
     font-size: 40px;
     letter-spacing: 2px;
     margin: 50px 0px 50px 40px;
 }
 
-.main-page .container .reservation-info {
+.main-page form .reservation-info {
     display: flex;
     flex-direction: column;
     margin-left: 50px;
     gap: 20px;
 }
 
-.main-page .container .reservation-info > label{
+.main-page form .reservation-info > label{
     font-size: 18px;
 }
-.main-page .container .reservation-info > input{
+.main-page form .reservation-info > input{
     width: 90%;
     outline: none;
     border: none;
@@ -49,35 +49,35 @@
 
 
 
-.main-page .container .reserved-rooms{
+.main-page form .reserved-rooms{
   margin-left: 50px;
   padding-bottom: 40px;
   border-bottom: 3px dotted rgba(204, 182, 57,.8);
 
 }
 
-.main-page .container .reserved-rooms h4{
+.main-page form .reserved-rooms h4{
     font-size: 30px;
     margin-bottom: 5px;
 }
 
-.main-page .container .reserved-rooms h6{
+.main-page form .reserved-rooms h6{
     font-size: 25px;
     margin-top: 10px;
 }
 
-.main-page .container .reserved-rooms label{
+.main-page form .reserved-rooms label{
     font-size: 18px;
 }
 
-.main-page .container .reserved-rooms .guest-div{
+.main-page form .reserved-rooms .guest-div{
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;
 }
 
 
-.main-page .container .reserved-rooms .guest-div input, .room-quantity input{
+.main-page form .reserved-rooms .guest-div input, .room-quantity input{
    height: 40px;
    width: 80px;
    background-color: rgba(204, 182, 57,.8);
@@ -90,7 +90,7 @@
    margin-right: 15px;
 }
 
-.main-page .container .reserved-rooms .guest-div p {
+.main-page form .reserved-rooms .guest-div p {
     margin-top: 2px;
 }
 
@@ -128,8 +128,6 @@
     background-color:red;
     transition: transform .1s ease-out, background-color .5s ease-out;
 }
-
-
 
 @media (max-width: 425px) {
     .main-page .container {
