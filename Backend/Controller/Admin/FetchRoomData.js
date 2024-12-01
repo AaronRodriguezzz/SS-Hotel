@@ -38,15 +38,20 @@ const fetchRoomNum = async (req,res) => {
 }
 
 const fetchAvailableRooms = async (req,res) => {
-    const roomType = req.params; // Access query parameter
+    const {roomType} = req.params; // Access query parameter
 
-    const availableRooms = await RoomNumbers.find({roomType:roomType, status:'Available'});
-    
-    if(!availableRooms){
-       return res.status(404).json({message:"Empty Room"});
+    try{
+        const availableRooms = await RoomNumbers.find({roomType:roomType, status:'Available'});
+
+
+        if(!availableRooms){
+            return res.status(404).json({message:"Empty Room"});
+        }
+
+        return res.status(200).json({availableRooms : availableRooms});
+    }catch(err){
+        console.log('Available room error: ', err);
     }
-
-    return res.status(200).json({availableRooms});
 }
 
 

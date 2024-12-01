@@ -101,7 +101,14 @@
     margin-top: 30px;
     background-color: rgb(212, 188, 52);
     color: white;
+    font-weight: 100;
   }
+
+  .assigned-form button:disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+}
 
 
 @media (max-width: 1440px) {

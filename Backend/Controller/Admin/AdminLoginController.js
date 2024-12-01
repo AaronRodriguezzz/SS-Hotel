@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 app.use(cookieParser());
 
+
 const adminLogin = async (req,res) => {
     const { email , password } = req.body; // Retrieve credentials from the request body
 
@@ -31,12 +32,7 @@ const adminLogin = async (req,res) => {
             { expiresIn: '2h' } 
         );
 
-        res.cookie('jwt', token, 
-            {   
-                httpOnly: true, 
-                maxAge: 1 * 24 * 60 * 60 * 1000,
-                sameSite: 'strict' 
-            }); 
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'lax' }); 
 
         // Send back the token and any other relevant info
         return res.status(200).json({
@@ -50,31 +46,22 @@ const adminLogin = async (req,res) => {
     }
  }
 
-const getToken = (req, res) => {
-    console.log('get token');
-    const token = req.cookies.jwt;
-    
-    try{
+ const getToken = (req, res) => {
+    try {
+        const token  = req.cookies.jwt;
 
+        console.log(token);
         if(!token){
-            return res.status(401).json({ message: 'Unauthorized: No token found' });
+            return res.status(401).json({ message: 'Token invalid'});
         }
 
-        try {
-
-            const verified = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(verified);
-            return res.status(200).json({ message: 'Token valid', user: verified });
-
-        } catch (err) {
-            return res.status(401).json({ message: 'Unauthorized: Invalid token' });
-        }
-
-    }catch(err){
-        console.log('Getting token err', err);
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        return res.status(200).json({ message: 'Token valid', user: verified });
+    } catch (err) {
+        console.error('Getting token error:', err.message);
+        return res.status(500).json({ message: 'Internal server error' });
     }
-    
-}
+};
 
 
 module.exports = {

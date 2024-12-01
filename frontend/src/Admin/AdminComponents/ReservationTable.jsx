@@ -1,17 +1,18 @@
-import { useEffect,useState,} from 'react';
+import { useEffect,useState,useRef} from 'react';
 import './ReservationTable.css'
 
 
 const ReservationTable = () => {
 
+    const selectedRooms = useRef(new Set());
     const [reservations, setReservations] = useState([]);
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
+    const [disable, setDisable] = useState(true);
     
     const handleDelete = async (reservation) => {
         try{
-
             const dataToSend = {...reservation, updatedBy: 'Aaron', remarks:'Cancelled'}
 
             const updateBin = await fetch(`http://localhost:4000/updateBin`, {
@@ -44,28 +45,57 @@ const ReservationTable = () => {
     const handleAssign = async (reservation) => {
         
         try{
-            const response = await fetch(`http://localhost:4000/roomsAvailable/${reservation.roomType}`, {
+
+            const response = await fetch(`http://localhost:4000/roomsAvailable/${String(reservation.roomType)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
                 }
             });
 
-            const data = response.json();
-            if(data.ok){
+            const data = await response.json();
+
+            if(response.ok){
                 setRoomsAvailable(data.availableRooms);
                 setShowForm(true);
                 setRoomCountToAssign(reservation.totalRooms);
             }
-            
            
+        }catch(err){
+            console.log(err);
+        }
+
+    }
+
+    const handleSubmit = async (reservation) => {
+        
+        try{
+            const response = await fetch(`http://localhost:4000/assignRoom`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Optional for GET, can omit
+                },
+                body: JSON.stringify({reservation, ...selectedRooms}),
+            });
+
+            const data = await response.json();
+
+            if(response.ok){
+                
+            }
         }catch(err){
             console.log(err);
         }
     }
 
-    const handleSubmit = () => {
-
+    const handleRoomOnChange = (roomNum) => {
+        selectedRooms.current.add(roomNum);
+        console.log( selectedRooms.current);
+        if(selectedRooms.length === roomCountToAssign) {
+            setDisable(true);
+        }else{
+            setDisable(false);
+        }
     }
 
     useEffect(() => {
@@ -108,7 +138,7 @@ const ReservationTable = () => {
                     <tbody>
                         {reservations && reservations.length > 0 ? (reservations.map(reservation => {
                             return(
-                                <tr key={reservation.checkInDate}>
+                                <tr key={reservation._id}>
                                     <td>{reservation.roomType}</td>
                                     <td>{reservation.checkInDate}</td>
                                     <td>{reservation.checkOutDate}</td>
@@ -121,7 +151,7 @@ const ReservationTable = () => {
     
                                     <td className='buttons'>
                                         <button onClick={() => handleAssign(reservation)} style={{width: "50%"}}>Assign Room</button>
-    
+
                                         <button onClick={() => handleDelete(reservation)} style={{backgroundColor: "gray"}}>Cancel</button>
                                     </td>
                                 </tr>
@@ -130,7 +160,7 @@ const ReservationTable = () => {
                     </tbody>
                 </table>
 
-                <form className='assigned-form' style={{display: showForm ? "flex": "none"}}>
+                <form className='assigned-form' style={{display: showForm ? "flex":"none"}}>
                         <button style={{position: "absolute",
                                         backgroundColor: "transparent",
                                         width:"20px",
@@ -145,18 +175,28 @@ const ReservationTable = () => {
                         
                         {Array.from({ length: roomCountToAssign }, (_, i) => {
                             return (
-                                <div key={i}>
-                                    <label>Room {_i + 1}</label>
-                                    <select name={`room-${_i}`} id={`room-${_i}`}>
-                                        {roomsAvailable && roomsAvailable.map(rooms => {
-                                            <option value={rooms.roomNumber}>{rooms.roomNumber}</option>
-                                        })}
+                                <div key={i} style={{display: "flex", flexDirection: "column"}}>
+
+                                    <label>Room {i + 1}</label>
+                                    <select name={`room-${i}`} 
+                                            onChange={(e) => handleRoomOnChange(e.target.value)}
+                                            disabled={!disable}
+                                    >
+
+                                        <option value={""} selected disabled>Select Room Number</option>
+                                        {roomsAvailable && roomsAvailable.map((rooms) => (
+                                            <option value={rooms.roomNumber} key={rooms.roomNumber}>
+                                                {rooms.roomNumber}
+                                            </option>
+                                        ))}
+
                                     </select>
-                                </div>
+
+                                </div> 
                             );
                         })}
 
-                    <button>ASSIGN</button>
+                    <button disabled={disable}>ASSIGN</button>
                 </form> 
             </div>
         </>
