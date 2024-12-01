@@ -34,7 +34,6 @@ const createPaymentCheckout = async (req, res) => {
                 const result = await response.json();
                 const token = jwt.sign(req.body, process.env.JWT_SECRET);
                 res.cookie('checkoutData', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-                console.log(result)
                 res.status(200).json(result)
               }
         
