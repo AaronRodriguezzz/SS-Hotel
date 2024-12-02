@@ -55,7 +55,6 @@ const RoomConfirmation = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log(result);
                 window.open(result.data.attributes.checkout_url, '_blank');
             } else {
                 console.log('Failed to fetch room availability');
@@ -80,7 +79,6 @@ const RoomConfirmation = () => {
         setRoomCount(prevState => {
             const roomCount = [...prevState];
             roomCount[index] = value;
-            console.log(roomCount[index])
             return roomCount;
 
         })
@@ -134,7 +132,6 @@ const RoomConfirmation = () => {
                 <h2>Selected Room/s</h2>
 
                 {rooms && rooms.map((room,index) => {
-                    console.log(guestNumber)
                     return(
                         <div className="reserved-rooms" key={room._id}>
                             <h4>{room.roomType}</h4>
