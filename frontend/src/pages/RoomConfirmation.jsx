@@ -1,6 +1,6 @@
 import './RoomConfirmationStyle.css';
 import React, { useEffect, useState } from 'react';
-import { useLocation, Navigate, Link } from 'react-router-dom';
+import { useLocation, Navigate, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Components/NavBar';
 import Footer from '../Components/Footer';
 
@@ -14,6 +14,7 @@ const RoomConfirmation = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [guestNumber, setGuestNumber] = useState();
     const [roomCount, setRoomCount] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(selectedRooms || bookedRoom){
@@ -29,9 +30,7 @@ const RoomConfirmation = () => {
     }, [rooms])
 
     const handleFinishedClicked = async (e) => {
-        e.preventDefault();
-        try{
-
+            
             const dataToSend = {
                 checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
@@ -43,8 +42,11 @@ const RoomConfirmation = () => {
                 roomCount: roomCount,
                 guestNumber: guestNumber
             }
+
+            navigate('/email_verification', { state: { dataToSend } })                
+
             
-            const response = await fetch('http://localhost:4001/api/payment', {
+            /*const response = await fetch('http://localhost:4001/api/payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
@@ -55,15 +57,11 @@ const RoomConfirmation = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log(result);
-                window.open(result.data.attributes.checkout_url, '_blank');
+                navigate('/email_verification', { state: { email, dataToSend } })                
+        
             } else {
                 console.log('Failed to fetch room availability');
-            }
-
-        }catch(err){
-            console.log('Error Nye: ' , err );
-        }
+            }*/
     }
 
     const handleGuestNumber = (index, value) => {

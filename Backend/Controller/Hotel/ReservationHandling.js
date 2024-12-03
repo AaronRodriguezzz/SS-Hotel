@@ -72,26 +72,37 @@ const NewReservation = async (req,res) => {
 }
 
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const get_verification_code = async (req,res) => {
+    const {email} = req.params;
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: "HAHAHAHA", // sender address
-    to: "dmonkeyluffy869@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
+    console.log('email' , email);
+    
+    try{
+        const code = Math.floor(Math.random() * 9000) + 1000;
 
-  console.log("Message sent: %s", info.messageId);
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+          });
+          
+    
+        const info = await transporter.sendMail({
+            from: "SilverStone Hotel Reservations", // sender address
+            to: email, // list of receivers
+            subject: "Email Verification", // Subject line
+            text: `Here's your verification code: ${code}`, 
+        });
+          
+       
+        return res.status(200).json({code});
+
+    }catch(err){
+        console.log('Error at sending verification', err);
+    }
+   
 }
 
 
@@ -121,5 +132,6 @@ module.exports = {
     AvailableRoomSearch,
     NewReservation,
     DeleteReservation,
-    UpdateReservation
+    UpdateReservation,
+    get_verification_code
 }
