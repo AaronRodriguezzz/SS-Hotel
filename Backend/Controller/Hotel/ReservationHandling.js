@@ -3,25 +3,38 @@ const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
 
-const AvailableRoomSearch = async (req,res) => {
-    const {checkInDate, checkOutDate, budget} = req.body;
-    try{
+const AvailableRoomSearch = async (req, res) => {
+    const { checkInDate, checkOutDate, budget } = req.body;
+    try {
         // Convert check-in and check-out dates to Date objects
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
-        const roomBudget = await RoomInfo.find();
-        const roomAvailable = roomBudget.filter(room =>  {
-            return(room.roomLimit > 0)
+        const RoomSchedules = await ReservationSchedule.find();
+        const roomAvailable = RoomSchedules.filter(sched => {
+            return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
 
-        return res.status(200).json({roomAvailable: roomBudget,gap});  
+        const rooms = await RoomInfo.find();
 
-    }catch(err){
-        res.status(500).json('error weee' , { message: err.message });
+        for (let i = 0; i < roomAvailable.length; i++) {
+            // Loop through rooms and update roomLimit
+            for (let j = 0; j < rooms.length; j++) {
+                if (roomAvailable[i].roomType === rooms[j].roomType) {
+                    rooms[j].roomLimit += roomAvailable[i].totalRooms;
+                }
+            }
+        }
+
+        return res.status(200).json({ roomAvailable:rooms , gap });
+
+    } catch (err) {
+        // Send an error response with the error message
+        console.log(err);
+        return res.status(500).json({ message: err.message });
     }
-}
+};
 
 
 const NewReservation = async (req,res) => {
@@ -86,7 +99,7 @@ const get_verification_code = async (req,res) => {
               pass: process.env.EMAIL_PASS,
             },
         });
-          
+        
     
         const info = await transporter.sendMail({
             from: "SilverStone Hotel Reservations", // sender address
@@ -96,7 +109,7 @@ const get_verification_code = async (req,res) => {
         });
         
         console.log('backend code', code);
-        res.status(200).json({code});
+        return res.status(200).json({code});
 
     }catch(err){
         console.log('Error at sending verification', err);

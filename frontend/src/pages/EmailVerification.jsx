@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 function VerifyEmail() {
     const location = useLocation();
-    const dataToSend = location.state;
+    const [stateData, setStateData] = useState(null);
     const [timeLeft, setTimeLeft] = useState(2 * 60);
     const [timeFinished, setTimeFinished] = useState(false);
     const [resendIsClicked, setResendIsClicked] = useState(false);
@@ -21,6 +21,34 @@ function VerifyEmail() {
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
+    useEffect(() => {
+
+        const timerId = setInterval(() => {
+            setTimeLeft((prevTime) => {
+                if(prevTime <= 1){
+                    setTimeFinished(true);
+                } 
+                return prevTime - 1;
+            })
+            
+        }, 1000);
+
+        return () => clearInterval(timerId);
+
+    }, [resendIsClicked]);
+
+    useEffect(() => {
+        if(location.state){
+            setStateData(location.state);
+        }
+    },[location.state]);
+
+    useEffect(() => {
+        if(code){
+            console.log('code to compare', code);
+        }
+    },[code])
+
     const handleResendCode = () => {
         alert('New verification code sended to your gmail');
         setTimeLeft(2*60);
@@ -34,44 +62,21 @@ function VerifyEmail() {
 
     useEffect(() => {
 
-        const timerId = setInterval(() => {
-            setTimeLeft((prevTime) => {
-                if(prevTime <= 1){
-                    setTimeFinished(true);
-                } 
+        if (stateData) {
+            const sendCode = async () => {
+              try {
+                const response = await fetch(`http://localhost:4001/send_code/${stateData.email}`);
+                const data = await response.json();
+                setCode(String(data.code)); // Set the code after fetching it
+              } catch (err) {
+                console.error('Error sending email:', err);
+              }
+            };
+        
+            sendCode();
+        }
 
-                return prevTime - 1;
-            })
-            
-        }, 1000);
-
-        return () => clearInterval(timerId);
-
-    }, [resendIsClicked]);
-
-    useEffect(() => {
-        const sendCode = async () => {
-            
-            if (dataToSend) {
-
-                const email = dataToSend.email;
-
-                try {
-                    const response = await fetch(`http://localhost:4001/send_code/${email}`);
-            
-                    const data = await response.json();
-                    console.log('code from backend ' , data);
-                    setCode(String(data.code));
-
-                } catch (err) {
-                    console.error('Error sending email:', err);
-                }
-                
-            }
-        };
-      
-        sendCode();
-    }, [resendIsClicked, dataToSend]);
+    }, [resendIsClicked,stateData]);
       
 
     useEffect( () => {
@@ -91,7 +96,7 @@ function VerifyEmail() {
                             'Content-Type': 'application/json' 
                         },
                         credentials: 'include',
-                        body: JSON.stringify(dataToSend)
+                        body: JSON.stringify(stateData)
                     });
     
                     if(response.ok){
@@ -101,7 +106,6 @@ function VerifyEmail() {
     
                 }
             }
-
         }
         
         validate();

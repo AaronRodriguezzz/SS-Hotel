@@ -29,12 +29,13 @@ const RoomConfirmation = () => {
         }
     }, [rooms])
 
-    const handleFinishedClicked = async () => {
-            
+    const handleFinishedClicked = async (e) => {
+            e.preventDefault();
+
             const dataToSend = {
                 checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
-                selectedRooms: rooms,
+                selectedRooms:  rooms,
                 fullName: fullName,
                 email: email,
                 phoneNumber: phoneNumber,
@@ -43,21 +44,8 @@ const RoomConfirmation = () => {
                 guestNumber: guestNumber
             }
 
-            if(dataToSend.email){
-                try {
-                    const response = await fetch(`http://localhost:4001/send_code/${email}`);
-                    if (!response.ok) {
-                        console.error('Server error:', response.statusText);
-                        return;
-                    }
-            
-                        const data = await response.json();
-                        let code = data.code;
-                        navigate('/email_verification', { state: dataToSend,code })                
-
-                } catch (err) {
-                    console.error('Error sending email:', err);
-                }
+            if(dataToSend){
+                navigate('/email_verification', { state: dataToSend})                   
             }
     }
 
@@ -143,7 +131,7 @@ const RoomConfirmation = () => {
                                     value={guestNumber[index]}
                                     onChange={(e) => handleGuestNumber(index, e.target.value)}
                                     min={room.maximumGuest}
-                                    max={10}
+                                    max={room.maximumGuest + 3}
                                     required
                                 />
                                 <div className="guestSec-text">
