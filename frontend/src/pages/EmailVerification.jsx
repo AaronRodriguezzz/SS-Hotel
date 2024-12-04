@@ -13,7 +13,7 @@ function VerifyEmail() {
     const [numTwo,setNumTwo] = useState('');
     const [numThree,setNumThree] = useState('');
     const [numFour,setNumFour] = useState('');
-    const [code, setCode] = useState(0);
+    const [code, setCode] = useState('');
 
     const formatTime = () => {
         const minutes = Math.floor(timeLeft / 60);
@@ -22,7 +22,7 @@ function VerifyEmail() {
     };
 
     const handleResendCode = () => {
-        alert('New verification code sended to yuor gmail');
+        alert('New verification code sended to your gmail');
         setTimeLeft(2*60);
         setResendIsClicked(true);
         setTimeFinished(false);
@@ -50,36 +50,40 @@ function VerifyEmail() {
     }, [resendIsClicked]);
 
     useEffect(() => {
-        
         const sendCode = async () => {
-            try{
-                const response = await fetch(`http://localhost:4001/send_code/${dataToSend}`);
+            
+            if (dataToSend) {
 
-                if(response.ok){
+                const email = dataToSend.email;
+
+                try {
+                    const response = await fetch(`http://localhost:4001/send_code/${email}`);
+            
                     const data = await response.json();
-                    console.log('send code: ', data.code);
-                    setCode(data.code);
+                    console.log('code from backend ' , data);
+                    setCode(String(data.code));
+
+                } catch (err) {
+                    console.error('Error sending email:', err);
                 }
                 
-            }catch(err){
-                console.log('sending email:' , err);
             }
-        }
-
+        };
+      
         sendCode();
-    },[resendIsClicked])
+    }, [resendIsClicked, dataToSend]);
+      
 
     useEffect( () => {
-
         const validate = async () => {
 
-            if(numOne && numTwo && numThree && numFour){
+            if(numOne && numTwo && numThree && numFour && code !== 0){
                 const inputCode = numOne + numTwo + numThree + numFour; 
-                console.log('inputCode: ', inputCode + 'code: ', code);
+                console.log('inputCode: ', inputCode + 'code: ',  );
                 
                 console.log('isTrue' , inputCode === String(code));
 
-                if(inputCode === code){
+                if(inputCode === String(code)){
     
                     const response = await fetch('http://localhost:4001/api/payment', {
                         method: 'POST',
@@ -102,7 +106,7 @@ function VerifyEmail() {
         
         validate();
 
-    },[numOne, numTwo, numThree, numFour])
+    },[numOne, numTwo, numThree, numFour,code])
 
     return(
         <>

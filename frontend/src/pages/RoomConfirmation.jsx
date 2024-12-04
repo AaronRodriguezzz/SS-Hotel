@@ -29,7 +29,7 @@ const RoomConfirmation = () => {
         }
     }, [rooms])
 
-    const handleFinishedClicked = async (e) => {
+    const handleFinishedClicked = async () => {
             
             const dataToSend = {
                 checkInDate: checkInDate,
@@ -43,25 +43,22 @@ const RoomConfirmation = () => {
                 guestNumber: guestNumber
             }
 
-            navigate('/email_verification', { state: { dataToSend } })                
-
+            if(dataToSend.email){
+                try {
+                    const response = await fetch(`http://localhost:4001/send_code/${email}`);
+                    if (!response.ok) {
+                        console.error('Server error:', response.statusText);
+                        return;
+                    }
             
-            /*const response = await fetch('http://localhost:4001/api/payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' 
-                },
-                credentials: 'include',
-                body: JSON.stringify(dataToSend)
-            });
+                        const data = await response.json();
+                        let code = data.code;
+                        navigate('/email_verification', { state: dataToSend,code })                
 
-            if (response.ok) {
-                const result = await response.json();
-                navigate('/email_verification', { state: { email, dataToSend } })                
-        
-            } else {
-                console.log('Failed to fetch room availability');
-            }*/
+                } catch (err) {
+                    console.error('Error sending email:', err);
+                }
+            }
     }
 
     const handleGuestNumber = (index, value) => {

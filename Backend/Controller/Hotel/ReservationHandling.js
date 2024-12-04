@@ -62,8 +62,9 @@ const NewReservation = async (req,res) => {
         res.clearCookie('checkoutData', { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production'  
-          });
-          res.redirect('http://localhost:5173');
+        });
+
+        res.redirect('http://localhost:5173');
 
     }catch(err){
         console.log(err);
@@ -75,8 +76,6 @@ const NewReservation = async (req,res) => {
 const get_verification_code = async (req,res) => {
     const {email} = req.params;
 
-    console.log('email' , email);
-    
     try{
         const code = Math.floor(Math.random() * 9000) + 1000;
 
@@ -86,7 +85,7 @@ const get_verification_code = async (req,res) => {
               user: process.env.EMAIL_USER,
               pass: process.env.EMAIL_PASS,
             },
-          });
+        });
           
     
         const info = await transporter.sendMail({
@@ -95,9 +94,9 @@ const get_verification_code = async (req,res) => {
             subject: "Email Verification", // Subject line
             text: `Here's your verification code: ${code}`, 
         });
-          
-       
-        return res.status(200).json({code});
+        
+        console.log('backend code', code);
+        res.status(200).json({code});
 
     }catch(err){
         console.log('Error at sending verification', err);

@@ -15,6 +15,7 @@
     justify-content: start;
     flex-direction: column;
     padding: 70px 100px 70px 100px;
+    margin-top: 120px;
     border-radius: 12px;
     background-color: #d3b23ad8;
 }
