@@ -61,6 +61,7 @@ function App() {
               exact path='/email_verification'
               element={<EmailVerification />} 
             />
+
           </Routes>
         </div>
       </BrowserRouter>

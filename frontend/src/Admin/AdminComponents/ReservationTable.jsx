@@ -5,12 +5,14 @@ import './ReservationTable.css'
 const ReservationTable = () => {
 
     const selectedRooms = useRef(new Set());
-    const [reservations, setReservations] = useState([]);
+    const [reservations, setReservation] = useState([]); // Filtered reservations
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
     const [disable, setDisable] = useState(true);
     const [selectedReservation, setSelectedReservation] = useState();
+    const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
+    const [searchQuery, setSearchQuery] = useState(""); // Search input value
 
     const handleDelete = async (reservation) => {
         try{
@@ -101,6 +103,29 @@ const ReservationTable = () => {
         }
     }
 
+    const handleSearch = (event) => {
+        const query = event.toLowerCase(); 
+        setSearchQuery(query);
+
+        if (query.trim() === "") {
+            setFilteredBin(reservations);
+            return;
+        }
+        
+        // Filter reservations based on the query
+        const filtered = filteredBin.filter((bin) => {
+            return (
+                bin.roomType.toLowerCase().includes(query) || 
+                bin.guestName.toLowerCase().includes(query) ||
+                bin.guestEmail.toLowerCase().includes(query) || 
+                bin.checkInDate.toLowerCase().includes(query) ||
+                bin.checkOutDate.toLowerCase().includes(query) 
+            );
+        });
+
+        setFilteredBin(filtered);
+    };
+
     useEffect(() => {
         const fetchReservations = async () => {    
             try{
@@ -108,7 +133,8 @@ const ReservationTable = () => {
                 const data = await response.json();
 
                 if(response.ok){
-                    setReservations(data.reservations);
+                    setFilteredBin(data.reservations);
+                    setReservation(data.reservations);
                 }
         
             }catch(err){
@@ -122,7 +148,23 @@ const ReservationTable = () => {
     return(
 
         <>
+  
+
             <div class="table-container">
+                <input
+                    type="text"
+                    placeholder="Search reservations..."
+                    value={searchQuery}
+                    onChange={ (e) => handleSearch(e.target.value)}
+                    style={{
+                        marginBottom: "20px",
+                        padding: "10px",
+                        fontSize: "16px",
+                        width: "40%",
+                        borderRadius: "15px"
+                    }}
+                /> 
+
                 <table>
                     <thead>
                         <tr>
@@ -139,7 +181,7 @@ const ReservationTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {reservations && reservations.length > 0 ? (reservations.map(reservation => {
+                        {filteredBin && filteredBin.length > 0 ? (filteredBin.map(reservation => {
                             return(
                                 <tr key={reservation._id}>
                                     <td>{reservation.roomType}</td>
@@ -148,13 +190,12 @@ const ReservationTable = () => {
                                     <td>{reservation.guestName}</td>
                                     <td>{reservation.guestContact}</td>
                                     <td>{reservation.guestEmail}</td>
-                                    <td>{reservation.totalRooms}</td>
+                                    <td>{reservation.totalRooms}</td>   
                                     <td>{reservation.totalGuests}</td>
                                     <td>{reservation.totalPrice}</td>
     
                                     <td className='buttons'>
                                         <button onClick={() => handleAssign(reservation)} style={{width: "50%"}}>Assign Room</button>
-
                                         <button onClick={() => handleDelete(reservation)} style={{backgroundColor: "gray"}}>Cancel</button>
                                     </td>
                                 </tr>

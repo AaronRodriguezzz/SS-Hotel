@@ -1,5 +1,6 @@
 import { useEffect,useState,} from 'react';
 import './HotelRooms.css'
+import IndividualRoomTable from './Admin/AdminComponents/IndividualRoomsTable';
 
 
 const HotelRooms = () => {
@@ -31,7 +32,7 @@ const HotelRooms = () => {
             {rooms && rooms.length > 0 ? (rooms.map(room => {
                 return(
                     <div className="container" key={room.key}  style={{backgroundImage: `url('/photos/z${room.roomType}.jpg')`}}>
-                        <div className="cover">
+                        <div className="cover" onClick={<IndividualRoomTable />}>
                             <h2>{room.roomType}</h2>
                             <h4>{room.roomLimit} available</h4>
                         </div>

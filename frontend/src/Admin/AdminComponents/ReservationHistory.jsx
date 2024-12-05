@@ -14,11 +14,11 @@ const ReservationHistory = () => {
         // Filter reservations based on the query
         const filtered = filteredBin.filter((bin) => {
             return (
-                bin.roomType.toLowerCase().includes(query) || 
-                bin.guestName.toLowerCase().includes(query) ||
-                bin.guestEmail.toLowerCase().includes(query) || 
-                bin.checkInDate.toLowerCase().includes(query) ||
-                bin.checkOutDate.toLowerCase().includes(query) 
+                bin.roomType.toLowerCase().includes(searchQuery) || 
+                bin.guestName.toLowerCase().includes(searchQuery) ||
+                bin.guestEmail.toLowerCase().includes(searchQuery) || 
+                bin.checkInDate.toLowerCase().includes(searchQuery) ||
+                bin.checkOutDate.toLowerCase().includes(searchQuery) 
             );
         });
 
@@ -64,6 +64,7 @@ const ReservationHistory = () => {
                     borderRadius: "15px"
                 }}
             />
+
             <table>
                 <thead>
                     <tr>
