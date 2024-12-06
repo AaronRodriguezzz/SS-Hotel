@@ -63,11 +63,13 @@ const RoomConfirmation = () => {
         setRoomCount(prevState => {
             const roomCount = [...prevState];
             roomCount[index] = value;
-            console.log(roomCount[index])
             return roomCount;
-
         })
     }
+
+    useEffect(() => {
+        console.log('room count' , roomCount);
+    },[roomCount])
 
     if (!rooms) {
         return <Navigate to="/booknow" />;

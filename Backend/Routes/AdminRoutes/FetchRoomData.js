@@ -7,5 +7,6 @@ router.get('/reservations', AdminFetch.fetchSchedule);
 router.get('/roomnum', AdminFetch.fetchRoomNum);
 router.get('/roomsAvailable/:roomType', AdminFetch.fetchAvailableRooms);
 router.get('/room_details/:room', AdminFetch.specific_room_schedule);
+router.get('/walkIn_search/:room', AdminFetch.Available_Search_WalkIn);
 
 module.exports = router;

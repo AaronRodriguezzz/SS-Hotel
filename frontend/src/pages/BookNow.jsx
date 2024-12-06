@@ -6,7 +6,6 @@ import Navbar from '../Components/NavBar'
 const BookNowPage = () => {
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
-    const [budget, setBudget] = useState(0);
     const [minCheckOut, setMinCheckOut] = useState('');
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [checkedRooms, setCheckedRooms] = useState([]);
@@ -37,7 +36,6 @@ const BookNowPage = () => {
 
     const handleBookNowClick = (roomId) => {
         setSelectedRooms([]);   
-
         const filterSingleRoom = roomsAvailable.filter((room) => room._id === roomId);
         setBookedRoom(filterSingleRoom);
     };
@@ -51,35 +49,6 @@ const BookNowPage = () => {
         }
     }
 
-    const handleSearch = async () => {
-        try{
-
-            const dataToSend = {
-                checkInDate: checkInDate,
-                checkOutDate: checkOutDate,
-                budget: budget
-            }   
-
-            const response = await fetch('http://localhost:4001/api/availabilitySearch', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify(dataToSend)
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                setRoomsAvailable(data.roomAvailable); 
-                setDaysGap(data.gap);
-            } else {
-                console.log('Failed to fetch room availability');
-            }
-
-        }catch(err){
-            console.log('Error Nye: ' , err );
-        }
-    }
 
     useEffect(() => {
         if (selectedRooms.length > 0 || bookedRoom.length > 0) {
@@ -92,10 +61,34 @@ const BookNowPage = () => {
     }, [selectedRooms,bookedRoom, navigate, daysGap]);
 
     useEffect(() => {
-        if(checkInDate != '' && checkOutDate != ''){
-            handleSearch();
-        }
-    },[checkInDate,checkOutDate, budget]);
+        const fetchRooms = async () => {
+            if (checkInDate && checkOutDate) {
+                try {
+                    const dataToSend = { checkInDate, checkOutDate };
+
+                    const response = await fetch('http://localhost:4001/api/availabilitySearch', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(dataToSend),
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setRoomsAvailable(data.roomAvailable);
+                        setDaysGap(data.gap);
+                    } else {
+                        console.error('Failed to fetch room availability');
+                    }
+                } catch (err) {
+                    console.error('Error fetching rooms:', err);
+                }
+            }
+        };
+
+        fetchRooms();
+    }, [checkInDate, checkOutDate]);
 
     return(
         <>
@@ -130,27 +123,13 @@ const BookNowPage = () => {
                         required 
                     />
                 </div>
-
-                <div className='form-group'>
-                    <label htmlFor="checkOut">Cost Range</label>
-                    <input 
-                        type='number' 
-                        name='budget'
-                        value={budget} 
-                        onChange={(e) => setBudget(e.target.value)} 
-                        min={3189}
-                        required
-                    />
-                </div>
-
-                <button type='button' onClick={handleSearch} disabled={checkInDate && checkOutDate ? false : true}>Search</button>
             </div>
-
+            
 
             <div className='avail-rooms'>
-                <button onClick={handleSelectMultiple} className='seleect-all'  style={{display: checkInDate !== '' && checkOutDate !== '' && budget !== 0 ? 'block':'none'}}>Select Multiple Rooms</button>
+                <button onClick={handleSelectMultiple} className='seleect-all'  style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>Select Multiple Rooms</button>
                 {roomsAvailable.length === 0 ? (
-                    <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' && budget !== 0 ? 'block':'none'}}>No Rooms Available on that date</h1>
+                    <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
                     ) : (
                         roomsAvailable.map(room => (
                             <div key={room._id} className='room'>
@@ -163,7 +142,7 @@ const BookNowPage = () => {
                                 <img src={`/photos/z${room.roomType}.jpg`} alt={`${room.roomType}`} />  
                                 <div className='room-text'>
                                     <h1>{room.roomType}</h1>
-                                    <h4>₱ {room.price * daysGap}  | ₱ {room.price} / day</h4>
+                                    <h4>₱ {room.price * daysGap} / {daysGap} days | ₱ {room.price} / day</h4>
                                     <h4>{room.maximumGuest} GUESTS</h4>
                                     <p>{room.roomDescription}</p>
 

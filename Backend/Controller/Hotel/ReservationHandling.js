@@ -4,7 +4,7 @@ const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
 
 const AvailableRoomSearch = async (req, res) => {
-    const { checkInDate, checkOutDate, budget } = req.body;
+    const { checkInDate, checkOutDate } = req.body;
     try {
         // Convert check-in and check-out dates to Date objects
         const checkIn = new Date(checkInDate);
@@ -35,6 +35,7 @@ const AvailableRoomSearch = async (req, res) => {
         return res.status(500).json({ message: err.message });
     }
 };
+
 
 
 const NewReservation = async (req,res) => {
@@ -145,5 +146,5 @@ module.exports = {
     NewReservation,
     DeleteReservation,
     UpdateReservation,
-    get_verification_code
+    get_verification_code,
 }
