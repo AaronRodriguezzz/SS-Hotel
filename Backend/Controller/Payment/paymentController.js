@@ -20,7 +20,7 @@ const createPaymentCheckout = async (req, res) => {
                       send_email_receipt: true,
                       show_description: false,
                       show_line_items: true,
-                      cancel_url: 'https://google.com',
+                      cancel_url: 'https://localhost:4001',
                       line_items,
                       success_url: 'http://localhost:4001/api/reserve',
                       payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],
