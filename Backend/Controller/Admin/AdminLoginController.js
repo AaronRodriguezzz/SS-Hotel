@@ -9,11 +9,11 @@ app.use(cookieParser());
 
 
 const adminLogin = async (req,res) => {
-    const { email , password } = req.body; // Retrieve credentials from the request body
+    const { employeeEmail: email , password } = req.body; // Retrieve credentials from the request body
 
     try {
         // Find the user by profId
-        const admin = await Admin.findOne(email);
+        const admin = await Admin.findOne({email});
 
         if (!admin) {
             return res.status(404).json('Admin ID does not exist');
@@ -23,7 +23,7 @@ const adminLogin = async (req,res) => {
         const passMatched = await bcrypt.compare(password, admin.password);
 
         if (!passMatched) {
-            return res.status(200).json({message:"Log In Failed"});
+            return res.status(400).json({message:"Log In Failed"});
         } 
 
         const token = jwt.sign(
@@ -50,11 +50,10 @@ const adminLogin = async (req,res) => {
     try {
         const token  = req.cookies.jwt;
 
-        console.log(token);
         if(!token){
             return res.status(401).json({ message: 'Token invalid'});
         }
-
+        console.log(token)
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         return res.status(200).json({ message: 'Token valid', user: verified });
     } catch (err) {
