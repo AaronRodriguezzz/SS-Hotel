@@ -4,9 +4,9 @@ const createPaymentCheckout = async (req, res) => {
     try{
         const { selectedRooms } = req.body;
 
-            const line_items = selectedRooms.map((room, i ) => {
-                return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: parseInt(req.body.roomCount[i])}
-            })
+        const line_items = selectedRooms.map((room, i ) => {
+          return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: parseInt(req.body.roomCount[i])}
+        })
             const options = {
                 method: 'POST',
                 headers: {
