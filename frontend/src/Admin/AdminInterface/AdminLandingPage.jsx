@@ -14,15 +14,11 @@ const AdminPage = () => {
     const location = useLocation();
     const { employeeEmail } = location.state || {};
     const [activeSection, setActiveSection] = useState('hotelRooms');
-    
-    console.log(employeeEmail); // Verify the state is passed correctly
 
     const handleSectionChange = (section) => {
         setActiveSection(section); // Update the active section
         console.log(employeeEmail);
     };
-
-
 
     return(
         <>
@@ -35,7 +31,6 @@ const AdminPage = () => {
                 {activeSection === 'new-admin' && <NewAdmin />}
                 {activeSection === 'super-admin' && <AdminTable />}
                 {activeSection === 'history' && <ReservationHistory />}
-                
             </div>
         </>
     )
