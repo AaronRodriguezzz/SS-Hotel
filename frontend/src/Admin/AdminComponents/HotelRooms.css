@@ -32,6 +32,14 @@
     margin-top: 20px;
 }
 
+.container:hover{
+    background-color: #45a049; /* Background color on hover */
+    transform: scale(1.03); /* Slightly increase size */
+    transition: background-color 1s ease, transform 0.3s ease-in-out;
+    box-shadow: 0 0 8px 3px rgba(169, 148, 27, 0.802);
+
+}
+
 .container .cover{
     position:absolute;
     height: 100%;

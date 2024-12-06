@@ -28,15 +28,16 @@ const fetchSchedule = async (req,res) => {
 
 
 const specific_room_schedule = async (req,res) => {
-    const room = req.params; // Access query parameter
+    const {room} = req.params; // Access query parameter
 
     try{
-        const specificRoom = await RoomNumbers.find({roomType:roomType});
+        const specificRoom = await RoomNumbers.find({roomType:room});
 
         if(!specificRoom){
             return res.status(404).json({message:"Empty Room"});
         }
 
+        console.log(specificRoom);
         return res.status(200).json({specificRoom});
 
     }catch(err){
