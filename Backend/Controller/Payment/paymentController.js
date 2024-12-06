@@ -3,14 +3,7 @@ const jwt = require('jsonwebtoken');
 const createPaymentCheckout = async (req, res) => {
     try{
         const { selectedRooms } = req.body;
-            
-            const line_items = selectedRooms.map(room => {
-                return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: 1}
-            })
 
-            const token = jwt.sign(req.body, process.env.JWT_SECRET);
-            res.cookie('checkoutData', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-            
             const options = {
                 method: 'POST',
                 headers: {
@@ -25,7 +18,7 @@ const createPaymentCheckout = async (req, res) => {
                       send_email_receipt: true,
                       show_description: false,
                       show_line_items: true,
-                      cancel_url: 'https://google.com',
+                      cancel_url: 'https://localhost:4001',
                       line_items,
                       success_url: 'http://localhost:4001/api/reserve',
                       payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],
