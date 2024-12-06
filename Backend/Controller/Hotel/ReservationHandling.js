@@ -3,25 +3,38 @@ const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
 
-const AvailableRoomSearch = async (req,res) => {
-    const {checkInDate, checkOutDate, budget} = req.body;
-    try{
+const AvailableRoomSearch = async (req, res) => {
+    const { checkInDate, checkOutDate, budget } = req.body;
+    try {
         // Convert check-in and check-out dates to Date objects
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
-        const roomBudget = await RoomInfo.find();
-        const roomAvailable = roomBudget.filter(room =>  {
-            return(room.roomLimit > 0)
+        const RoomSchedules = await ReservationSchedule.find();
+        const roomAvailable = RoomSchedules.filter(sched => {
+            return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
 
-        return res.status(200).json({roomAvailable: roomBudget,gap});  
+        const rooms = await RoomInfo.find();
 
-    }catch(err){
-        res.status(500).json('error weee' , { message: err.message });
+        for (let i = 0; i < roomAvailable.length; i++) {
+            // Loop through rooms and update roomLimit
+            for (let j = 0; j < rooms.length; j++) {
+                if (roomAvailable[i].roomType === rooms[j].roomType) {
+                    rooms[j].roomLimit += roomAvailable[i].totalRooms;
+                }
+            }
+        }
+
+        return res.status(200).json({ roomAvailable:rooms , gap });
+
+    } catch (err) {
+        // Send an error response with the error message
+        console.log(err);
+        return res.status(500).json({ message: err.message });
     }
-}
+};
 
 
 const NewReservation = async (req,res) => {
@@ -62,35 +75,46 @@ const NewReservation = async (req,res) => {
         res.clearCookie('checkoutData', { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production'  
-          });
-        res.render('http://localhost:5173');
+        });
+
+        res.redirect('http://localhost:5173');
 
     }catch(err){
+        console.log(err);
         res.status(500).json({ message: err.message });
     }
 }
 
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const get_verification_code = async (req,res) => {
+    const {email} = req.params;
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: "HAHAHAHA", // sender address
-    to: "dmonkeyluffy869@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
+    try{
+        const code = Math.floor(Math.random() * 9000) + 1000;
 
-  console.log("Message sent: %s", info.messageId);
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+        });
+        
+    
+        const info = await transporter.sendMail({
+            from: "SilverStone Hotel Reservations", // sender address
+            to: email, // list of receivers
+            subject: "Email Verification", // Subject line
+            text: `Here's your verification code: ${code}`, 
+        });
+        
+        console.log('backend code', code);
+        return res.status(200).json({code});
+
+    }catch(err){
+        console.log('Error at sending verification', err);
+    }
+   
 }
 
 
@@ -120,5 +144,6 @@ module.exports = {
     AvailableRoomSearch,
     NewReservation,
     DeleteReservation,
-    UpdateReservation
+    UpdateReservation,
+    get_verification_code
 }

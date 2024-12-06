@@ -26,6 +26,25 @@ const fetchSchedule = async (req,res) => {
 }
 
 
+
+const specific_room_schedule = async (req,res) => {
+    const {room} = req.params; // Access query parameter
+
+    try{
+        const specificRoom = await RoomNumbers.find({roomType:room});
+
+        if(!specificRoom){
+            return res.status(404).json({message:"Empty Room"});
+        }
+
+        console.log(specificRoom);
+        return res.status(200).json({specificRoom});
+
+    }catch(err){
+        console.log('Available room error: ', err);
+    }
+}
+
 const fetchRoomNum = async (req,res) => {
     
     const roomNums = await RoomNumbers.find();
@@ -56,9 +75,12 @@ const fetchAvailableRooms = async (req,res) => {
 
 
 
+
+
 module.exports = {
     fetchRoom,
     fetchSchedule,
     fetchRoomNum,
-    fetchAvailableRooms
+    fetchAvailableRooms,
+    specific_room_schedule
 };

@@ -67,9 +67,10 @@ const BookNowPage = () => {
                 },
                 body: JSON.stringify(dataToSend)
             });
+            
             if (response.ok) {
                 const data = await response.json();
-                setRoomsAvailable(data.roomAvailable || []); 
+                setRoomsAvailable(data.roomAvailable); 
                 setDaysGap(data.gap);
             } else {
                 console.log('Failed to fetch room availability');
@@ -99,7 +100,7 @@ const BookNowPage = () => {
     return(
         <>
         <Navbar/>
-            <form className='search-section'>
+            <div className='bookNow-search-section'>
                 <div className='form-group'>
                     <label htmlFor="checkIn">Check-In Date</label>
                     <input 
@@ -143,7 +144,7 @@ const BookNowPage = () => {
                 </div>
 
                 <button type='button' onClick={handleSearch} disabled={checkInDate && checkOutDate ? false : true}>Search</button>
-            </form>
+            </div>
 
 
             <div className='avail-rooms'>

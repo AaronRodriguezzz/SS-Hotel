@@ -1,6 +1,5 @@
 
-
-.search-section{
+.bookNow-search-section{
     background: linear-gradient(to bottom, #2a4b60, #2a4b6096);
     height:60vh;
     width: 100vw;
@@ -10,20 +9,20 @@
     gap: 10px;
 }    
 
-.search-section .form-group{
+.bookNow-search-section .form-group{
     display: flex;
     flex-direction: column;
     margin-bottom: 100px;
 }
 
-.search-section .form-group label{
+.bookNow-search-section .form-group label{
     font-size: 20px;
     margin-bottom: 10px;
     color: rgb(187, 172, 90);
 
 }
 
-.search-section .form-group input{
+.bookNow-search-section .form-group input{
     width: 200px;
     height: 30px;
     font-size: 20px;
@@ -33,7 +32,7 @@
 
 }
 
-.search-section button{
+.bookNow-search-section button{
     width: 250px;
     height: 50px;
     font-size: 20px;
@@ -43,12 +42,12 @@
     border: none;
 }
 
-.search-section button:not(:disabled){
+.bookNow-search-section button:not(:disabled){
     background-color: rgb(204, 182, 57);
     color: #2a4b60;
 }
 
-.search-section button:not(:disabled):hover{
+.bookNow-search-section button:not(:disabled):hover{
     background-color:#2a4b60;
     transition: transform .1s ease-out, background-color .5s ease-out;
     color: white;  

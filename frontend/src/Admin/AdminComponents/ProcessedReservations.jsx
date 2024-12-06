@@ -9,10 +9,11 @@ const ProcessedReservation = () => {
         const fetchRoomNums = async () => {    
 
             try{
-                const response = await fetch('http://localhost:4000/roomnum');
+                const response = await fetch('http://localhost:4001/roomnum');
                 const data = await response.json();
 
                 console.log(data);
+                
                 if(response.ok){
                     setRoomNums(data.roomNums);
                 }
@@ -52,7 +53,7 @@ const ProcessedReservation = () => {
                                 <td>{roomNum.checkInDate}</td>
                                 <td>{roomNum.checkOutDate}</td>
                                 <td>{roomNum.clientName}</td>
-                                <td>{roomNum.guestContact}</td>
+                                <td>{roomNum.contactNumber}</td>
                                 <td>{roomNum.status}</td>
                                 <td>{roomNum.updatedAt}</td>
                                 <td>

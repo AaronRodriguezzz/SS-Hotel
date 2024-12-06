@@ -1,6 +1,6 @@
 import './RoomConfirmationStyle.css';
 import React, { useEffect, useState } from 'react';
-import { useLocation, Navigate, Link } from 'react-router-dom';
+import { useLocation, Navigate, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Components/NavBar';
 import Footer from '../Components/Footer';
 
@@ -14,6 +14,7 @@ const RoomConfirmation = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [guestNumber, setGuestNumber] = useState();
     const [roomCount, setRoomCount] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(selectedRooms || bookedRoom){
@@ -29,13 +30,12 @@ const RoomConfirmation = () => {
     }, [rooms])
 
     const handleFinishedClicked = async (e) => {
-        e.preventDefault();
-        try{
+            e.preventDefault();
 
             const dataToSend = {
                 checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
-                selectedRooms: rooms,
+                selectedRooms:  rooms,
                 fullName: fullName,
                 email: email,
                 phoneNumber: phoneNumber,
@@ -43,26 +43,11 @@ const RoomConfirmation = () => {
                 roomCount: roomCount,
                 guestNumber: guestNumber
             }
-            
-            const response = await fetch('http://localhost:4001/api/payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' 
-                },
-                credentials: 'include',
-                body: JSON.stringify(dataToSend)
-            });
 
-            if (response.ok) {
-                const result = await response.json();
-                window.open(result.data.attributes.checkout_url, '_blank');
-            } else {
-                console.log('Failed to fetch room availability');
+
+            if(dataToSend){
+                navigate('/email_verification', { state: dataToSend})                   
             }
-
-        }catch(err){
-            console.log('Error Nye: ' , err );
-        }
     }
 
     const handleGuestNumber = (index, value) => {
@@ -145,7 +130,7 @@ const RoomConfirmation = () => {
                                     value={guestNumber[index]}
                                     onChange={(e) => handleGuestNumber(index, e.target.value)}
                                     min={room.maximumGuest}
-                                    max={10}
+                                    max={room.maximumGuest + 3}
                                     required
                                 />
                                 <div className="guestSec-text">

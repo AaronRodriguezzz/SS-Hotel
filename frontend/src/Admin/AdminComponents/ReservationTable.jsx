@@ -5,17 +5,20 @@ import './ReservationTable.css'
 const ReservationTable = () => {
 
     const selectedRooms = useRef(new Set());
-    const [reservations, setReservations] = useState([]);
+    const [reservations, setReservation] = useState([]); // Filtered reservations
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
     const [disable, setDisable] = useState(true);
-    
+    const [selectedReservation, setSelectedReservation] = useState();
+    const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
+    const [searchQuery, setSearchQuery] = useState(""); // Search input value
+
     const handleDelete = async (reservation) => {
         try{
             const dataToSend = {...reservation, updatedBy: 'Aaron', remarks:'Cancelled'}
 
-            const updateBin = await fetch(`http://localhost:4000/updateBin`, {
+            const updateBin = await fetch(`http://localhost:4001/updateBin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
@@ -26,7 +29,7 @@ const ReservationTable = () => {
 
             const updateBinData = await updateBin.json();
             if(updateBinData.ok){
-                const cancel = await fetch(`http://localhost:4000/cancelReservation/${reservation._id}`);
+                const cancel = await fetch(`http://localhost:4001/cancelReservation/${reservation._id}`);
                 const data = await cancel.json();
 
                 if(data.ok){
@@ -46,7 +49,7 @@ const ReservationTable = () => {
         
         try{
 
-            const response = await fetch(`http://localhost:4000/roomsAvailable/${String(reservation.roomType)}`, {
+            const response = await fetch(`http://localhost:4001/roomsAvailable/${String(reservation.roomType)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
@@ -59,29 +62,31 @@ const ReservationTable = () => {
                 setRoomsAvailable(data.availableRooms);
                 setShowForm(true);
                 setRoomCountToAssign(reservation.totalRooms);
+                setSelectedReservation(reservation);
             }
            
         }catch(err){
             console.log(err);
         }
-
     }
 
-    const handleSubmit = async (reservation) => {
+    const handleSubmit = async (e,reservation) => {
+        e.preventDefault();
+        const selectedRoom = Array.from(selectedRooms.current);
         
         try{
-            const response = await fetch(`http://localhost:4000/assignRoom`, {
+            const response = await fetch(`http://localhost:4001/assignRoom`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
                 },
-                body: JSON.stringify({reservation, ...selectedRooms}),
+                body: JSON.stringify({reservation, selectedRoom}),
             });
 
-            const data = await response.json();
 
             if(response.ok){
-                
+                const data = await response.json();
+
             }
         }catch(err){
             console.log(err);
@@ -98,14 +103,38 @@ const ReservationTable = () => {
         }
     }
 
+    const handleSearch = (event) => {
+        const query = event.toLowerCase(); 
+        setSearchQuery(query);
+
+        if (query.trim() === "") {
+            setFilteredBin(reservations);
+            return;
+        }
+        
+        // Filter reservations based on the query
+        const filtered = filteredBin.filter((bin) => {
+            return (
+                bin.roomType.toLowerCase().includes(query) || 
+                bin.guestName.toLowerCase().includes(query) ||
+                bin.guestEmail.toLowerCase().includes(query) || 
+                bin.checkInDate.toLowerCase().includes(query) ||
+                bin.checkOutDate.toLowerCase().includes(query) 
+            );
+        });
+
+        setFilteredBin(filtered);
+    };
+
     useEffect(() => {
         const fetchReservations = async () => {    
             try{
-                const response = await fetch('http://localhost:4000/reservations');
+                const response = await fetch('http://localhost:4001/reservations');
                 const data = await response.json();
 
                 if(response.ok){
-                    setReservations(data.reservations);
+                    setFilteredBin(data.reservations);
+                    setReservation(data.reservations);
                 }
         
             }catch(err){
@@ -119,7 +148,23 @@ const ReservationTable = () => {
     return(
 
         <>
+  
+
             <div class="table-container">
+                <input
+                    type="text"
+                    placeholder="Search reservations..."
+                    value={searchQuery}
+                    onChange={ (e) => handleSearch(e.target.value)}
+                    style={{
+                        marginBottom: "20px",
+                        padding: "10px",
+                        fontSize: "16px",
+                        width: "40%",
+                        borderRadius: "15px"
+                    }}
+                /> 
+
                 <table>
                     <thead>
                         <tr>
@@ -136,7 +181,7 @@ const ReservationTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {reservations && reservations.length > 0 ? (reservations.map(reservation => {
+                        {filteredBin && filteredBin.length > 0 ? (filteredBin.map(reservation => {
                             return(
                                 <tr key={reservation._id}>
                                     <td>{reservation.roomType}</td>
@@ -145,13 +190,12 @@ const ReservationTable = () => {
                                     <td>{reservation.guestName}</td>
                                     <td>{reservation.guestContact}</td>
                                     <td>{reservation.guestEmail}</td>
-                                    <td>{reservation.totalRooms}</td>
+                                    <td>{reservation.totalRooms}</td>   
                                     <td>{reservation.totalGuests}</td>
                                     <td>{reservation.totalPrice}</td>
     
                                     <td className='buttons'>
                                         <button onClick={() => handleAssign(reservation)} style={{width: "50%"}}>Assign Room</button>
-
                                         <button onClick={() => handleDelete(reservation)} style={{backgroundColor: "gray"}}>Cancel</button>
                                     </td>
                                 </tr>
@@ -196,7 +240,7 @@ const ReservationTable = () => {
                             );
                         })}
 
-                    <button disabled={disable}>ASSIGN</button>
+                    <button disabled={disable} onClick={(e) => handleSubmit(e,selectedReservation)}>ASSIGN</button>
                 </form> 
             </div>
         </>

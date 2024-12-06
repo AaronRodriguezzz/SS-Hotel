@@ -7,6 +7,8 @@ import Reservations from '../AdminComponents/ReservationTable'
 import Processed from '../AdminComponents/ProcessedReservations'
 import ReservationHistory from '../AdminComponents/ReservationHistory';
 import NewAdmin from '../AdminComponents/NewAdmin';
+import AdminTable from '../AdminComponents/AdminTable';
+import ProcessWalkIn from '../AdminComponents/ProcessWalkin';
 
 const AdminPage = () => {
     const location = useLocation();
@@ -29,8 +31,11 @@ const AdminPage = () => {
                 {activeSection === 'hotelRooms' && <HotelRooms />}
                 {activeSection === 'reservations' && <Reservations />}
                 {activeSection === 'processed' && <Processed />}
+                {activeSection === 'walk-in' && <ProcessWalkIn />}
                 {activeSection === 'new-admin' && <NewAdmin />}
+                {activeSection === 'super-admin' && <AdminTable />}
                 {activeSection === 'history' && <ReservationHistory />}
+                
             </div>
         </>
     )

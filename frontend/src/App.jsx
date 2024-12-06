@@ -9,6 +9,7 @@ import BookNow from './pages/BookNow';
 import BookConfirm from './pages/RoomConfirmation';
 import AdminPage from './Admin/AdminInterface/AdminLandingPage'
 import ProtectedRoute from './Admin/AdminComponents/ProtectedRoute';
+import EmailVerification from './pages/EmailVerification';
 
 function App() {
   return (
@@ -55,6 +56,12 @@ function App() {
               exact path='/admin'
               element={<AdminPage />} 
             />
+
+            <Route 
+              exact path='/email_verification'
+              element={<EmailVerification />} 
+            />
+
           </Routes>
         </div>
       </BrowserRouter>
