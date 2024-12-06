@@ -87,6 +87,7 @@ const processReservation = async (req, res) => {
                     checkInDate: reservation.checkInDate,
                     checkOutDate: reservation.checkOutDate,
                     contactNumber: reservation.guestContact,
+                    guestCount: reservation.totalGuests,
                     status: 'Occupied',
                 }
             )

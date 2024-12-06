@@ -1,0 +1,85 @@
+.process-walkIn-page{
+    margin-left: 350px;
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+
+.room-container{
+    display: flex;
+    flex-direction: column;
+    background-color:#2a4b60;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 50px;
+    color: rgb(212, 188, 52);
+    margin-top: 50px;
+}
+
+
+.room-container .room-div{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 3px dotted rgb(212, 188, 52);
+    padding: 15px 10px 25px 10px;
+    margin-bottom: 25px;
+    font-size: 20px;
+
+}
+
+
+.room-container .room-div select{    
+    width: 600px;
+    height: 45px;
+
+}
+
+.container-buttons button:first-of-type {
+    width: 83%;
+    background-color: rgb(212, 188, 52);
+    outline: none;
+    border: none;
+}
+
+.container-buttons button:last-of-type {
+    width: 15%;
+    margin-left: 10px;
+    background-color: rgba(128, 128, 128, 0.274);
+    color: red;
+    font-weight: 800;
+    outline: none;
+    border: none;
+}
+
+.container-buttons button:hover{
+    transform: scale(1.04);
+    transition: transform .7s ease-out, background-color .5s ease-out;
+}
+
+.client-info-container{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+
+    margin-top: 50px;
+    padding: 50px;
+    color: #2a4b60;
+
+}
+
+.client-info-container label{
+    font-size: 25px;
+}
+
+.client-info-container input{
+    width: 700px;  
+    height: 40px;  
+    border: 2px dotted #2a4b60;
+    margin-bottom: 40px;
+    outline: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
