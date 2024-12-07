@@ -13,7 +13,7 @@ function AdminLogIn() {
 
     const handleLogIn = async () => {
         try{
-            const response = await fetch('http://localhost:4000/login', {
+            const response = await fetch('http://localhost:4001/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,12 +23,13 @@ function AdminLogIn() {
             }); 
 
             const data = await response.json();
-
+            console.log(data)
             if (data.token) {
                 alert('Login successful');  
                 navigate('/admin', { state: { employeeEmail } });
 
             } else {
+                
                 alert(data.message);
             }
 

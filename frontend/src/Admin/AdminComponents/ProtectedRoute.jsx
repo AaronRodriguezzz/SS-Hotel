@@ -13,7 +13,6 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
                 });
 
                 const data = await response.json();
-                
                 if (response.ok) {
                     setIsAuthenticated(true); // Token is valid
                 } else {
