@@ -44,6 +44,7 @@ const RoomConfirmation = () => {
                 guestNumber: guestNumber
             }
 
+
             if(dataToSend){
                 navigate('/email_verification', { state: dataToSend})                   
             }
@@ -119,7 +120,6 @@ const RoomConfirmation = () => {
                 <h2>Selected Room/s</h2>
 
                 {rooms && rooms.map((room,index) => {
-                    console.log(guestNumber)
                     return(
                         <div className="reserved-rooms" key={room._id}>
                             <h4>{room.roomType}</h4>
