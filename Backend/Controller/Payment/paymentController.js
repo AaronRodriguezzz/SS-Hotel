@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel-2.onrender.com' : 'http://localhost:5173/';
+const url = process.env.NODE_ENV === 'production' ? 'https://silverstone-hotel.onrender.com' : 'http://localhost:5173/';
 
 const createPaymentCheckout = async (req, res) => {
     try{
