@@ -80,7 +80,7 @@ const NewReservation = async (req,res) => {
             secure: process.env.NODE_ENV === 'production'  
         });
 
-        res.redirect('http://localhost:5173');
+        res.redirect('/api');
 
     }catch(err){
         console.log('reservation err: ', err);

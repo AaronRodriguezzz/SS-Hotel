@@ -63,7 +63,7 @@ const RoomInfo = () =>{
         const fetchDate = async () => {
 
             try{
-                const response = await fetch(`http://localhost:4001/api/rooms/${key}`);
+                const response = await fetch(`/api/rooms/${key}`);
                 const json = await response.json();
 
                 if(response.ok){

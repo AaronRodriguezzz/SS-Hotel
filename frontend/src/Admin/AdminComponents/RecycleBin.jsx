@@ -27,7 +27,7 @@ const RecycleBin = () => {
     useEffect(() => {
         const fetchBin = async () => {    
             try{
-                const response = await fetch(`http://localhost:4001/recyclebin`);
+                const response = await fetch(`/api/recyclebin`);
                 const data = await response.json();
 
                 if(response.ok){

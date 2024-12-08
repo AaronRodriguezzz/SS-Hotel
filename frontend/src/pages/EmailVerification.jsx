@@ -65,7 +65,7 @@ function VerifyEmail() {
         if (stateData) {
             const sendCode = async () => {
               try {
-                const response = await fetch(`http://localhost:4001/send_code/${stateData.email}`);
+                const response = await fetch(`/api/send_code/${stateData.email}`);
                 const data = await response.json();
                 setCode(String(data.code)); // Set the code after fetching it
               } catch (err) {
@@ -87,7 +87,7 @@ function VerifyEmail() {
 
                 if(inputCode === String(code)){
     
-                    const response = await fetch('http://localhost:4001/api/payment', {
+                    const response = await fetch('/api/payment', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json' 

@@ -40,7 +40,7 @@ const ProcessWalkIn = () => {
 
         try{
             const dataToSend = { checkInDate, checkOutDate };
-            const response = await fetch('http://localhost:4001/api/availabilitySearch', {
+            const response = await fetch('/api/availabilitySearch', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const ProcessWalkIn = () => {
     useEffect(() => {
         const fetchRooms = async () => {    
             try{
-                const response = await fetch('http://localhost:4001/roomdata');
+                const response = await fetch('/api/roomdata');
                 const data = await response.json();
                 
                 if(response.ok){
@@ -98,7 +98,7 @@ const ProcessWalkIn = () => {
     useEffect(() => {
         const fetchRoomNums = async () => {    
             try{
-                const response = await fetch('http://localhost:4001/roomnum/available');
+                const response = await fetch('/api/roomnum/available');
                 const data = await response.json();
                 
                 if(response.ok){

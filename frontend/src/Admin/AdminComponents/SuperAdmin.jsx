@@ -27,7 +27,7 @@ const SuperAdmin = () => {
     const handleSubmit = async () => {
 
         try{
-            const addAdmin = await fetch('http://localhost:4001/add/newadmin', {
+            const addAdmin = await fetch('/api/add/newadmin', {
                 method:'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(
@@ -65,7 +65,7 @@ const SuperAdmin = () => {
     useEffect(() => {
         const fetchAdminData = async () => {
             try {
-                const response = await fetch('http://localhost:4001/adminAll');
+                const response = await fetch('/api/adminAll');
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');

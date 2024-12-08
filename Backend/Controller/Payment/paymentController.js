@@ -21,11 +21,11 @@ const createPaymentCheckout = async (req, res) => {
                       send_email_receipt: true,
                       show_description: false,
                       show_line_items: true,
-                      cancel_url: 'http://localhost:5173/booknow',
+                      cancel_url: '/api/booknow',
 
-                      cancel_url: 'https://localhost:4001',
+                      cancel_url: '/api',
                       line_items,
-                      success_url: 'http://localhost:4001/api/reserve',
+                      success_url: '/api/reserve',
                       payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],
                       description: 'dasdsadsa'
                     }
@@ -73,9 +73,9 @@ const create_walkIn_Payment = async (req, res) => {
                     send_email_receipt: true,
                     show_description: false,
                     show_line_items: true,
-                    cancel_url: 'http://localhost:5173/booknow',
+                    cancel_url: '/api/booknow',
                     line_items,
-                    success_url: 'http://localhost:4001/api/reserve',
+                    success_url: '/api/reserve',
                     payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],
                     description: 'dasdsadsa'
                   }

@@ -66,7 +66,7 @@ const BookNowPage = () => {
                 try {
                     const dataToSend = { checkInDate, checkOutDate };
 
-                    const response = await fetch('http://localhost:4001/api/availabilitySearch', {
+                    const response = await fetch('/api/availabilitySearch', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

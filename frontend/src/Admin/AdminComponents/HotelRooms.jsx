@@ -12,7 +12,7 @@ const HotelRooms = () => {
         setViewIsClicked(false);
 
         try{
-            const response = await fetch(`http://localhost:4001/room_details/${room}`);
+            const response = await fetch(`/api/room_details/${room}`);
             const data = await response.json(); 
             console.log(data);
             if(response.ok){
@@ -31,7 +31,7 @@ const HotelRooms = () => {
     useEffect(() => {
         const fetchRooms = async () => {    
             try{
-                const response = await fetch('http://localhost:4001/roomdata');
+                const response = await fetch('/api/roomdata');
                 const data = await response.json();
 
                 if(response.ok){

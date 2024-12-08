@@ -6,7 +6,8 @@ const ReservationHistory = () => {
     const [adminAccounts, setAdminAccounts] = useState([]); // Filtered reservations
     const [filteredAccounts, setFilteredAccounts] = useState([]);
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
-
+    const [updatedRole, setUpdatedRole] = useState('');
+    const [isUpdated, setIsUpdated] = useState(false);
 
     const handleSearch = (event) => {
         const query = event.target.value.toLowerCase(); // Normalize input for case-insensitivity
@@ -31,17 +32,63 @@ const ReservationHistory = () => {
         setFilteredAccounts(filtered);
     };
 
+    const handleChangeStatus = async (toChange, id) => {
+        const data = {toChange, id};
+        console.log(data);
+
+        try{
+            const response = await fetch('/api/update/adminStatus', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(data)
+            });
+
+            if(response.ok){
+                alert('Admin Updated');
+                setIsUpdated(true)
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }   
+
+    const handleChangeRole = async (toChange, id) => {
+        const updatedRole = toChange === 'Demote' ? 'Admin' : 'Super Admin';
+        const data = { updatedRole, id };
+
+        try{
+            const response = await fetch('/api/update/adminRole', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(data)
+            });
+
+            if(response.ok){
+                alert('Updated');
+                setIsUpdated(true)
+
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
         const fetchAdminAccts = async () => {    
 
             try{
 
-                const response = await fetch('http://localhost:4001/admin-account');
+                const response = await fetch('/api/admin-account');
                 const data = await response.json();
 
                 if(response.ok){
                     setAdminAccounts(data.adminAccts);
                     setFilteredAccounts(data.adminAccts)
+                    setIsUpdated(false);
                 }
         
             }catch(err){
@@ -50,7 +97,7 @@ const ReservationHistory = () => {
         }
 
         fetchAdminAccts()
-    },[]);
+    },[isUpdated]);
 
 
     return(
@@ -98,8 +145,19 @@ const ReservationHistory = () => {
                                 <td>{accts.role}</td>
                                 <td>{accts.createdAt}</td>
                                 <td>
-                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"110"}}>Remove</button>
-                                </td>
+                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"100%", marginBottom: "9px"}}>Remove</button>
+                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"100%", marginBottom: "9px", backgroundColor: accts.adminStatus === 'Enabled' ? 'red' : 'green'}}
+                                            onClick={(e) => handleChangeStatus(e.target.textContent,accts._id)}
+                                    >
+                                        {accts.adminStatus === 'Enabled' ? "Disabled" : "Enabled"}
+                                    </button>
+                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"100%", backgroundColor: accts.role === 'Admin' ? 'green' : 'red' }}
+                                            onClick={(e) => handleChangeRole(e.target.textContent,accts._id)}
+                                    >
+                                        {accts.role === 'Super Admin' ? "Demote" : "Promote"}
+                                    </button>
+
+                                </td>   
                             </tr>
                         )
                     }))}

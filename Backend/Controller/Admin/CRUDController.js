@@ -132,6 +132,64 @@ const processReservation = async (req, res) => {
     }
 }
 
+const updateRole = async (req,res) => {
+    const { updatedRole, id } = req.body;
+
+    try{
+        const admin = await Admin.findOne({ _id: id });
+
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' });
+        }
+
+        // Update the role field of the admin
+        const updatedAdmin = await Admin.findOneAndUpdate(
+            { _id: id },
+            { $set: { role: updatedRole } },
+            { new: true }  // Return the updated admin document
+        );
+
+        // Respond with the updated admin data
+        return res.status(200).json({
+            message: 'Role updated successfully',
+            admin: updatedAdmin,
+        });
+            
+            
+    }catch(err){
+        console.log('Update Role Error: ', err);
+        return res.status(500)
+    }
+}
+
+const updateStatus = async (req,res) => {
+    const {toChange, id} = req.body;
+    try{
+        const admin = await Admin.findOne({ _id: id });
+
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' });
+        }
+
+        // Update the role field of the admin
+        const updatedAdmin = await Admin.findOneAndUpdate(
+            { _id: id },
+            { $set: { adminStatus: toChange } },
+            { new: true }  // Return the updated admin document
+        );
+
+        // Respond with the updated admin data
+        return res.status(200).json({
+            admin: updatedAdmin,
+        });
+            
+            
+    }catch(err){
+        console.log('Update Role Error: ', err);
+        return res.status(500)
+    }
+}
+
 
 const processCancellation = async (req, res) => {
     const {id} = req.params;
@@ -147,12 +205,14 @@ const processCancellation = async (req, res) => {
             
         })
     }catch(err){
-
+        console.log(err);
     }
 }
 
 module.exports = {
     addAdmin,
     processReservation,
-    processCancellation
+    processCancellation,
+    updateRole,
+    updateStatus
 }

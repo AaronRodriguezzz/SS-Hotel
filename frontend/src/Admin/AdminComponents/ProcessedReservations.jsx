@@ -9,7 +9,7 @@ const ProcessedReservation = () => {
         const fetchRoomNums = async () => {    
 
             try{
-                const response = await fetch('http://localhost:4001/roomnum');
+                const response = await fetch('/api/roomnum');
                 const data = await response.json();
 
                 console.log(data);

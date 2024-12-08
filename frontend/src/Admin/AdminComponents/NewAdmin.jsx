@@ -24,7 +24,7 @@ const NewAdmin = ({name}) => {
 
         try{
 
-            const response = await fetch('http://localhost:4001/new-admin', {
+            const response = await fetch('/api/new-admin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 

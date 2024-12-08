@@ -19,7 +19,7 @@ const ReservationTable = ({name}) => {
         try{
             const dataToSend = {...reservation, updatedBy: 'Aaron', remarks:'Cancelled'}
 
-            const updateBin = await fetch(`http://localhost:4001/updateBin`, {
+            const updateBin = await fetch(`/api/updateBin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 
@@ -30,7 +30,7 @@ const ReservationTable = ({name}) => {
 
             const updateBinData = await updateBin.json();
             if(updateBinData.ok){
-                const cancel = await fetch(`http://localhost:4001/cancelReservation/${reservation._id}`);
+                const cancel = await fetch(`/api/cancelReservation/${reservation._id}`);
                 const data = await cancel.json();
 
                 if(data.ok){
@@ -50,7 +50,7 @@ const ReservationTable = ({name}) => {
         
         try{
 
-            const response = await fetch(`http://localhost:4001/roomsAvailable/${String(reservation.roomType)}`, {
+            const response = await fetch(`/api/roomsAvailable/${String(reservation.roomType)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
@@ -76,7 +76,7 @@ const ReservationTable = ({name}) => {
         const selectedRoom = Array.from(selectedRooms.current);
         
         try{
-            const response = await fetch(`http://localhost:4001/assignRoom`, {
+            const response = await fetch(`/api/assignRoom`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
@@ -129,7 +129,7 @@ const ReservationTable = ({name}) => {
     useEffect(() => {
         const fetchReservations = async () => {    
             try{
-                const response = await fetch('http://localhost:4001/reservations');
+                const response = await fetch('/api/reservations');
                 const data = await response.json();
 
                 if(response.ok){

@@ -7,7 +7,7 @@ const AdminNav = ({ onSectionChange, role }) => {
     console.log('clearance : ', securityClearance);
     const handleLogOut = async () => {
         try{
-            const response = await fetch('http://localhost:4001/logout', {
+            const response = await fetch('/api/logout', {
                 method: 'POST',
                 credentials: 'include',  
             });
@@ -15,7 +15,7 @@ const AdminNav = ({ onSectionChange, role }) => {
             if(response.ok){
                 const data = await response.json();
                 alert(data.message);
-                window.location.href = 'http://localhost:5173/admin/login';
+                window.location.href = '/admin/login';
             }else{
                 alert(data.message);
             }

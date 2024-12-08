@@ -13,7 +13,7 @@ function AdminLogIn() {
 
     const handleLogIn = async () => {
         try{
-            const response = await fetch('http://localhost:4001/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ const ReservationHistory = () => {
         const fetchHistory = async () => {    
 
             try{
-                const response = await fetch('http://localhost:4000/history');
+                const response = await fetch('/api/history');
                 const data = await response.json();
 
                 console.log(data);
