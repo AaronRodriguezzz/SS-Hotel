@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel-2.onrender.com' : 'http://localhost:5173/';
 
 const createPaymentCheckout = async (req, res) => {
     try{
@@ -21,9 +22,7 @@ const createPaymentCheckout = async (req, res) => {
                       send_email_receipt: true,
                       show_description: false,
                       show_line_items: true,
-                      cancel_url: '/api/booknow',
-
-                      cancel_url: '/api',
+                      cancel_url: `${url}/booknow`,
                       line_items,
                       success_url: '/api/reserve',
                       payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],
