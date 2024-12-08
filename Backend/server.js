@@ -51,7 +51,6 @@ app.use(PaymentRoutes);
 
 process.env
 
-
 const dirname = path.resolve();
 
 // Now you can use dirname
