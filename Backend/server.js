@@ -14,17 +14,6 @@ const app = express();
 const morgan = require('morgan');
 const path = require('path');
 
- mongoose.connect(process.env.dbURI)
-    .then(() => {
-        app.listen(process.env.PORT, () => {
-            console.log('Listening on port', process.env.PORT)
-            console.log('Connected to the Database');
-        })    
-    })
-    .catch(err => {
-        console.error('MongoDB connection error:', err);
-    });
-
 app.use(morgan('dev'));
 app.use(express.json());       
 app.use(cookieParser());   
@@ -59,3 +48,15 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(dirname, "frontend", "dist", "index.html"));
   });
 }
+
+
+mongoose.connect(process.env.dbURI)
+    .then(() => {
+        app.listen(process.env.PORT || 4001, () => {
+            console.log('Listening on port', process.env.PORT)
+            console.log('Connected to the Database');
+        })    
+    })
+    .catch(err => {
+        console.error('MongoDB connection error:', err);
+    });
