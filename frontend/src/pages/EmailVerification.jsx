@@ -84,9 +84,6 @@ function VerifyEmail() {
 
             if(numOne && numTwo && numThree && numFour && code !== 0){
                 const inputCode = numOne + numTwo + numThree + numFour; 
-                console.log('inputCode: ', inputCode + 'code: ',  );
-                
-                console.log('isTrue' , inputCode === String(code));
 
                 if(inputCode === String(code)){
     
@@ -98,7 +95,6 @@ function VerifyEmail() {
                         credentials: 'include',
                         body: JSON.stringify(stateData)
                     });
-    
                     if(response.ok){
                         const result = await response.json();
                         window.location.href = result.data.attributes.checkout_url;
