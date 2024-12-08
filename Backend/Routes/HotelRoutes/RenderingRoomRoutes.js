@@ -4,6 +4,4 @@ const RenderRoomController = require('../../Controller/Hotel/RenderRoomsControll
 
 router.get('/api/rooms/:key', RenderRoomController.renderRooms);
 
-
-
 module.exports = router;

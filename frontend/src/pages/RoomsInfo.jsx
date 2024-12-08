@@ -48,12 +48,12 @@ const RoomInfo = () =>{
         const calculatedGap = Math.floor((outDate - inDate) / (1000 * 60 * 60 * 24))  
         setDaysGap(calculatedGap);
 
-        if ( bookedRoom.length !== 0 && daysGap !== 0 ) {
+        /*if ( bookedRoom.length !== 0 && daysGap !== 0 ) {
             // Delay navigation until selectedRooms is not empty
             navigate('/booking/confirmation', {
                 state: {bookedRoom, daysGap,checkInDate,checkOutDate },
             });
-        }
+        }*/
 
     }, [bookedRoom, navigate, daysGap]);
 
