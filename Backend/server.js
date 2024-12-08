@@ -12,6 +12,7 @@ const AdminLogin = require('./Routes/AdminRoutes/AdminLogInRoute')
 const PaymentRoutes = require('./Routes/PaymentRoutes/paymentRoutes');
 const app = express();
 const morgan = require('morgan');
+const path = require('path');
 
  mongoose.connect(process.env.dbURI)
     .then(() => {
@@ -49,3 +50,14 @@ app.use(Admin);
 app.use(PaymentRoutes);
 
 process.env
+
+
+const dirname = path.resolve();
+
+// Now you can use dirname
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(dirname, "/frontend/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(dirname, "frontend", "dist", "index.html"));
+  });
+}
