@@ -3,7 +3,7 @@ import { Outlet, Navigate } from "react-router-dom";
 
 const fetchUserType = async (setUser) => {
     try {
-        const response = await fetch('http://localhost:4001/protection',{
+        const response = await fetch('/api/protection',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
