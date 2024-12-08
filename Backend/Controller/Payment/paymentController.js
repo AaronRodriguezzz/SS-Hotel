@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const createPaymentCheckout = async (req, res) => {
     try{
         const { selectedRooms } = req.body;
-        console.log(req.body)
         const line_items = selectedRooms.map((room,i) => {
           return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: parseInt(req.body.roomCount[i])}
       })
@@ -51,7 +50,8 @@ const create_walkIn_Payment = async (req, res) => {
   try{
       const { selectedRooms } = req.body;
           
-          const line_items = selectedRooms.map(room => {
+          
+          const line_items = selectedRooms.map((room,i) => {
               return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: 1}
           })
 
@@ -72,7 +72,7 @@ const create_walkIn_Payment = async (req, res) => {
                     send_email_receipt: true,
                     show_description: false,
                     show_line_items: true,
-                    cancel_url: 'https://google.com',
+                    cancel_url: 'http://localhost:5173/booknow',
                     line_items,
                     success_url: 'http://localhost:4001/api/reserve',
                     payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],

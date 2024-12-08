@@ -20,14 +20,6 @@ const addAdmin = async (req,res) => {
         const code = Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000;
         const hashedPassword = await bcrypt.hash(String(code), 10);
 
-        const newAdmin = new Admin({
-            password: hashedPassword,
-            ...req.body
-        })
-        
-        await newAdmin.save();
-
-        if(newAdmin){
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -45,7 +37,7 @@ const addAdmin = async (req,res) => {
                 subject: "SilverStone Account", 
                 text: `Greetings, ${lastName} , ${firstName}! 
                     \n
-                    \n Welcome to our growing SilverStone Hotel family staff. we hope you're in a good condition.
+                    \n Welcome to our growing SilverStone Hotel family staff. We hope you're in a good condition.
                     \n We would like to congratulate you for passing our screening. This email's purpose is to send you 
                     your account for our system. Please don't share your account to anyone to avoid  breaching your contact
                     \n Email: ${email} 
@@ -59,9 +51,16 @@ const addAdmin = async (req,res) => {
             if(!info){
                 return res.status(500).json({message: 'Sending Email failed'});
             }
+
+            const newAdmin = new Admin({
+                password: hashedPassword,
+                ...req.body
+            })
+            
+            await newAdmin.save();
               
             return res.status(200).json({message: 'New Account Successfully Added'});
-        }
+        
 
     }catch(err){
         console.log(err);

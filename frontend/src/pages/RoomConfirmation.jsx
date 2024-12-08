@@ -65,9 +65,12 @@ const RoomConfirmation = () => {
             const roomCount = [...prevState];
             roomCount[index] = value;
             return roomCount;
-
         })
     }
+
+    useEffect(() => {
+        console.log('room count' , roomCount);
+    },[roomCount])
 
     if (!rooms) {
         return <Navigate to="/booknow" />;
@@ -117,6 +120,7 @@ const RoomConfirmation = () => {
                 <h2>Selected Room/s</h2>
 
                 {rooms && rooms.map((room,index) => {
+                    console.log(room);
                     return(
                         <div className="reserved-rooms" key={room._id}>
                             <h4>{room.roomType}</h4>

@@ -73,6 +73,19 @@ const fetchAvailableRooms = async (req,res) => {
     }
 }
 
+const Available_Search_WalkIn = async (req,res) => {
+    const { room } = req.params;
+
+    try{
+        const availables = await RoomNumbers.find({roomType: room});
+        const roomNumbers = availables.map(available => available.roomNumber);
+
+        return res.status(200).json({roomNumbers})
+    }catch(err){
+        console.log('Available walkin', err);
+        return res.status(500).json({message: 'Error on searching available rooms on walk in'})
+    }
+}
 
 
 
@@ -82,5 +95,6 @@ module.exports = {
     fetchSchedule,
     fetchRoomNum,
     fetchAvailableRooms,
-    specific_room_schedule
+    specific_room_schedule,
+    Available_Search_WalkIn
 };
