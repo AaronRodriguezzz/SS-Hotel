@@ -81,23 +81,26 @@ function VerifyEmail() {
 
     useEffect( () => {
         const validate = async () => {
-
             if(numOne && numTwo && numThree && numFour && code !== 0){
                 const inputCode = numOne + numTwo + numThree + numFour; 
+                if(inputCode == String(code)){
 
-                if(inputCode === String(code)){
-    
-                    const response = await fetch('/api/payment', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json' 
-                        },
-                        credentials: 'include',
-                        body: JSON.stringify(stateData)
-                    });
-                    if(response.ok){
-                        const result = await response.json();
-                        window.location.href = result.data.attributes.checkout_url;
+                    try{
+                        const response = await fetch('/api/payment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json' 
+                            },
+                            credentials: 'include',
+                            body: JSON.stringify(stateData)
+                        });
+                        console.log(response)
+                        if(response.ok){
+                            const result = await response.json();
+                            window.location.href = result.data.attributes.checkout_url;
+                        }
+                    }catch(err){
+                        console.error(err)
                     }
     
                 }
