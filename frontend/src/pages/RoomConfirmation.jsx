@@ -42,7 +42,7 @@ const RoomConfirmation = () => {
                 daysGap: daysGap,
                 roomCount: roomCount,
                 guestNumber: guestNumber
-            }
+            }  
 
 
             if(dataToSend){
@@ -77,7 +77,7 @@ const RoomConfirmation = () => {
         <>
         <Navbar/>
         <div className="main-page">
-            <form>
+            <form >
                 <h1>Booking Confirmation</h1>
                 <div className="reservation-info">
 
@@ -163,8 +163,7 @@ const RoomConfirmation = () => {
                     <Link onClick={handleFinishedClicked} to='/'>
                         <button type='cancel' className='cancel'>CANCEL</button>
                     </Link>
-                    <button type='submit' className='finish' onClick={handleFinishedClicked}>FINISH</button>
-
+                    <button type='submit' className='finish'>FINISH</button>
                 </div>
             </form>
         </div>

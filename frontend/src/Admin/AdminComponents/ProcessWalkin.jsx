@@ -17,6 +17,7 @@ const ProcessWalkIn = () => {
         setNumberOfRooms(numberOfRooms + num);
     }
 
+
     useEffect(() => {
         const fetchRooms = async () => {    
             try{
@@ -44,27 +45,26 @@ const ProcessWalkIn = () => {
                         <div className='room-div' key={i}>
                             <label htmlFor="room-type">Room Type</label>
                             <select name="room-type" id="room-type">
-                                {rooms && rooms.map(room => {
+                                {rooms && rooms.map(room => 
                                     <option value={room.roomType}>{room.roomType}</option>
-                                })}
+                                )}
                             </select>
 
                             <label htmlFor="room-quantity">Room Quantity</label>
                             <select name="room-quantity" id="room-quantity" onChange={(e) => setGuestCount[i](e.target.value)}>
-                                {rooms && rooms.map(room => {
+                                {rooms && rooms.map(room => 
                                     <option value={room.roomLimit}>{room.roomLimit}</option>
-                                })}
+                                )}
                             </select>
-
 
                             {guestCount.length > 0 && Array.from({ length: guestCount[i] }, (_, i) => {
                                  return (
                                     <div>
                                         <label htmlFor="guest-quantity">Room {i} Guest Count</label>
                                         <select name="guest-quantity" id="room-type">
-                                            {rooms && rooms.map(room => {
+                                            {rooms && rooms.map(room => 
                                                 <option value={room.roomLimit}>{room.roomLimit}</option>
-                                            })}
+                                            )}
                                         </select>
                                     </div>
                                  )
