@@ -77,7 +77,7 @@ const RoomConfirmation = () => {
         <>
         <Navbar/>
         <div className="main-page">
-            <form >
+            <form onSubmit={handleFinishedClicked}>
                 <h1>Booking Confirmation</h1>
                 <div className="reservation-info">
 
@@ -160,7 +160,7 @@ const RoomConfirmation = () => {
 
                 
                 <div className="reservation-buttons">
-                    <Link onClick={handleFinishedClicked} to='/'>
+                    <Link to='/'>
                         <button type='cancel' className='cancel'>CANCEL</button>
                     </Link>
                     <button type='submit' className='finish'>FINISH</button>
