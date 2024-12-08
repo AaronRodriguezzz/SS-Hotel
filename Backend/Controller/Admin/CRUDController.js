@@ -9,7 +9,6 @@ const nodemailer = require('nodemailer');
 const addAdmin = async (req,res) => {
     const {email,lastName, firstName} = req.body;
 
-    console.log(email);
     try{
         const emailExist = await Admin.findOne({email: email});
     
@@ -50,7 +49,9 @@ const addAdmin = async (req,res) => {
     
             if(!info){
                 return res.status(500).json({message: 'Sending Email failed'});
-            }
+            }   
+
+            console.log(req.body);
 
             const newAdmin = new Admin({
                 password: hashedPassword,
@@ -70,7 +71,7 @@ const addAdmin = async (req,res) => {
 
 
 const processReservation = async (req, res) => {
-    const {reservation, selectedRoom} = req.body;
+    const {reservation, selectedRoom,adminName} = req.body;
 
     console.log('seleceted rooms' , selectedRoom);
     console.log('reservation' , reservation);
@@ -90,7 +91,6 @@ const processReservation = async (req, res) => {
                     status: 'Occupied',
                 }
             )
-
         );
 
 
@@ -103,7 +103,7 @@ const processReservation = async (req, res) => {
 
         const roomsAssigned = selectedRoom.join(', ');
         const addToBin = new History({
-            updatedBy: 'Aaron Rodriguez',
+            updatedBy: adminName,
             ...reservation,
             roomAssigned: roomsAssigned,
             remarks: 'Completed',

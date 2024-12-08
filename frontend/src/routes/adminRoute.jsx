@@ -38,7 +38,7 @@ const AdminRoute = () => {
       return null;
     }
 
-    return user ? <Outlet /> : <Navigate to="/" />;
+    return user ? <Outlet /> : <Navigate to="/admin/login" />;
 };
 
 export default AdminRoute

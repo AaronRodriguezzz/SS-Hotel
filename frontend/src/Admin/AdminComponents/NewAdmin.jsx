@@ -1,9 +1,8 @@
 import { useEffect,useState,} from 'react';
 import './NewAdmin.css';
 
-const NewAdmin = () => {
-
-    const [addedBy, setAddedBy] = useState('Aaron')
+const NewAdmin = ({name}) => {
+    const {adminName} = name;
     const [lastName, setLastName] = useState('');
     const [firstName,setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -13,7 +12,7 @@ const NewAdmin = () => {
     
     const handleSubmit = async () => {
         const dataToSend = {
-            addedBy,
+            addedBy: adminName,
             lastName,
             firstName,
             email,
@@ -21,6 +20,7 @@ const NewAdmin = () => {
             role,
             adminStatus
         }
+        
 
         try{
 

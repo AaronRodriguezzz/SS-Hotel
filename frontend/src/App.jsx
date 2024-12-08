@@ -55,7 +55,7 @@ function App() {
 
             <Route element={<AdminRoute />}>
               <Route 
-                exact path='/admin'
+                exact path='/admin' 
                 element={<AdminPage />} 
               />
             </Route>
@@ -64,6 +64,7 @@ function App() {
               exact path='/email_verification'
               element={<EmailVerification />} 
             />
+
 
           </Routes>
         </div>

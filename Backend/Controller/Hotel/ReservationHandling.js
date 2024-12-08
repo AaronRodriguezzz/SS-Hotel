@@ -46,6 +46,7 @@ const NewReservation = async (req,res) => {
         daysGap, roomCount,
         guestNumber}  = checkoutData;
 
+    console.log('1');
     const checkIn = new Date(checkInDate);  
     const checkOut = new Date(checkOutDate);
 
@@ -73,6 +74,7 @@ const NewReservation = async (req,res) => {
             );
             
         }
+
         res.clearCookie('checkoutData', { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production'  
@@ -81,7 +83,7 @@ const NewReservation = async (req,res) => {
         res.redirect('http://localhost:5173');
 
     }catch(err){
-        console.log(err);
+        console.log('reservation err: ', err);
         res.status(500).json({ message: err.message });
     }
 }

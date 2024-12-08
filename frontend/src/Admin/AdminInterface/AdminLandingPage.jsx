@@ -14,21 +14,41 @@ const AdminPage = () => {
     const location = useLocation();
     const { employeeEmail } = location.state || {};
     const [activeSection, setActiveSection] = useState('hotelRooms');
+    const [securityClearance,setSecurityClearance] = useState('');
+    const [adminName,setAdminName] = useState('');
+
+    useEffect(() => {
+        const checkSecurity = async () => { 
+            try{
+                const response = await fetch(`http://localhost:4001/check-clearance/${employeeEmail}`);
+                
+                if(response.ok){
+                    const data = await response.json();
+                    setAdminName(data.name);
+                    setSecurityClearance(data.clearance);
+                }
+            }catch(err){
+                console.log('secuity check error:' , err);
+            }
+        } 
+
+        checkSecurity();
+    },[])
+
 
     const handleSectionChange = (section) => {
         setActiveSection(section); // Update the active section
-        console.log(employeeEmail);
     };
 
     return(
         <>
             <div className="landingPage-container">
-                <Navigation onSectionChange={handleSectionChange}/>
+                <Navigation onSectionChange={handleSectionChange} role={{ securityClearance}}/>
                 {activeSection === 'hotelRooms' && <HotelRooms />}
-                {activeSection === 'reservations' && <Reservations />}
+                {activeSection === 'reservations' && <Reservations name={{adminName}} />}
                 {activeSection === 'processed' && <Processed />}
                 {activeSection === 'walk-in' && <ProcessWalkIn />}
-                {activeSection === 'new-admin' && <NewAdmin />}
+                {activeSection === 'new-admin' && <NewAdmin name={{adminName}} />}
                 {activeSection === 'super-admin' && <AdminTable />}
                 {activeSection === 'history' && <ReservationHistory />}
             </div>

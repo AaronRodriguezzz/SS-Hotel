@@ -7,6 +7,7 @@
     align-items: end;
     justify-content: center;
     gap: 20px;
+    margin-top: -150px;
 }    
 
 .bookNow-search-section .form-group{

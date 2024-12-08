@@ -31,23 +31,29 @@ const recycleBin = new mongoose.Schema({
     },
     totalRooms: {
         type: Number,
-        require: true,
+        required: true,
     },
     totalGuests: {
         type: Number,
-        require: true,
+        required: true,
     },
     totalPrice: {
         type: Number,
-        require: true,
+        required: true,
     },
     roomAssigned: {
         type: String,
-        require: true,
+        required: true,
+    },
+    mmodeOfPayment: {
+        type: String,
+        enum: ['Online Payment', 'Cash'],
+        default: 'Online Payment',
+        required: true,
     },
     remarks: {
         type: String,
-        require: true,
+        required: true,
         enum:['Cancelled', 'Completed']
     }
 },{ timestamps: true});

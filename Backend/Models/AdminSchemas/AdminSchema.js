@@ -25,15 +25,17 @@ const adminSchema = new mongoose.Schema({
     contactNum: {
         type: String,
         required: true,
-        unique: true,
     },
     role: {
         type: String,
         enum: ['Super Admin', 'Admin'],  // Possible roles; adjust as needed
+        required: true,
     },
-    status:{
+    adminStatus:{
         type: String,
-        enum:['Enabled, Disabled'],
+        enum:['Enabled', 'Disabled'],
+        required: true,
+
     },
     
 }, { timestamps: true});

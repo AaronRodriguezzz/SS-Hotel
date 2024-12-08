@@ -74,16 +74,50 @@ const fetchAvailableRooms = async (req,res) => {
 }
 
 const Available_Search_WalkIn = async (req,res) => {
-    const { room } = req.params;
+    const { checkInDate, checkOutDate } = req.body;
+    try {
+        // Convert check-in and check-out dates to Date objects
+        const checkIn = new Date(checkInDate);
+        const checkOut = new Date(checkOutDate);
+        const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
+        const RoomSchedules = await ReservationSchedule.find();
+        const roomAvailable = RoomSchedules.filter(sched => {
+            return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
+        });
+
+        const rooms = await RoomInfo.find();
+
+        for (let i = 0; i < roomAvailable.length; i++) {
+            // Loop through rooms and update roomLimit
+            for (let j = 0; j < rooms.length; j++) {
+                if (roomAvailable[i].roomType === rooms[j].roomType) {
+                    rooms[j].roomLimit += roomAvailable[i].totalRooms;
+                }
+            }
+        }
+
+        return res.status(200).json({ roomAvailable:rooms , gap });
+
+    } catch (err) {
+        // Send an error response with the error message
+        console.log(err);
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+const handle_available_roomNum = async (req,res) => {
     try{
-        const availables = await RoomNumbers.find({roomType: room});
-        const roomNumbers = availables.map(available => available.roomNumber);
+        const roomNum = await RoomNumbers.find({ status: 'Available' });
 
-        return res.status(200).json({roomNumbers})
+        if(!roomNum) {
+            return res.status(404).json({message: 'Room Nums Empty'});
+        }
+
+        return res.status(200).json({roomNum});
     }catch(err){
-        console.log('Available walkin', err);
-        return res.status(500).json({message: 'Error on searching available rooms on walk in'})
+        console.log(err)
+        return res.status(500).json({message: 'Failed to fetch room nums'})
     }
 }
 
@@ -96,5 +130,6 @@ module.exports = {
     fetchRoomNum,
     fetchAvailableRooms,
     specific_room_schedule,
-    Available_Search_WalkIn
+    Available_Search_WalkIn,
+    handle_available_roomNum
 };

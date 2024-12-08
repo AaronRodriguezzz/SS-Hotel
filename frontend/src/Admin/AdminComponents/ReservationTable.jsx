@@ -2,8 +2,9 @@ import { useEffect,useState,useRef} from 'react';
 import './ReservationTable.css'
 
 
-const ReservationTable = () => {
+const ReservationTable = ({name}) => {
 
+    const {adminName}  = name;
     const selectedRooms = useRef(new Set());
     const [reservations, setReservation] = useState([]); // Filtered reservations
     const [roomsAvailable, setRoomsAvailable] = useState([]);
@@ -80,13 +81,12 @@ const ReservationTable = () => {
                 headers: {
                     'Content-Type': 'application/json' // Optional for GET, can omit
                 },
-                body: JSON.stringify({reservation, selectedRoom}),
+                body: JSON.stringify({reservation, selectedRoom, adminName}),
             });
 
 
             if(response.ok){
-                const data = await response.json();
-
+                alert('Assigning Room Sucessful');
             }
         }catch(err){
             console.log(err);

@@ -53,7 +53,7 @@ const adminLogin = async (req,res) => {
         if(!token){
             return res.status(401).json({ message: 'Token invalid'});
         }
-        console.log(token)
+
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         return res.status(200).json({ message: 'Token valid', user: verified });
     } catch (err) {
@@ -63,7 +63,45 @@ const adminLogin = async (req,res) => {
 };
 
 
+const deleteToken = (req, res) => {
+    try {
+
+        res.clearCookie('jwt', { 
+            httpOnly: true, 
+            sameSite: 'lax',  
+            path: '/',  
+        });        
+        
+        return res.status(200).json({message: 'Successfully Log Out'});
+        
+    } catch (err) {
+        console.error('Deleting token error:', err.message);
+        return res.status(500).json({ message: 'Log out function error' });
+    }
+};
+
+
+const check_clearance = async (req,res) => {
+    const {employeeEmail} = req.params
+    try{
+        const admin = await Admin.findOne({email: employeeEmail})
+
+        if(!admin){
+            res.status(404).json({message: 'Empty admin'});
+        }
+
+        const fullName = admin.firstName + admin.lastName;
+
+        return res.status(200).json({clearance: admin.role, name:fullName })
+    }catch(err){    
+        console.log(err);
+    }
+}
+
+
 module.exports = {
     adminLogin,
-    getToken
+    getToken,
+    deleteToken,
+    check_clearance
 }

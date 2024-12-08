@@ -23,13 +23,10 @@ function AdminLogIn() {
             }); 
 
             const data = await response.json();
-            console.log(data)
             if (data.token) {
                 alert('Login successful');  
                 navigate('/admin', { state: { employeeEmail } });
-
             } else {
-                
                 alert(data.message);
             }
 
