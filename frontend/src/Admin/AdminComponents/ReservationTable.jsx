@@ -148,8 +148,6 @@ const ReservationTable = ({name}) => {
     return(
 
         <>
-  
-
             <div class="parent-table-container">
                 <input
                     type="text"

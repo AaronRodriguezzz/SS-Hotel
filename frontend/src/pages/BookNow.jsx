@@ -8,49 +8,50 @@ const BookNowPage = () => {
     const [checkOutDate, setCheckOutDate] = useState('');
     const [minCheckOut, setMinCheckOut] = useState('');
     const [roomsAvailable, setRoomsAvailable] = useState([]);
-    const [checkedRooms, setCheckedRooms] = useState([]);
-    const [selectedRooms, setSelectedRooms] = useState([]);
     const [bookedRoom,setBookedRoom]= useState([]);
     const [multipleSelected, setMultiple] = useState(0);
     const [daysGap , setDaysGap] = useState(0);
+    const [totalPayment, setTotalPayment] = useState(0);
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
 
-    const handleCheckboxChange = (roomId) => { 
-        setCheckedRooms((prevSelectedRooms) => {
-                if (prevSelectedRooms.includes(roomId)) {
-                    // Remove room from selected rooms if it was already selected
-                    return prevSelectedRooms.filter(id => id !== roomId);
-                } else {
-                    // Add room to selected rooms
-                    return [...prevSelectedRooms, roomId];
-                }
-        }); 
+
+    const handleAddRoom = (room) => {
+        const addedRoom = JSON.parse(room); 
+        addedRoom.daysGap = daysGap;
+        addedRoom.checkInDate = checkInDate;  
+        addedRoom.checkOutDate = checkOutDate; 
+
+        setTotalPayment(totalPayment + (addedRoom.price * addedRoom.daysGap));
+        setBookedRoom(prev => {
+            return [...prev, addedRoom];
+        });
+
+        console.log(bookedRoom);
+
     };
 
-    const handleBookAll = () => {
-        const filteredRooms = roomsAvailable.filter((room) => checkedRooms.includes(room._id));
-        setSelectedRooms(filteredRooms);   
-    }
-
-
-    const handleBookNowClick = (roomId) => {
-        setSelectedRooms([]);   
-        const filterSingleRoom = roomsAvailable.filter((room) => room._id === roomId);
-        setBookedRoom(filterSingleRoom);
-    };
-
-    const handleSelectMultiple = () => {
-
-        if(multipleSelected === 0){
-            setMultiple(1);
-        }else{
-            setMultiple(0);
-        }
+    const handleRemoveRoom = (index) => {
+        const updatedRooms = bookedRoom.filter((room, idx) => idx !== index);
+        console.log(updatedRooms);
+        setBookedRoom(updatedRooms);
     }
 
 
     useEffect(() => {
+        const handleTotalChange = () => {
+            const total = bookedRoom.map((room) => {
+                let totalPayment = 0; 
+                return totalPayment += room.price * room.daysGap;
+
+            })
+
+            console.log(total);
+            setTotalPayment(totalPayment )
+        }
+    },[bookedRoom])
+
+   /* useEffect(() => {
         if (selectedRooms.length > 0 || bookedRoom.length > 0) {
             // Delay navigation until selectedRooms is not empty
             navigate('/booking/confirmation', {
@@ -58,7 +59,7 @@ const BookNowPage = () => {
             });
         }
 
-    }, [selectedRooms,bookedRoom, navigate, daysGap]);
+    }, [selectedRooms,bookedRoom, navigate, daysGap]);*/
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -127,42 +128,64 @@ const BookNowPage = () => {
             
 
             <div className='avail-rooms'>
-                <button onClick={handleSelectMultiple} className='seleect-all'  style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>Select Multiple Rooms</button>
-                {roomsAvailable.length === 0 ? (
-                    <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
+                <div className="room-choice">
+                    {roomsAvailable.length === 0 ? (
+                        <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
                     ) : (
-                        roomsAvailable.map(room => (
-                            <div key={room._id} className='room'>
-                                <input type='checkbox' 
-                                       style={{ display: multipleSelected === 1 ? 'flex' : 'none' }} 
-                                       checked={checkedRooms.includes(room._id)} 
-                                       onChange={() => handleCheckboxChange(room._id)}
+                            roomsAvailable.map(room => (
+                                <div key={room._id} className='room'>
+                                    <img src={`/photos/z${room.roomType}.jpg`} alt={`${room.roomType}`} />  
+                                    <div className='room-text'>
+                                        <h1>{room.roomType}</h1>
+                                        <h4>₱ {room.price * daysGap} / {daysGap} days | ₱ {room.price} / day</h4>
+                                        <h4>MAXIMUM OF {room.maximumGuest} GUESTS</h4>
+                                        <p>{room.roomDescription}</p>
 
-                                />
-                                <img src={`/photos/z${room.roomType}.jpg`} alt={`${room.roomType}`} />  
-                                <div className='room-text'>
-                                    <h1>{room.roomType}</h1>
-                                    <h4>₱ {room.price * daysGap} / {daysGap} days | ₱ {room.price} / day</h4>
-                                    <h4>{room.maximumGuest} GUESTS</h4>
-                                    <p>{room.roomDescription}</p>
-
-                                    <Link onClick={() => handleBookNowClick(room._id)} >
-                                        <button  className='link-button'>BOOK NOW</button>
-                                    </Link>
-
+                                        <div className="room-button-container">
+                                            <button  className='link-button' onClick={() => handleAddRoom(JSON.stringify(room))}>ADD ROOM</button>
+                                            <button  className='calendar-button'><img src="./photos/calendar.png" alt="calendar" /></button>
+                                        </div>
+                                    
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))  
                     )}
-                <Link onClick={handleBookAll} >
-                    {checkedRooms.length > 0 && (
-                        <button className="link-button" >
-                            Book All Selected Rooms
-                        </button>   
-                    )}                
-                </Link>
+                </div>
+                
 
+                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>
+                     <h4>Your Cart: {bookedRoom.length} items</h4>
+
+                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
+                        return(
+                            <div className="added-summary-rooms">
+                                <div className="roomtype-price-container">
+                                    <h6>{room.roomType}</h6>
+                                    <h4>₱{room.price}.00</h4>
+                                </div>
+                                <p>{daysGap} Nights Stay</p>
+
+
+                                <div className="bottom-text-container">
+                                    <h5>{room.checkInDate} - {room.checkOutDate}</h5>
+                                    <p>Including taxes and fees</p>
+                                </div>
+                                
+                                <button onClick={() => handleRemoveRoom(index)}>Remove</button>
+                            </div>
+                        )
+                     })}
+
+                    
+                    <h4>Total ₱{totalPayment}.00</h4>    
+                    <button className='checkOut-rooms'>CHECK OUT</button>
+
+                </div>  
             </div>
+
+
+
+            
         </>
     )
 }

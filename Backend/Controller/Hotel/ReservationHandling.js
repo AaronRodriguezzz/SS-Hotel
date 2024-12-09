@@ -18,18 +18,25 @@ const AvailableRoomSearch = async (req, res) => {
             return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
 
+
         const rooms = await RoomInfo.find();
 
         for (let i = 0; i < roomAvailable.length; i++) {
             // Loop through rooms and update roomLimit
             for (let j = 0; j < rooms.length; j++) {
+                console.log('room reserved' , roomAvailable[i]);
                 if (roomAvailable[i].roomType === rooms[j].roomType) {
                     rooms[j].roomLimit += roomAvailable[i].totalRooms;
                 }
+                console.log('room reserved' , rooms[j]);
             }
         }
 
-        return res.status(200).json({ roomAvailable:rooms , gap });
+        const filteredRooms = rooms.filter(room => {
+            return(room.roomLimit !== 0)
+        })
+
+        return res.status(200).json({ roomAvailable:filteredRooms , gap });
 
     } catch (err) {
         // Send an error response with the error message

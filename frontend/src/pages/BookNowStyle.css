@@ -1,6 +1,16 @@
 
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+
 .bookNow-search-section{
-    background: linear-gradient(to bottom, #2a4b60, #2a4b6096);
+    background: linear-gradient(to bottom, #2a4b60 50%, #2a4b6096);
     height:550px;
     width: 100vw;
     display: flex;
@@ -69,11 +79,9 @@
 
 .avail-rooms{
     display: flex;
-    flex-direction: column;
-    position:relative;
-    align-items: center;
-    gap: 40px;
-    margin: 200px 40px 30px 40px;
+    flex-direction: row;
+    margin: 80px 40px 30px 40px;
+    padding: 50px;
 }
 
 .avail-rooms > h1{ 
@@ -86,63 +94,23 @@
     margin-bottom: 70px;
 }
 
-.avail-rooms .seleect-all{ 
-    position: absolute;
-    right:10px;
-    top: -150px;
-    background-color:rgb(204, 182, 57);
-    padding: 10px 20px 10px 20px;
-    color: white;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-    width:180px;
-    font-size: 15px;    
-}
-
-.avail-rooms .seleect-all:hover{
-    background-color:#2a4b60;
-    transition: transform .1s ease-out, background-color .5s ease-out;
-    color: white;  
-}
-
-.avail-rooms > #book-all{ 
-    background-color:rgb(204, 182, 57);
-    padding: 20px 35px 20px 35px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    width:200px;
-    font-size: 18px;
-}
-
-.avail-rooms > #book-all:hover{
-    background-color:#2a4b60;
-    transition: transform .1s ease-out, background-color .5s ease-out;
-    color: white;  
-}
 
 
 .avail-rooms .room{
     display: flex;
-    position: relative;
-    margin-bottom: 30px;
+    flex-direction: row;
+    align-items: center;
     border-bottom: 3px #2a4b60 dotted;
-    padding-bottom: 40px;
-}
+    width: 90%;
+    background: linear-gradient(to bottom, #2a4b60 0%, #2a4b6096);
+    padding: 30px;
+    gap: 20px;
 
-.avail-rooms .room > input[type="checkbox"]{
-    position: absolute;
-    top: -40px;
-    right: 0;
-    width: 30px;
-    height: 30px;
-    outline: none;
 }
 
 .avail-rooms .room img{
-    width: 50%;
-    height: 700px;
+    width:45%;
+    height: 500px;
     border-radius: 15px;
 }
 
@@ -153,29 +121,58 @@
     align-items: center;
     text-align: center;
     width: 50%;
+    padding: 20px;
 }
 
 .avail-rooms .room .room-text h1{
-    font-size: 60px;
+    font-size: 38px;
     color: rgb(204, 182, 57);
 }
 
 .avail-rooms .room .room-text h4{
-    font-size: 35px;
+    font-size: 22px;
     color: rgb(204, 182, 57);
     margin-top: 5px;
 }
 
 .avail-rooms .room .room-text p{
-    font-size: 22px;
+    font-size: 18px;
     text-align: center;
     width: 80%;
+    color: white;
 }
 
-.avail-rooms a .link-button{
-    width: 330px;
-    height: 65px;
-    font-size: 23px;
+.avail-rooms .room-button-container{
+    display: flex;
+    height: 80px;
+    gap: 5px;
+}
+
+.avail-rooms .room-button-container .calendar-button{
+    width: 50px;
+    height: 45px;
+    margin-top: 28px;
+    margin-bottom: 100px;    
+    border-radius: 10px;
+    color: WHITE;
+    border: none;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    outline: none;
+}
+
+.avail-rooms .room-button-container .calendar-button img{
+    width: 40px;
+    height: 40px;
+}
+
+
+.avail-rooms .room-button-container .link-button{
+    width: 250px;
+    height: 45px;
+    font-size: 18px;
     margin-top: 30px;
     margin-bottom: 100px;    
     border-radius: 10px;
@@ -184,6 +181,97 @@
     border: none;
 }
 
+.avail-rooms .room-button-container .link-button:hover{
+    transition: background-color 0.7s ease, transform 0.7s ease; 
+    background-color: rgba(128, 128, 128, 0.199);
+    color: rgb(204, 182, 57);
+}
+
+.avail-rooms .summary-container{
+    box-shadow: 0px 0px 5px 1px #2a4b60;
+    width: 40%;
+    height: 100%;
+    border-radius: 20px;
+    padding: 30px;
+    color: #2a4b60;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.avail-rooms .summary-container h4{
+    font-weight: 600;
+    font-size:30px;
+}
+
+.avail-rooms .summary-container .added-summary-rooms{
+    border-radius: 10px;
+    padding: 40px;
+    border: 1.5px solid rgb(204, 182, 57);
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out; /* Duration and timing function */
+}   
+
+.avail-rooms .summary-container .added-summary-rooms .roomtype-price-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h6{
+    margin: 0;
+    font-size: 30px;
+}
+
+.avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h4{
+    margin: 0;
+}
+
+.avail-rooms .summary-container .added-summary-rooms p{
+    margin: 0;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.avail-rooms .summary-container .added-summary-rooms .bottom-text-container{
+    margin-top: 40px;
+    width: 100%;
+    border-top: 2px solid rgb(204, 182, 57);
+    font-size: 30px;
+}
+
+.avail-rooms .summary-container .added-summary-rooms .bottom-text-container h5{ 
+    margin: 20px 0 0 0;
+}
+
+.avail-rooms .summary-container .added-summary-rooms button{ 
+    background-color: transparent;
+    text-decoration: underline;
+    font-size: 14px;
+    text-align: center;
+    color: red;
+    border: none;
+
+}
+
+.avail-rooms .summary-container .added-summary-rooms button:hover{ 
+    scale: 1.05;
+}
+
+.checkOut-rooms{
+    width: 100%;
+    font-size: 20px;    
+    color: rgb(204, 182, 57);
+    letter-spacing: 2px;
+    border: none;
+    transition: background-color 0.7s ease, transform 0.7s ease;  /* Smooth transition */
+
+}
+
+.checkOut-rooms:hover{
+    transition: background-color 0.7s ease, transform 0.7s ease;  /* Smooth transition */
+    background-color: rgb(204, 182, 57);
+    color: white;
+}
 
 @media (max-width:1024px) {
 
