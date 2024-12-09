@@ -9,7 +9,7 @@
     }
 }
 
-.table-container {
+.parent-table-container {
     width: 80%;
     overflow-x: auto; 
     border: 1px solid #ddd; 
@@ -20,6 +20,12 @@
     height: 100%;
     position: relative;
     overflow-y: hidden;
+}
+
+.table-container{
+  width: 95%;
+  height: 80%;
+  overflow-y: auto;
 }
   
   table {
@@ -109,12 +115,5 @@
     background-color: #ccc;
     color: #888;
     cursor: not-allowed;
-}
-
-
-@media (max-width: 1440px) {
-    .table-container {
-        width:1050px;
-    }
 }
 

@@ -104,7 +104,7 @@ const ReservationHistory = () => {
         <>
 
         
-        <div class="table-container">
+        <div className="parent-table-container">
             <input
                 type="text"
                 placeholder="Search reservations..."
@@ -119,6 +119,7 @@ const ReservationHistory = () => {
                 }}
             />
 
+            <div className='table-container'>
             <table>
                 <thead>
                     <tr>
@@ -163,6 +164,7 @@ const ReservationHistory = () => {
                     }))}
                 </tbody>
             </table>
+            </div>
         </div>
         </>
        

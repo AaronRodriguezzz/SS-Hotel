@@ -150,7 +150,7 @@ const ReservationTable = ({name}) => {
         <>
   
 
-            <div class="table-container">
+            <div class="parent-table-container">
                 <input
                     type="text"
                     placeholder="Search reservations..."
@@ -165,6 +165,7 @@ const ReservationTable = ({name}) => {
                     }}
                 /> 
 
+                <div className="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -203,6 +204,8 @@ const ReservationTable = ({name}) => {
                         })):''}
                     </tbody>
                 </table>
+                </div>
+                
 
                 <form className='assigned-form' style={{display: showForm ? "flex":"none"}}>
                         <button style={{position: "absolute",
