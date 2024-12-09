@@ -29,7 +29,8 @@ const ProcessedReservation = () => {
 
     return(
         <>
-        <div class="table-container">
+        <div class="parent-table-container">
+            <div className="table-container">
             <table>
                 <thead>
                     <tr>
@@ -64,6 +65,8 @@ const ProcessedReservation = () => {
                     }))}
                 </tbody>
             </table>
+            </div>
+
         </div>
         </>
        

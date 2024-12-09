@@ -25,7 +25,7 @@ const createPaymentCheckout = async (req, res) => {
                       show_line_items: true,
                       cancel_url: `${url}/booknow`,
                       line_items,
-                      success_url: `${url}/api/reserve`,
+                      success_url: `${url}api/reserve`,
                       payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],
                       description: 'dasdsadsa'
                     }

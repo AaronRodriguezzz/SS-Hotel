@@ -10,12 +10,12 @@
     flex-direction: row;
     color: #d3b23a;
     justify-content: space-evenly;
-    width: 100%;
     background-color: none;
     align-items: center;
     position: fixed;
     z-index: 4;
     top: 0;
+    right: 0;
     left: 0;
     transition: transform 0.7s ease, background-color 0.7s ease;
 }
@@ -37,7 +37,7 @@
 
 .navigation .hotel-name h5{
     font-weight: 100;
-    font-size: 22px;
+    font-size: 15px;
     color: #d3b23a;
     letter-spacing: 5px;
 }
@@ -94,7 +94,7 @@
     }
     
     .navigation .hotel-name h2{
-        font-size: 35px;
+        font-size: 20px;
         letter-spacing: 5px;
     }
     
