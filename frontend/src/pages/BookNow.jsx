@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
 import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
+import { formatDate } from '../utils/dateUtils';
 
 const BookNowPage = () => {
-    const storageRoom = JSON.parse(sessionStorage.getItem("cart"));
+    const storageRoom = JSON.parse(sessionStorage.getItem("cart")) || [];
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [minCheckOut, setMinCheckOut] = useState('');
@@ -12,7 +13,6 @@ const BookNowPage = () => {
     const [bookedRoom,setBookedRoom]= useState([]);
     const [daysGap , setDaysGap] = useState(0);
     const [totalPayment, setTotalPayment] = useState(0);
-    const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
 
 
@@ -47,8 +47,8 @@ const BookNowPage = () => {
     useEffect(() => {
         const initializeRoom = () => {
             setBookedRoom(storageRoom || []);
-            setCheckInDate(storageRoom[0].checkInDate);
-            setCheckOutDate(storageRoom[0].checkOutDate);
+            setCheckInDate(storageRoom[0]?.checkInDate);
+            setCheckOutDate(storageRoom[0]?.checkOutDate);
 
             let tempTotal = 0;
             storageRoom.map(room => {
@@ -102,10 +102,11 @@ const BookNowPage = () => {
                         type='date' 
                         name='checkIn'
                         value={checkInDate} 
-                        min={today}
+                        min={formatDate(new Date())}
                         required 
                         onChange={(e) => {
                             setCheckInDate(e.target.value)
+                            setCheckOutDate('');
                             const checkIn = new Date(e.target.value);
                             checkIn.setDate(checkIn.getDate() + 1);
                             setMinCheckOut(checkIn.toISOString().split('T')[0]);                    
@@ -130,7 +131,8 @@ const BookNowPage = () => {
 
             <div className='avail-rooms'>
                 <div className="room-choice">
-                    {roomsAvailable.length === 0 ? (
+                   {
+                    checkInDate && checkOutDate && roomsAvailable.length === 0 ? (
                         <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
                     ) : (
                             roomsAvailable.map(room => (
@@ -150,11 +152,12 @@ const BookNowPage = () => {
                                     </div>
                                 </div>
                             ))  
-                    )}
+                    )
+                   }
                 </div>
                 
 
-                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' || storageRoom? 'block':'none'}}>
+                {(roomsAvailable.length > 0 || bookedRoom.length) > 0 &&  <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' || storageRoom? 'block':'none'}}>
                     <h4>Your Cart: {bookedRoom.length} items</h4>
 
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
@@ -180,12 +183,9 @@ const BookNowPage = () => {
                     <h4>Total ₱{totalPayment}.00</h4>    
                     <button className='checkOut-rooms' onClick={handleCheckout}>CHECK OUT</button>
 
-                </div>  
+                </div>}
             </div>
 
-
-
-            
         </>
     )
 }
