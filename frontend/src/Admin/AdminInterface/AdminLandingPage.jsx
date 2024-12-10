@@ -20,7 +20,7 @@ const AdminPage = () => {
     useEffect(() => {
         const checkSecurity = async () => { 
             try{
-                const response = await fetch(`/api/check-clearance/${employeeEmail}`);
+                const response = await fetch(`/api/check-clearance`);
                 
                 if(response.ok){
                     const data = await response.json();

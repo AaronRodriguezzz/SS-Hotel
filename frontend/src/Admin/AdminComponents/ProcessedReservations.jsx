@@ -1,4 +1,5 @@
 import { useEffect,useState,} from 'react';
+import { formatDateToWeekday } from '../../utils/dateUtils';
 
 
 const ProcessedReservation = () => {
@@ -51,8 +52,8 @@ const ProcessedReservation = () => {
                             <tr key={roomNum.roomNumber}>
                                 <td>{roomNum.roomNumber}</td>
                                 <td>{roomNum.roomType}</td>
-                                <td>{roomNum.checkInDate}</td>
-                                <td>{roomNum.checkOutDate}</td>
+                                <td>{roomNum.checkInDate ? formatDateToWeekday(new Date(roomNum.checkInDate)) : ''}</td>
+                                <td>{roomNum.checkOutDate ? formatDateToWeekday(new Date(roomNum.checkOutDate)) : ''}</td>
                                 <td>{roomNum.clientName}</td>
                                 <td>{roomNum.contactNumber}</td>
                                 <td>{roomNum.status}</td>

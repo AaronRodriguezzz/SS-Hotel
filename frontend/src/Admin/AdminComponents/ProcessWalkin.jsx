@@ -1,26 +1,18 @@
 import { useState, useEffect} from 'react';
 import './ProcessWalkin.css';
+import { formatDate } from '../../utils/dateUtils';
 
 const ProcessWalkIn = () => {
-
-    const today = new Date().toISOString().split('T')[0];
-    const [checkInDate, setCheckInDate] = useState([]);
-    const [checkOutDate, setCheckOutDate] = useState([]);
-    const [minCheckOut, setMinCheckOut] = useState('');
-
     const [numberOfRooms, setNumberOfRooms] = useState(2);
     const [rooms, setRooms] = useState([]);
     const [roomNum, setRoomNum] = useState([]);
-
-
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
     // value of select elemet 
-    const [selectedRoomType, setSelectedRoomType] = useState([]);
-    const [selectRoomNum, setSelectedRoomNum] = useState([]);
-    const [selectedGuestCount, setSelectedGuestCount] = useState([]);
+
+    const [selectedRooms, setSelectedRooms] = useState([]);
 
     const proceed_payment = () => {
 
@@ -30,53 +22,62 @@ const ProcessWalkIn = () => {
         setNumberOfRooms(numberOfRooms + num);
     }
 
-    const handleChangeRoom = async (room,index) => {
-
-        setSelectedRoomType(prev => {
-            const updatedRoom = [...selectedRoomType];
-            updatedRoom[index] = room.roomType
-            return updatedRoom;
-        })
-
+    const handleSearch = async (index) => {
         try{
-            const dataToSend = { checkInDate, checkOutDate };
-            const response = await fetch('/api/availabilitySearch', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataToSend),
-            });
-
-            if(response.ok){
-                const data = await response.json();
-                
+            const { checkInDate, checkOutDate } = selectedRooms[index];
+            if(checkInDate < checkOutDate){
+                const response = await fetch('/api/availabilitySearch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ checkInDate, checkOutDate }),
+                });
+    
+                if(response.ok){
+                    const data = await response.json();
+                    return data.roomAvailable
+                }
             }
 
         }catch(err){
             console.log('fetch available walkin' , err);
         }
-    } 
+    }
     
-    const handleChange_CheckIn = () => {
-        
+
+    const handleChangeDetails = async (index, value, type) => {
+        setSelectedRooms(await Promise.all(selectedRooms.map(async (room, i) => {
+            if(index === i){
+                if(type === 'checkInDate' || type === 'checkOutDate'){
+                    room.roomType = '';
+                    room.roomNum = '';
+                }
+                room[type] = value;
+                room.availableRooms = await handleSearch(index);
+
+                return room
+            }else{
+                return room
+            }
+        })));
     }
 
-
     useEffect(() => {
-        const initializeArray = () => {
-            const newArray = Array.from({ length: numberOfRooms }, (_, i) => i);
-            setSelectedRoomType(newArray);
-            setSelectedGuestCount(newArray);
-            setCheckInDate(newArray);
-            setCheckOutDate(newArray);
-            setSelectedRoomNum(newArray);
+        const initializeSelectedRooms = () => {
+            setSelectedRooms( Array.from({ length: numberOfRooms }, (_, i) => ({
+                roomType: selectedRooms[i]?.roomType || '',
+                roomNum: selectedRooms[i]?.roomNum || '',
+                guestCount: selectedRooms[i]?.guestCount || '',
+                checkInDate: selectedRooms[i]?.checkInDate || '',
+                checkOutDate: selectedRooms[i]?.checkOutDate || '',
+                minCheckOut: selectedRooms[i]?.minCheckOut || '',
+                availableRooms: selectedRooms[i]?.availableRooms || [],
+            })))
         };
-    
-        initializeArray();
+        initializeSelectedRooms();
     }, [numberOfRooms]);
     
-
     useEffect(() => {
         const fetchRooms = async () => {    
             try{
@@ -116,40 +117,45 @@ const ProcessWalkIn = () => {
     return(
         <div className="process-walkIn-page">
             <div className="room-container">
-
                 {rooms.length > 0 && Array.from({ length: numberOfRooms }, (_, i) => {
-                        
+
                     return (
                         <div className='room-div' key={i}>
+                            <h2>Room #{i + 1}</h2>
                             <div className="date-container">
                                 <div className="date-each-container">
                                     <label htmlFor="checkIn">Check-In Date</label>
                                     <input 
                                         type='date' 
                                         name='checkIn'
-                                        value={checkInDate} 
-                                        min={today}
+                                        value={selectedRooms[i]?.checkInDate} 
+                                        min={formatDate(new Date())}
                                         required 
-                                        onChange={(e) => {
-                                            setCheckInDate(e.target.value)
-                                            const checkIn = new Date(e.target.value);
-                                            checkIn.setDate(checkIn.getDate() + 1);
-                                            setMinCheckOut(checkIn.toISOString().split('T')[0]);                    
-                                        }}
-                                    
+                                        onChange={(e) => handleChangeDetails(i, e.target.value, 'checkInDate')}
                                     />
                                 </div>
                                 
                                 <div className="date-each-container">
                                     <label htmlFor="checkOut">Check-Out Date</label>
                                     <input 
-                                        type='date' 
-                                        name='checkOut'
-                                        value={checkOutDate} 
-                                        onChange={(e) => setCheckOutDate(e.target.value)}  
-                                        min={minCheckOut}
+                                        type="date"
+                                        name="checkOut"
+                                        value={selectedRooms[i]?.checkOutDate} 
+                                        onChange={(e) => handleChangeDetails(i, e.target.value, 'checkOutDate')}  
+                                        min={(() => {
+                                            const checkInDate = selectedRooms[i]?.checkInDate;
+                                            if (checkInDate) {
+                                            // Add 1 day to checkInDate
+                                            const minDate = new Date(checkInDate);
+                                            minDate.setDate(minDate.getDate() + 1); // Set to the next day
+                                            return minDate.toISOString().split('T')[0];  // Format as YYYY-MM-DD
+                                            }
+                                            // If no checkInDate, set today's date as minimum
+                                            return formatDate(new Date()); // Today's date in YYYY-MM-DD
+                                        })()}
                                         required 
-                                    />
+                                        />
+
                                 </div>
                                 
                             </div>
@@ -157,10 +163,10 @@ const ProcessWalkIn = () => {
                             <div className="room-input-info">
                                 <div className="room-input-info-each">
                                     <label htmlFor="room-type">Room Type</label>
-                                    <select name="room-type" id="room-type" onChange={(e) => handleChangeRoom(JSON.parse(e.target.value), i)}>
-                                        <option value={''} selected disabled>Select Room Type</option>
-                                        {rooms && rooms.map(room => 
-                                            <option value={JSON.stringify(room)}>{room.roomType}</option>
+                                    <select name="room-type" id="room-type" value={selectedRooms[i]?.roomType} onChange={(e) => handleChangeDetails(i, e.target.value, 'roomType')}>
+                                        <option value={''} disabled>Select Room Type</option>
+                                        {selectedRooms[i]?.availableRooms && selectedRooms[i]?.availableRooms.map(room => 
+                                            <option value={room.roomType}>{room.roomType}</option>
                                         )}
                                     </select>
                                 </div>
@@ -168,9 +174,9 @@ const ProcessWalkIn = () => {
 
                                 <div className="room-input-info-each">
                                     <label htmlFor="room-type">Room Type</label>
-                                    <select name="room-type" id="room-type" onChange={(e) => handleChangeRoom(e.target.value, i)}>
-                                        <option value={''} selected disabled>Select Room Number</option>
-                                        {roomNum && roomNum.filter(room => room.roomType === selectedRoomType[i]).map(room => (
+                                    <select name="room-type" id="room-type" value={selectedRooms[i]?.roomNum} onChange={(e) => handleChangeDetails(i,  e.target.value, 'roomNum')}>
+                                        <option value={''} disabled>Select Room Number</option>
+                                        {roomNum && roomNum.filter(room => room.roomType === selectedRooms[i]?.roomType).map(room => (
                                             <option key={room.roomNumber} value={room.roomNumber}>
                                                 {room.roomNumber}
                                             </option>
@@ -181,7 +187,7 @@ const ProcessWalkIn = () => {
                             
 
                             <label htmlFor="guest-quantity">Room {i + 1} Guest Count</label>
-                            <select name="guest-quantity" id="room-type">
+                            <select name="guest-quantity" id="room-type" value={selectedRooms[i]?.guestCount} onChange={(e) => handleChangeDetails(i, e.target.value, 'guestCount')}>
                                 {rooms && rooms.map(room => 
                                     <option value={room.roomLimit}>{room.roomLimit}</option>
                                 )}
