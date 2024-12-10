@@ -4,7 +4,7 @@ import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 
 const BookNowPage = () => {
-    const storageRoom = JSON.parse(sessionStorage.getItem("cart"));
+    const storageRoom = JSON.parse(sessionStorage.getItem("cart") || "[]");
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [minCheckOut, setMinCheckOut] = useState('');
@@ -28,7 +28,7 @@ const BookNowPage = () => {
             return [...prev, addedRoom];
         });
     };
-
+ 
     const handleRemoveRoom = (index, amountToDeduct) => {
         const updatedRooms = bookedRoom.filter((room, idx) => idx !== index);
         setTotalPayment(totalPayment - amountToDeduct);
@@ -45,20 +45,23 @@ const BookNowPage = () => {
     }
 
     useEffect(() => {
-        const initializeRoom = () => {
-            setBookedRoom(storageRoom || []);
-            setCheckInDate(storageRoom[0].checkInDate);
-            setCheckOutDate(storageRoom[0].checkOutDate);
+        if(storageRoom.length > 0){
+            const initializeRoom = () => {
+                setBookedRoom(storageRoom || []);
+                setCheckInDate(storageRoom[0].checkInDate);
+                setCheckOutDate(storageRoom[0].checkOutDate);
+    
+                let tempTotal = 0;
+                storageRoom.map(room => {
+                    return (tempTotal += (room.price * room.daysGap))
+                })
+    
+                setTotalPayment(tempTotal);
+            }
 
-            let tempTotal = 0;
-            storageRoom.map(room => {
-                return (tempTotal += (room.price * room.daysGap))
-            })
-
-            setTotalPayment(tempTotal);
+            initializeRoom();
         }
 
-        initializeRoom();
     },[])
 
     useEffect(() => {
@@ -154,7 +157,7 @@ const BookNowPage = () => {
                 </div>
                 
 
-                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' || storageRoom? 'block':'none'}}>
+                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>
                     <h4>Your Cart: {bookedRoom.length} items</h4>
 
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
