@@ -188,9 +188,9 @@ const ProcessWalkIn = () => {
 
                             <label htmlFor="guest-quantity">Room {i + 1} Guest Count</label>
                             <select name="guest-quantity" id="room-type" value={selectedRooms[i]?.guestCount} onChange={(e) => handleChangeDetails(i, e.target.value, 'guestCount')}>
-                                {rooms && rooms.map(room => 
-                                    <option value={room.roomLimit}>{room.roomLimit}</option>
-                                )}
+                                {rooms && [...new Set(rooms.map(room => room.roomLimit))].map(roomLimit => 
+                                        <option value={roomLimit}>{roomLimit}</option>
+                                    )}
                             </select>
                         </div>      
                     )
