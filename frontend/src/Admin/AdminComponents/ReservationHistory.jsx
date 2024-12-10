@@ -72,6 +72,7 @@ const ReservationHistory = () => {
                         <th>Check-In Date</th>
                         <th>Check-Out Date</th>
                         <th>Guest Name</th>
+                        <th>Email</th>
                         <th>Contact Number</th>
                         <th>Total Rooms</th>
                         <th>Total Guests</th>
@@ -91,11 +92,12 @@ const ReservationHistory = () => {
                                 <td>{formatDateToWeekday(new Date(history.checkInDate))}</td>
                                 <td>{formatDateToWeekday(new Date(history.checkOutDate))}</td>
                                 <td>{history.guestName}</td>
-                                <td>{history.guestContact}</td>
                                 <td>{history.guestEmail}</td>
+                                <td>{history.guestContact}</td>
                                 <td>{history.totalRooms}</td>
                                 <td>{history.totalGuests}</td>
                                 <td>{history.totalPrice}</td>
+                                <td>{history.roomAssigned}</td>
                                 <td>{history.remarks}</td>
                                 <td>{history.updatedAt}</td>
                                 <td>

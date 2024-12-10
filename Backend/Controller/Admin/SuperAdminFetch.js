@@ -5,7 +5,7 @@ const AdminAccts = require('../../Models/AdminSchemas/AdminSchema');
 
 const fetchHistory = async (req,res) => {
     
-    const history = await History.find();
+    const history = await History.find().sort({updatedAt: -1});
     
     if(!history){
        return res.status(404).json({message:"Empty Room"});

@@ -173,10 +173,17 @@ const ProcessWalkIn = () => {
                                 
 
                                 <div className="room-input-info-each">
-                                    <label htmlFor="room-type">Room Type</label>
+                                    <label htmlFor="room-type">Room Number</label>
                                     <select name="room-type" id="room-type" value={selectedRooms[i]?.roomNum} onChange={(e) => handleChangeDetails(i,  e.target.value, 'roomNum')}>
                                         <option value={''} disabled>Select Room Number</option>
-                                        {roomNum && roomNum.filter(room => room.roomType === selectedRooms[i]?.roomType).map(room => (
+                                        {roomNum && roomNum.filter(room => {
+                                            const isValid = selectedRooms.find((selectedRoom, index) => {
+                                                return selectedRoom.roomType === room.roomType && 
+                                                index !== i  && selectedRoom.checkOutDate >= selectedRooms[i].checkInDate && 
+                                                selectedRoom.roomNum == room.roomNumber
+                                            })
+                                            return isValid ? false : room.roomType === selectedRooms[i]?.roomType
+                                        }).map(room => (
                                             <option key={room.roomNumber} value={room.roomNumber}>
                                                 {room.roomNumber}
                                             </option>

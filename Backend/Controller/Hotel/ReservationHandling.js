@@ -54,7 +54,6 @@ const NewReservation = async (req,res) => {
         daysGap, roomCount,
         guestNumber}  = checkoutData;
 
-    console.log('1');
     const checkIn = new Date(checkInDate);  
     const checkOut = new Date(checkOutDate);
 
