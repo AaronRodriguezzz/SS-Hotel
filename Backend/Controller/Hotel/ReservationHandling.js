@@ -24,11 +24,9 @@ const AvailableRoomSearch = async (req, res) => {
         for (let i = 0; i < roomAvailable.length; i++) {
             // Loop through rooms and update roomLimit
             for (let j = 0; j < rooms.length; j++) {
-                console.log('room reserved' , roomAvailable[i]);
                 if (roomAvailable[i].roomType === rooms[j].roomType) {
                     rooms[j].roomLimit += roomAvailable[i].totalRooms;
                 }
-                console.log('room reserved' , rooms[j]);
             }
         }
 

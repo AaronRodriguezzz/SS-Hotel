@@ -1,5 +1,6 @@
 import { useEffect,useState,useRef} from 'react';
 import './ReservationTable.css'
+import { formatDateToWeekday } from '../../utils/dateUtils';
 
 
 const ReservationTable = ({name}) => {
@@ -186,8 +187,8 @@ const ReservationTable = ({name}) => {
                             return(
                                 <tr key={reservation._id}>
                                     <td>{reservation.roomType}</td>
-                                    <td>{reservation.checkInDate}</td>
-                                    <td>{reservation.checkOutDate}</td>
+                                    <td>{formatDateToWeekday(new Date(reservation.checkInDate))}</td>
+                                    <td>{formatDateToWeekday(new Date(reservation.checkOutDate))}</td>
                                     <td>{reservation.guestName}</td>
                                     <td>{reservation.guestContact}</td>
                                     <td>{reservation.guestEmail}</td>
