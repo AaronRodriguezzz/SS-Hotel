@@ -1,4 +1,5 @@
 import { useEffect,useState,} from 'react';
+import { formatDateToWeekday } from '../../utils/dateUtils';
 
 
 const ReservationHistory = () => {
@@ -47,10 +48,8 @@ const ReservationHistory = () => {
 
 
     return(
-        <>
-
-        
-        <div class="table-container">
+        <div className='parent-table-container'>
+        <div className="table-container">
             <input
                 type="text"
                 placeholder="Search reservations..."
@@ -89,8 +88,8 @@ const ReservationHistory = () => {
                             <tr key={history.updatedBy}>
                                 <td>{history.updatedBy}</td>
                                 <td>{history.roomType}</td>
-                                <td>{history.checkInDate}</td>
-                                <td>{history.checkOutDate}</td>
+                                <td>{formatDateToWeekday(new Date(history.checkInDate))}</td>
+                                <td>{formatDateToWeekday(new Date(history.checkOutDate))}</td>
                                 <td>{history.guestName}</td>
                                 <td>{history.guestContact}</td>
                                 <td>{history.guestEmail}</td>
@@ -108,8 +107,7 @@ const ReservationHistory = () => {
                 </tbody>
             </table>
         </div>
-        </>
-       
+        </div>
     )
 }
 
