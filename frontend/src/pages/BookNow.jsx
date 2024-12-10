@@ -4,12 +4,12 @@ import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 
 const BookNowPage = () => {
+    const storageRoom = JSON.parse(sessionStorage.getItem("cart"));
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [minCheckOut, setMinCheckOut] = useState('');
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [bookedRoom,setBookedRoom]= useState([]);
-    const [multipleSelected, setMultiple] = useState(0);
     const [daysGap , setDaysGap] = useState(0);
     const [totalPayment, setTotalPayment] = useState(0);
     const today = new Date().toISOString().split('T')[0];
@@ -21,45 +21,45 @@ const BookNowPage = () => {
         addedRoom.daysGap = daysGap;
         addedRoom.checkInDate = checkInDate;  
         addedRoom.checkOutDate = checkOutDate; 
-
+        
+        console.log(addedRoom); 
         setTotalPayment(totalPayment + (addedRoom.price * addedRoom.daysGap));
         setBookedRoom(prev => {
             return [...prev, addedRoom];
         });
-
-        console.log(bookedRoom);
-
     };
 
-    const handleRemoveRoom = (index) => {
+    const handleRemoveRoom = (index, amountToDeduct) => {
         const updatedRooms = bookedRoom.filter((room, idx) => idx !== index);
-        console.log(updatedRooms);
+        setTotalPayment(totalPayment - amountToDeduct);
         setBookedRoom(updatedRooms);
     }
 
-
-    useEffect(() => {
-        const handleTotalChange = () => {
-            const total = bookedRoom.map((room) => {
-                let totalPayment = 0; 
-                return totalPayment += room.price * room.daysGap;
-
-            })
-
-            console.log(total);
-            setTotalPayment(totalPayment )
-        }
-    },[bookedRoom])
-
-   /* useEffect(() => {
-        if (selectedRooms.length > 0 || bookedRoom.length > 0) {
-            // Delay navigation until selectedRooms is not empty
+    const handleCheckout = () => {
+        if(bookedRoom.length > 0){
+            sessionStorage.setItem("cart", JSON.stringify(bookedRoom));
             navigate('/booking/confirmation', {
-                state: { selectedRooms,bookedRoom, daysGap,checkInDate,checkOutDate },
+                state: { bookedRoom },
             });
         }
+    }
 
-    }, [selectedRooms,bookedRoom, navigate, daysGap]);*/
+    useEffect(() => {
+        const initializeRoom = () => {
+            setBookedRoom(storageRoom || []);
+            setCheckInDate(storageRoom[0].checkInDate);
+            setCheckOutDate(storageRoom[0].checkOutDate);
+
+            let tempTotal = 0;
+            storageRoom.map(room => {
+                return (tempTotal += (room.price * room.daysGap))
+            })
+
+            setTotalPayment(tempTotal);
+        }
+
+        initializeRoom();
+    },[])
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -82,6 +82,7 @@ const BookNowPage = () => {
                     } else {
                         console.error('Failed to fetch room availability');
                     }
+
                 } catch (err) {
                     console.error('Error fetching rooms:', err);
                 }
@@ -153,17 +154,17 @@ const BookNowPage = () => {
                 </div>
                 
 
-                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>
-                     <h4>Your Cart: {bookedRoom.length} items</h4>
+                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' || storageRoom? 'block':'none'}}>
+                    <h4>Your Cart: {bookedRoom.length} items</h4>
 
-                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
+                    {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
                         return(
                             <div className="added-summary-rooms">
                                 <div className="roomtype-price-container">
                                     <h6>{room.roomType}</h6>
-                                    <h4>₱{room.price}.00</h4>
+                                    <h4>₱{room.price * room.daysGap}.00</h4>
                                 </div>
-                                <p>{daysGap} Nights Stay</p>
+                                <p>{room.daysGap} Nights Stay</p>
 
 
                                 <div className="bottom-text-container">
@@ -171,14 +172,13 @@ const BookNowPage = () => {
                                     <p>Including taxes and fees</p>
                                 </div>
                                 
-                                <button onClick={() => handleRemoveRoom(index)}>Remove</button>
+                                <button onClick={() => handleRemoveRoom(index,room.price * room.daysGap)}>Remove</button>
                             </div>
                         )
                      })}
-
                     
                     <h4>Total ₱{totalPayment}.00</h4>    
-                    <button className='checkOut-rooms'>CHECK OUT</button>
+                    <button className='checkOut-rooms' onClick={handleCheckout}>CHECK OUT</button>
 
                 </div>  
             </div>

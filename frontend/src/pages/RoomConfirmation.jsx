@@ -7,27 +7,19 @@ import Footer from '../Components/Footer';
 
 const RoomConfirmation = () => {
     const location = useLocation();
-    const { selectedRooms = [] ,bookedRoom = [], daysGap,checkInDate,checkOutDate } = location.state || {};
+    const {bookedRoom = []} = location.state;
     const [rooms, setRooms] = useState([]);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [guestNumber, setGuestNumber] = useState();
-    const [roomCount, setRoomCount] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(selectedRooms || bookedRoom){
-            setRooms(selectedRooms.length > 0 ? selectedRooms : bookedRoom);
+        if(bookedRoom){
+            setRooms(bookedRoom);
+            console.log(bookedRoom);
         }
     }, [])
-
-    useEffect(() => {
-        if(rooms){
-            setRoomCount(rooms.map(() => 1))
-            setGuestNumber(rooms.map(room => room.maximumGuest))
-        }
-    }, [rooms])
 
     const handleFinishedClicked = async (e) => {
             e.preventDefault();
@@ -40,8 +32,6 @@ const RoomConfirmation = () => {
                 email: email,
                 phoneNumber: phoneNumber,
                 daysGap: daysGap,
-                roomCount: roomCount,
-                guestNumber: guestNumber
             }  
 
 
@@ -50,27 +40,9 @@ const RoomConfirmation = () => {
             }
     }
 
-    const handleGuestNumber = (index, value) => {
-        setGuestNumber(prevState => {
-
-            const guestCount = [...prevState];
-            guestCount[index] = value;
-            return guestCount;
-
-        })
+    const addMoreRoomClicked = () => { 
+        navigate('/booknow');
     }
-
-    const handleRoomCount = (index, value) => {
-        setRoomCount(prevState => {
-            const roomCount = [...prevState];
-            roomCount[index] = value;
-            return roomCount;
-        })
-    }
-
-    useEffect(() => {
-        console.log('room count' , roomCount);
-    },[roomCount])
 
     if (!rooms) {
         return <Navigate to="/booknow" />;
@@ -120,54 +92,30 @@ const RoomConfirmation = () => {
                 <h2>Selected Room/s</h2>
 
                 {rooms && rooms.map((room,index) => {
-                    console.log(room);
                     return(
                         <div className="reserved-rooms" key={room._id}>
-                            <h4>{room.roomType}</h4>
-                            <h6>₱ {((room.price * daysGap) * roomCount[index]) + ((guestNumber[index] - room.maximumGuest) * 1200)}</h6>
-
-                            <div className='guest-div'>
-                                <input  
-                                    type="number" 
-                                    name='guest-number'
-                                    placeholder= {room.maximumGuest}
-                                    value={guestNumber[index]}
-                                    onChange={(e) => handleGuestNumber(index, e.target.value)}
-                                    min={room.maximumGuest}
-                                    max={room.maximumGuest + 3}
-                                    required
-                                />
-                                <div className="guestSec-text">
-                                    <label htmlFor="guest-number">GUESTS</label>
-                                    <p>₱ 1200 on every guest added</p>
-                                </div>
+                            <div className="roomType-roomPrice" style={{display:"flex", flexDirection:"row"}}>
+                                <h4>{room.roomType}</h4>
+                                <h6>₱{room.price * room.daysGap}.00 for {room.daysGap} nights </h6>
                             </div>
                             
+                            <p>Duration: {room.checkInDate} - {room.checkOutDate}</p>
+                            <p>{room.maximumGuest} maximum guest</p>
 
-                            <div className='room-quantity'>
-                                <input  
-                                    type="number" 
-                                    name='room-to-available'
-                                    placeholder='1'
-                                    onChange={(e) => handleRoomCount(index, e.target.value) }
-                                    value={roomCount[index]}
-                                    min={1}
-                                    max={room.roomLimit}  //change this base on the limit of the room
-                                    required
-                                />
-                                <label htmlFor="room-to-available">x Rooms</label>
-                            </div>
                         </div>
                     )
-                    
                 })}
 
                 
                 <div className="reservation-buttons">
-                    <Link to='/'>
-                        <button type='cancel' className='cancel'>CANCEL</button>
+                    <Link to='/booknow'>
+                        <button type='button'>ADD MORE ROOMS</button>
                     </Link>
-                    <button type='submit' className='finish'>FINISH</button>
+
+                    <Link to='/'>
+                        <button type='button' className='cancel'>CANCEL</button>
+                    </Link>
+                    <button className='finish'>FINISH</button>
                 </div>
             </form>
         </div>

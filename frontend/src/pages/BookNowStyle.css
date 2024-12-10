@@ -12,7 +12,7 @@
 .bookNow-search-section{
     background: linear-gradient(to bottom, #2a4b60 50%, #2a4b6096);
     height:550px;
-    width: 100vw;
+    width: 100%;
     display: flex;
     align-items: end;
     justify-content: center;
@@ -80,8 +80,9 @@
 .avail-rooms{
     display: flex;
     flex-direction: row;
-    margin: 80px 40px 30px 40px;
-    padding: 50px;
+    margin: 80px 0px 30px 0px;
+    padding: 20px;
+    gap: 10px;
 }
 
 .avail-rooms > h1{ 
@@ -94,14 +95,21 @@
     margin-bottom: 70px;
 }
 
+.avail-rooms .room-choice{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    padding: 30px;
+    padding-top: 0px;
+}
 
-
-.avail-rooms .room{
+.avail-rooms .room-choice .room{
     display: flex;
     flex-direction: row;
     align-items: center;
     border-bottom: 3px #2a4b60 dotted;
-    width: 90%;
+    width: 100%;
     background: linear-gradient(to bottom, #2a4b60 0%, #2a4b6096);
     padding: 30px;
     gap: 20px;
@@ -179,6 +187,7 @@
     background-color: rgb(204, 182, 57);
     color: WHITE;
     border: none;
+    outline: none;
 }
 
 .avail-rooms .room-button-container .link-button:hover{
@@ -188,9 +197,9 @@
 }
 
 .avail-rooms .summary-container{
+    height: 100%; /* Adjust as needed */
     box-shadow: 0px 0px 5px 1px #2a4b60;
-    width: 40%;
-    height: 100%;
+    width: 35%;
     border-radius: 20px;
     padding: 30px;
     color: #2a4b60;
@@ -215,15 +224,20 @@
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
+    gap: 20px;
 }
 
 .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h6{
     margin: 0;
     font-size: 30px;
+    text-align: start;
+
 }
 
 .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h4{
     margin: 0;
+    text-align: start;
+
 }
 
 .avail-rooms .summary-container .added-summary-rooms p{
@@ -264,7 +278,6 @@
     letter-spacing: 2px;
     border: none;
     transition: background-color 0.7s ease, transform 0.7s ease;  /* Smooth transition */
-
 }
 
 .checkOut-rooms:hover{
@@ -273,92 +286,173 @@
     color: white;
 }
 
-@media (max-width:1024px) {
-
-    .avail-rooms > h1{ 
-        margin-top: 6%;
+@media (max-width:1440px) {
+    .avail-rooms .summary-container{
+        box-shadow: 0px 0px 5px 1px #2a4b60;
+        width: 50%;
+        height: 100%;
+        border-radius: 20px;
+        padding: 30px;
+        color: #2a4b60;
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     }
     
-    .avail-rooms .seleect-all{ 
-        width:160px;
-        font-size: 13px;    
-    }
+  
     
-    .avail-rooms .room > input[type="checkbox"]{
-        width: 25px;
-        height: 25px;
-    }
-    
-    .avail-rooms .room img{
-        height: 600px;
-    }
-    
-    .avail-rooms .room .room-text h1{
-        font-size: 45px;
-    }
-    
-    .avail-rooms .room .room-text h4{
+    .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h6{
         font-size: 25px;
-        margin-top: 5px;
     }
     
-    .avail-rooms .room .room-text p{
-        font-size: 18px;
-        width: 90%;
+    .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h4{
+        font-size: 25px;
     }
     
-    .avail-rooms .room .room-text > .link-button button{
-        width: 200px;
-        height: 40px;
-        font-size: 17px;
+    .avail-rooms .summary-container .added-summary-rooms .bottom-text-container{
+        font-size: 23px;
     }
-    
     
 }
 
-@media (max-width:768px) {
- 
+@media (max-width:1024px) {
     
-    .search-section .form-group label{
-        font-size: 17px;
+    .avail-rooms .room-choice{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-bottom: 3px #2a4b60 dotted;
+        width: 70%;
+        background: linear-gradient(to bottom, #2a4b60 0%, #2a4b6096);
+        padding: 30px;
+        gap: 20px;
     }
     
-    .search-section .form-group input{
-        width: 150px;
-        font-size: 17px;
+    .avail-rooms .room-choice .room{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-bottom: 3px #2a4b60 dotted;
+        width: 100%;
+        background: linear-gradient(to bottom, #2a4b60 0%, #2a4b6096);
+        padding: 30px;
+        gap: 20px;
     }
     
-    .search-section button{
-        width: 190px;
-    }
-
     .avail-rooms .room img{
-        height: 500px;
+        width:90%;
+        height: 350px;
+        border-radius: 15px;
     }
-
+    
+    .avail-rooms .room .room-text{
+        justify-content: center;
+        width: 100%;
+    }
+    
     .avail-rooms .room .room-text h1{
-        font-size: 35px;
+        font-size: 30px;
     }
     
     .avail-rooms .room .room-text h4{
-        font-size: 20px;
-        margin-top: 5px;
+        font-size: 17px;
+        margin-bottom: 10px;
     }
     
     .avail-rooms .room .room-text p{
         font-size: 15px;
+        width: 80%;
+    }
+    
+    .avail-rooms .room-button-container{
+        display: flex;
+        height: 80px;
+        gap: 5px;
+    }
+    
+    .avail-rooms .summary-container{
+        width: 30%;
+        padding: 30px;
+    }
+    
+    .avail-rooms .summary-container h4{
+        font-size:25px;
+    }
+    
+    .avail-rooms .summary-container .added-summary-rooms{
+        padding: 20px;
+    }   
+    
+    .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h6{
+        font-size: 25px;
+    }
+    
+    .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h4{
+        font-size: 20px;
+    }
+    
+    .avail-rooms .summary-container .added-summary-rooms p{
+        font-size: 16px;
+    }
+    
+    .avail-rooms .summary-container .added-summary-rooms .bottom-text-container{
+        font-size: 20px;
+    }
+
+    .checkOut-rooms{
+        font-size: 17px;
+    }
+
+}
+
+@media (max-width:768px) {
+    
+    .avail-rooms .room img{
+        width:100%;
+        height: 320px;
+    }
+    
+    .avail-rooms .room .room-text h1{
+        font-size: 25px;
+    }
+    
+    .avail-rooms .room .room-text h4{
+        font-size: 15px;
+    }
+    
+    .avail-rooms .room .room-text p{
+        font-size: 14px;
     }
 
     
-    .avail-rooms .room{
-        padding-bottom: 10px;
+    .avail-rooms .summary-container h4{
+        font-size:22px;
+    }
+    
+
+    .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h6{
+        font-size: 20px;
+    }
+    
+    .avail-rooms .summary-container .added-summary-rooms .roomtype-price-container h4{
+        font-size: 18px;
+    }
+    
+    .avail-rooms .summary-container .added-summary-rooms p{
+        font-size: 14px;
+    }
+    
+    .avail-rooms .summary-container .added-summary-rooms .bottom-text-container{
+        font-size: 17px;
+    }
+
+    .checkOut-rooms{
+        font-size: 17px;
     }
 }
 
 
 @media (max-width:425px) {
 
-    .search-section{
+    .search-section{    
         align-items: center;
         justify-content: end;
         flex-direction: column;

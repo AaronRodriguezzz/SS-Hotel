@@ -36,6 +36,7 @@ const AvailableRoomSearch = async (req, res) => {
             return(room.roomLimit !== 0)
         })
 
+
         return res.status(200).json({ roomAvailable:filteredRooms , gap });
 
     } catch (err) {

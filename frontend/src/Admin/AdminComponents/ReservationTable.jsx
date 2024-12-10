@@ -96,7 +96,9 @@ const ReservationTable = ({name}) => {
     const handleRoomOnChange = (roomNum) => {
         selectedRooms.current.add(roomNum);
         console.log( selectedRooms.current);
-        if(selectedRooms.length === roomCountToAssign) {
+
+        console.log(selectedRooms , ':', roomCountToAssign)
+        if(selectedRooms.size === roomCountToAssign) {
             setDisable(true);
         }else{
             setDisable(false);
