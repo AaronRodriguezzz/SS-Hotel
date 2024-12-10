@@ -29,7 +29,7 @@ const adminLogin = async (req,res) => {
         const token = jwt.sign(
             { email: admin.email }, 
             process.env.JWT_SECRET, 
-            { expiresIn: '2h' } 
+            { expiresIn: '1d' } 
         );
 
         res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'lax' }); 
@@ -82,16 +82,21 @@ const deleteToken = (req, res) => {
 
 
 const check_clearance = async (req,res) => {
-    const {employeeEmail} = req.params
     try{
-        const admin = await Admin.findOne({email: employeeEmail})
+        const token  = req.cookies.jwt;
+
+        if(!token){
+            return res.status(401).json({ message: 'No token found'});
+        }
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const admin = await Admin.findOne({email: decodedToken.email});
 
         if(!admin){
-            res.status(404).json({message: 'Empty admin'});
+            res.status(404).json({message: 'Admin not found'});
         }
 
         const fullName = admin.firstName + admin.lastName;
-
+        console.log(admin.role)
         return res.status(200).json({clearance: admin.role, name:fullName })
     }catch(err){    
         console.log(err);
