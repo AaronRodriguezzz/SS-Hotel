@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Navigate, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Components/NavBar';
 import Footer from '../Components/Footer';
-
+import FloatingButton from '../Components/ChatBot';
 
 const RoomConfirmation = () => {
     const location = useLocation();
-    const {bookedRoom = []} = location.state;
+    const { bookedRoom } = location.state || [];
     const [rooms, setRooms] = useState([]);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -15,28 +15,15 @@ const RoomConfirmation = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(bookedRoom)
         if(bookedRoom){
             setRooms(bookedRoom);
-            console.log(bookedRoom);
         }
     }, [])
 
     const handleFinishedClicked = async (e) => {
-            e.preventDefault();
-
-            const dataToSend = {
-                checkInDate: checkInDate,
-                checkOutDate: checkOutDate,
-                selectedRooms:  rooms,
-                fullName: fullName,
-                email: email,
-                phoneNumber: phoneNumber,
-                daysGap: daysGap,
-            }  
-
-
             if(dataToSend){
-                navigate('/email_verification', { state: dataToSend})                   
+                navigate('/email_verification', { state: bookedRoom})                   
             }
     }
 
@@ -51,6 +38,8 @@ const RoomConfirmation = () => {
     return(
         <>
         <Navbar/>
+        <FloatingButton/>
+
         <div className="main-page">
             <form onSubmit={handleFinishedClicked}>
                 <h1>Booking Confirmation</h1>

@@ -33,17 +33,17 @@ const chat_bot = async (req,res) => {
               Address: Barangay Maribago, Lapu-Lapu City, Cebu  
               6015, Philippines  
 
-              📞 **Contact Numbers:**  
-              - Landline: +63 (2) 8765-4321  
-              - Mobile: +63 917-123-4567  
+              \nContact Numbers:
+              \n- Landline: +63 (2) 8765-4321  
+              \n- Mobile: +63 917-123-4567  
 
-              \n\n✉️ **Email:**  
-              Silverstonehotel@gmail.com.ph  
+              \nEmail: 
+              \nSilverstonehotel@gmail.com.ph  
 
-              📱 **Social Media:**  
-              - **Facebook:** [facebook.com/SilverStoneHotelPH](https://facebook.com/SilverStoneHotelPH)  
-              - **Instagram:** [instagram.com/SilverStoneHotelPH](https://instagram.com/SilverStoneHotelPH)  
-              - **Twitter:** [twitter.com/SilverStonePH](https://twitter.com/SilverStonePH)
+              \nSocial Media:
+              \n- Facebook: [facebook.com/SilverStoneHotelPH](https://facebook.com/SilverStoneHotelPH)  
+              \n- Instagram: [instagram.com/SilverStoneHotelPH](https://instagram.com/SilverStoneHotelPH)  
+              \n- Twitter: [twitter.com/SilverStonePH](https://twitter.com/SilverStonePH)
         2.**Check-in and Check-out:**  
           - Check-in time: **2:00 PM**  
           - Check-out time: **12:00 PM**  
@@ -83,7 +83,7 @@ const chat_bot = async (req,res) => {
         20. if they give you a certain date, 
         just find the here:
         ${reservations.map(room => {
-          return`Room Type: ${room.roomType} \n Check-in Date: ${room.checkInDate} TO Check-out Date: ${room.checkOutDate} \n \n`
+          return`Room Type: ${room.roomType} \n Check-in Date: ${dateFormat(room.checkInDate)} TO Check-out Date: ${dateFormat(room.checkInDate)} \n \n`
         })}
         21. If they asked what are the dates that is already reserved: 
         ${reservations.map(room => {
@@ -107,6 +107,12 @@ const chat_bot = async (req,res) => {
     console.log('error', err);
     res.status(500);
   }
+}
+
+
+const dateFormat = (dateToFormat) => {
+  const format = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateToFormat).toLocaleDateString("en-US", format);
 }
 
 module.exports = {chat_bot};

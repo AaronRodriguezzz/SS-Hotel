@@ -2,10 +2,11 @@ import './EmailVerify.css';
 import NavBar from '../Components/NavBar';
 import { useState,useEffect } from "react";
 import { useLocation } from 'react-router-dom';
+import FloatingButton from '../Components/ChatBot';
 
 function VerifyEmail() {
     const location = useLocation();
-    const [stateData, setStateData] = useState(null);
+    const [stateData, setStateData] = useState([]);
     const [timeLeft, setTimeLeft] = useState(2 * 60);
     const [timeFinished, setTimeFinished] = useState(false);
     const [resendIsClicked, setResendIsClicked] = useState(false);
@@ -61,7 +62,7 @@ function VerifyEmail() {
     }
 
     useEffect(() => {
-
+        console.log(stateData.email);
         if (stateData) {
             const sendCode = async () => {
               try {
@@ -85,6 +86,7 @@ function VerifyEmail() {
                 const inputCode = numOne + numTwo + numThree + numFour; 
                 if(inputCode == String(code)){
 
+                    console.log(stateData);
                     try{
                         const response = await fetch('/api/payment', {
                             method: 'POST',
@@ -97,7 +99,7 @@ function VerifyEmail() {
                         console.log(response)
                         if(response.ok){
                             const result = await response.json();
-                            window.location.href = result.data.attributes.checkout_url;
+                            //window.location.href = result.data.attributes.checkout_url;
                         }
                     }catch(err){
                         console.error(err)
@@ -114,6 +116,7 @@ function VerifyEmail() {
     return(
         <>
           <NavBar />
+          <FloatingButton/>
           <div className="verification_page">
             <div className="verify_container">
                 <p id='verification_title'>Input 4 digit code</p>

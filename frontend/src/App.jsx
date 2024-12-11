@@ -10,6 +10,7 @@ import BookConfirm from './pages/RoomConfirmation';
 import AdminPage from './Admin/AdminInterface/AdminLandingPage'
 import EmailVerification from './pages/EmailVerification';
 import AdminRoute from './routes/adminRoute';
+import Calendar from './Components/Calendar';
 
 function App() {
   return (
@@ -63,6 +64,11 @@ function App() {
               exact path='/email_verification'
               element={<EmailVerification />} 
             />
+
+            <Route 
+              exact path='/calendar'
+              element={<Calendar />} 
+            />  
 
 
           </Routes>

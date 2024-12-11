@@ -95,6 +95,14 @@
     margin-bottom: 70px;
 }
 
+
+.calendar-div{
+    width: 22%;
+    display: flex;
+    justify-content: start;
+    margin-left: 10px;
+}
+
 .avail-rooms .room-choice{
     display: flex;
     flex-direction: column;

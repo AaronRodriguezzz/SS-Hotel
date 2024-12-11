@@ -3,6 +3,9 @@ import { useNavigate,Link } from 'react-router-dom';
 import { ChatProvider } from '../Components/ChatContext';
 import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
+import FloatingButton from '../Components/ChatBot';
+import Loading from '../Components/LoadindDiv';
+import Calendar from '../Components/Calendar';
 
 const BookNowPage = () => {
     const storageRoom = JSON.parse(sessionStorage.getItem("cart") || "[]");
@@ -10,8 +13,10 @@ const BookNowPage = () => {
     const [checkOutDate, setCheckOutDate] = useState('');
     const [minCheckOut, setMinCheckOut] = useState('');
     const [roomsAvailable, setRoomsAvailable] = useState([]);
+    const [roomSchedule, setRoomSchedule] = useState([]);
     const [bookedRoom,setBookedRoom]= useState([]);
     const [daysGap , setDaysGap] = useState(0);
+    const [loading, setLoading] = useState(false);
     const [totalPayment, setTotalPayment] = useState(0);
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
@@ -68,6 +73,7 @@ const BookNowPage = () => {
     useEffect(() => {
         const fetchRooms = async () => {
             if (checkInDate && checkOutDate) {
+                setLoading(true);
                 try {
                     const dataToSend = { checkInDate, checkOutDate };
 
@@ -82,6 +88,7 @@ const BookNowPage = () => {
                     if (response.ok) {
                         const data = await response.json();
                         setRoomsAvailable(data.roomAvailable);
+                        setRoomSchedule(data.schedule);
                         setDaysGap(data.gap);
                     } else {
                         console.error('Failed to fetch room availability');
@@ -89,17 +96,24 @@ const BookNowPage = () => {
 
                 } catch (err) {
                     console.error('Error fetching rooms:', err);
+                }finally{
+                    setLoading(false);
                 }
             }
         };
 
         fetchRooms();
     }, [checkInDate, checkOutDate]);
+    
+    useEffect(() => {
+        console.log(roomsAvailable);
+    },[roomsAvailable])
 
     return(
         <>
         
         <Navbar/>
+        <FloatingButton/>
             <div className='bookNow-search-section'>
                 <div className='form-group'>
                     <label htmlFor="checkIn">Check-In Date</label>
@@ -132,12 +146,18 @@ const BookNowPage = () => {
                 </div>
             </div>
             
+            <div className="calendar-div">
+                <Calendar/>
+            </div>
 
             <div className='avail-rooms'>
                 <div className="room-choice">
-                    {roomsAvailable.length === 0 ? (
-                        <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
+                    {loading ? (
+                        <Loading/>
                     ) : (
+                        roomsAvailable.length === 0 ? (
+                            <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
+                        ): (
                             roomsAvailable.map(room => (
                                 <div key={room._id} className='room'>
                                     <img src={`/photos/z${room.roomType}.jpg`} alt={`${room.roomType}`} />  
@@ -145,6 +165,7 @@ const BookNowPage = () => {
                                         <h1>{room.roomType}</h1>
                                         <h4>₱ {room.price * daysGap} / {daysGap} days | ₱ {room.price} / day</h4>
                                         <h4>MAXIMUM OF {room.maximumGuest} GUESTS</h4>
+                                        <h4>{room.roomLimit} rooms available for your choosen date</h4>
                                         <p>{room.roomDescription}</p>
 
                                         <div className="room-button-container">
@@ -155,11 +176,12 @@ const BookNowPage = () => {
                                     </div>
                                 </div>
                             ))  
+                        )
                     )}
                 </div>
                 
 
-                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>
+                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' && roomsAvailable ? 'block':'none'}}>
                     <h4>Your Cart: {bookedRoom.length} items</h4>
 
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {

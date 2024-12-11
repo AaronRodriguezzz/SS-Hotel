@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { delay, motion } from 'framer-motion';
 import NavBar from '../Components/NavBar';
 import './AmenitiesStyle.css'
+import FloatingButton from '../Components/ChatBot';
 
 
 const Amenities = () => {
@@ -35,6 +36,7 @@ const Amenities = () => {
     return(
         <>
             <NavBar />
+            <FloatingButton/>
                 <div 
                     key={divIndex} // Unique key for each element in the array
                     className='amenities-page' 

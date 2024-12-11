@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useScroll } from '../Components/NavScroll';  // Import the custom hook
 import NavBar from '../Components/NavBar';
 import Footer from '../Components/Footer';
+import FloatingButton from '../Components/ChatBot';
 import './Restaurant.css';
-
 
 function Restaurant(){  
     
@@ -27,6 +27,8 @@ function Restaurant(){
     return(
         <>
            < NavBar scrollToRooms={scrollToRooms} scrollToFooter={scrollToFooter} scrollToHotelAreas={scrollToHotelAreas}/>
+           <FloatingButton/>
+
             <div className="restaurant-content">    
                 <div className="cover-color">
                     <motion.h2

@@ -5,7 +5,7 @@ import { useParams, useNavigate, Link} from 'react-router-dom';
 import { useScroll } from '../Components/NavScroll'; 
 import Footer from '../Components/Footer';
 import NavBar from '../Components/NavBar';
-
+import FloatingButton from '../Components/ChatBot';
 
 const RoomInfo = () =>{
     const [bookedRoom, setBookedRoom] = useState([]);
@@ -80,6 +80,7 @@ const RoomInfo = () =>{
     return(
         <>
             <NavBar scrollToRooms={scrollToRooms} scrollToFooter={scrollToFooter} scrollToHotelAreas={scrollToHotelAreas}/>
+            <FloatingButton/>
             <div className="roomInfo-container"   style={{backgroundImage: `url('/photos/z${bookedRoom.roomType}.jpg')`}}>
                 <div className='cover-color'>
 

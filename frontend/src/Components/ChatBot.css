@@ -1,3 +1,15 @@
+@keyframes slideInLeft {
+    0% {
+      transform: translateX(-100%); /* Start off-screen to the left */
+      opacity: 0; /* Optional: make it transparent */
+    }
+    100% {
+      transform: translateX(0); /* End at its original position */
+      opacity: 1; /* Optional: make it fully visible */
+    }
+  }
+
+
 .floating-button{
     background-color:#2a4b60;
     position: fixed;
@@ -25,8 +37,9 @@
 
 
 .floating-container .title{
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    text-align: center;
     font-size: 18px;
     margin-bottom: 10px;
     color:rgb(187, 172, 90) ;
@@ -34,19 +47,19 @@
 
 .floating-container .title p{
     margin: 0;
-    font-size: 22px;
-    padding: 15px;
+    font-size: 19px;
+    letter-spacing: 2px;
+    font-family:monospace;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
 }
-
-.floating-container .title p span{
-    font-weight: 700;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
 
 .floating-container .title img{
     width: 60px;
     height: 60px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 
@@ -55,22 +68,26 @@
     height: 75%;
     padding: 10px;
     overflow-y: scroll;
+    flex-direction: column-reverse; /* Reverse the flow so the bottom content is visible by default */
 }
 
 .floating-container .message-container p{
     word-wrap: break-word;
-    background-color:rgb(187, 172, 90);
+    color:rgb(187, 172, 90);
     border-radius: 5px;
     padding: 10px;
     max-width: 60%;
     font-size: 18px;
+    animation: slideInLeft 1.5s ease-out;
+    background-color:#2a4b60;
+
 }
 
 
 
 
 .floating-container .input-send-container{
-    width: 98%;
+    width: 97%;
     padding: 0px 20px 0px 20px;
     display: flex;
     align-items: center;
@@ -79,8 +96,8 @@
 }
 
 .floating-container .input-send-container input{
-    background-color: rgb(187, 172, 90);
-    color: #2a4b60;
+    background-color:#2a4b60;
+    color:rgb(187, 172, 90);
     border: none;
     outline: none;
     width: 85%;
@@ -88,6 +105,7 @@
     border-radius: 9px;
     padding: 3px;
     font-size: 18px;
+    padding-left: 10px;
 }
 
 .floating-container .input-send-container button{
@@ -98,6 +116,11 @@
     padding: 0;
     width: 10%;
     height: 35px;
+}
+
+#bit-img{
+    width: 50px;
+    height: 50px;
 }
 
 

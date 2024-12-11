@@ -14,18 +14,18 @@ const AvailableRoomSearch = async (req, res) => {
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
         const RoomSchedules = await ReservationSchedule.find();
-        const roomAvailable = RoomSchedules.filter(sched => {
+        const available = RoomSchedules.filter(sched => {
             return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
 
 
         const rooms = await RoomInfo.find();
 
-        for (let i = 0; i < roomAvailable.length; i++) {
+        for (let i = 0; i < available.length; i++) {
             // Loop through rooms and update roomLimit
             for (let j = 0; j < rooms.length; j++) {
-                if (roomAvailable[i].roomType === rooms[j].roomType) {
-                    rooms[j].roomLimit += roomAvailable[i].totalRooms;
+                if (available[i].roomType === rooms[j].roomType) {
+                    rooms[j].roomLimit += available[i].totalRooms;
                 }
             }
         }
@@ -35,7 +35,7 @@ const AvailableRoomSearch = async (req, res) => {
         })
 
 
-        return res.status(200).json({ roomAvailable:filteredRooms , gap });
+        return res.status(200).json({ roomAvailable:filteredRooms , schedule: available, gap });
 
     } catch (err) {
         // Send an error response with the error message
