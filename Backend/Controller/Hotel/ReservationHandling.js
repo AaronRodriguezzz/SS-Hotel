@@ -48,18 +48,14 @@ const AvailableRoomSearch = async (req, res) => {
 
 const NewReservation = async (req,res) => {
     const checkoutData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
-    const {checkInDate,checkOutDate,
-        selectedRooms,fullName,
-        email,phoneNumber,
-        daysGap, roomCount,
+    const {selectedRooms,fullName,
+        email,phoneNumber, roomCount,
         guestNumber}  = checkoutData;
 
-    const checkIn = new Date(checkInDate);  
-    const checkOut = new Date(checkOutDate);
-
     try{
-
         for (const [index, reservation] of selectedRooms.entries()) {
+            const checkIn = new Date(reservation.checkInDate);  
+            const checkOut = new Date(reservation.checkOutDate);
             const updatedPrice = ((reservation.price * daysGap) * roomCount[index]) + ((guestNumber[index] - reservation.maximumGuest) * 1200);
 
             // Create the reservation and update room information
@@ -71,7 +67,7 @@ const NewReservation = async (req,res) => {
                 guestContact: phoneNumber,
                 guestEmail: email,
                 totalRooms: roomCount[index],
-                totalGuests: guestNumber[index],
+                totalGuests: reservation.maximumGuest,
                 totalPrice: updatedPrice,
             });
             await newReservation.save();

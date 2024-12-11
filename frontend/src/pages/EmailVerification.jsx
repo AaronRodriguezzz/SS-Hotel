@@ -40,6 +40,7 @@ function VerifyEmail() {
     useEffect(() => {
         if(location.state){
             setStateData(location.state);
+            console.log(location.state)
         }
     },[location.state]);
 

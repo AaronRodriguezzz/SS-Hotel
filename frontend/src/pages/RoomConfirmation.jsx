@@ -17,23 +17,18 @@ const RoomConfirmation = () => {
     useEffect(() => {
         if(bookedRoom){
             setRooms(bookedRoom);
-            console.log(bookedRoom);
         }
     }, [])
 
     const handleFinishedClicked = async (e) => {
             e.preventDefault();
-
+            console.log(rooms)
             const dataToSend = {
-                checkInDate: checkInDate,
-                checkOutDate: checkOutDate,
                 selectedRooms:  rooms,
                 fullName: fullName,
                 email: email,
                 phoneNumber: phoneNumber,
-                daysGap: daysGap,
             }  
-
 
             if(dataToSend){
                 navigate('/email_verification', { state: dataToSend})                   
@@ -93,7 +88,7 @@ const RoomConfirmation = () => {
 
                 {rooms && rooms.map((room,index) => {
                     return(
-                        <div className="reserved-rooms" key={room._id}>
+                        <div className="reserved-rooms" key={index}>
                             <div className="roomType-roomPrice" style={{display:"flex", flexDirection:"row"}}>
                                 <h4>{room.roomType}</h4>
                                 <h6>₱{room.price * room.daysGap}.00 for {room.daysGap} nights </h6>
