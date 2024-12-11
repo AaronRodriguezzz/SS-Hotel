@@ -81,12 +81,12 @@ const Available_Search_WalkIn = async (req,res) => {
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
-        const RoomSchedules = await ReservationSchedule.find();
+        const RoomSchedules = await RoomSchedule.find();
         const roomAvailable = RoomSchedules.filter(sched => {
             return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
 
-        const rooms = await RoomInfo.find();
+        const rooms = await Rooms.find();
 
         for (let i = 0; i < roomAvailable.length; i++) {
             // Loop through rooms and update roomLimit
