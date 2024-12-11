@@ -10,6 +10,8 @@ const SuperAdmin = require('./Routes/AdminRoutes/SuperAdminFetch')
 const AdminCrud = require('./Routes/AdminRoutes/CRUDRoute')
 const AdminLogin = require('./Routes/AdminRoutes/AdminLogInRoute')
 const PaymentRoutes = require('./Routes/PaymentRoutes/paymentRoutes');
+const ChatbotRoute = require('./Routes/AiRoute/ChatBotRoute');
+
 const app = express();
 const morgan = require('morgan');
 const path = require('path');
@@ -34,6 +36,7 @@ app.use(AdminLogin);
 app.use(AdminCrud);
 app.use(SuperAdmin);
 app.use(Reservation);
+app.use(ChatbotRoute);
 app.use(Admin);
 app.use(PaymentRoutes);
 

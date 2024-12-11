@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
+import { ChatProvider } from '../Components/ChatContext';
 import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 import { formatDate } from '../utils/dateUtils';
@@ -28,7 +29,7 @@ const BookNowPage = () => {
             return [...prev, addedRoom];
         });
     };
-
+ 
     const handleRemoveRoom = (index, amountToDeduct) => {
         const updatedRooms = bookedRoom.filter((room, idx) => idx !== index);
         setTotalPayment(totalPayment - amountToDeduct);
@@ -94,6 +95,7 @@ const BookNowPage = () => {
 
     return(
         <>
+        
         <Navbar/>
             <div className='bookNow-search-section'>
                 <div className='form-group'>
@@ -157,7 +159,9 @@ const BookNowPage = () => {
                 </div>
                 
 
+
                 {(roomsAvailable.length > 0 || bookedRoom.length) > 0 &&  <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' || storageRoom? 'block':'none'}}>
+                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>
                     <h4>Your Cart: {bookedRoom.length} items</h4>
 
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {

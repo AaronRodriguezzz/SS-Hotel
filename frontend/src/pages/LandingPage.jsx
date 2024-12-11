@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {Link} from 'react-router-dom';
+import { useScroll } from '../Components/NavScroll';
 import NavBar from '../Components/NavBar';
 import Footer from '../Components/Footer';
-import { useScroll } from '../Components/NavScroll';  // Import the custom hook
+import FloatingButton from '../Components/ChatBot';
 import './LandingPageStyle.css'
 
 function FrontPage(){
@@ -17,10 +18,10 @@ function FrontPage(){
     return(
 
         <div className='landing-page'>
+            <FloatingButton/>
             <div className="main-section">
                 <div className="cover-color">
                     < NavBar scrollToRooms={scrollToRooms} scrollToFooter={scrollToFooter} scrollToHotelAreas={scrollToHotelAreas}/>
-
                     {/* Center Text */}
                     <div className="center-text">
                         <motion.h2
