@@ -7,53 +7,53 @@ const FloatingButton = () => {
   const [messages,setMessages] = useState([]);
   const [containerVisibility, setContainerVisibility] = useState(false);
 
-  const handleIconClicked = () => {
-    if(containerVisibility){
-        setContainerVisibility(false);
-    }else{
-        setContainerVisibility(true);
-    }
-  }
+  const handleIconClicked = () => setContainerVisibility(!containerVisibility);
 
-  const handleSend = async () => {
+  const handleSend = async (e) => {
+    e.preventDefault();
 
-    const addObject = {sender: 'user', message: prompt}
-    setMessages(prev => {
-        return [...prev, addObject]
-    })
-
-
-
-    try{
-        const response = await fetch('/api/ask/chatbot', {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ prompt }), 
-        });
-
-        if(response.ok){
-            const data = await response.json();
-            const addObject = {sender:'bot', message: data.message}
-            setMessages(prev => { 
-                return [...prev, addObject]
+    console.log(messages.length , messages.length % 2 !== 0, prompt.trim());
+    if(prompt !== '' && messages.length % 2 !== 0){
+        const addObject = {sender: 'user', message: prompt}
+        setMessages(prev => {
+            return [...prev, addObject]
+        })
+    
+        try{
+            const response = await fetch('/api/ask/chatbot', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt }), 
             });
-            
-            setPrompt('');
-        }else{
-            alert('failde')
+    
+            if(response.ok){
+                const data = await response.json();
+                const addObject = {sender:'bot', message: data.message}
+                setMessages(prev => { 
+                    return [...prev, addObject]
+                });
+                
+                setPrompt('');
+            }else{
+                alert('Check your internet connection')
+            }
+    
+        }catch(err){
+            console.log(err);
         }
-
-    }catch(err){
-        console.log(err);
     }
+    
   }
 
   return (
     <>
-        <div className="floating-container" style={{display: containerVisibility ? "flex":"none"}}>
-            <div className='title'><p>Hello, I'm SilverBot at your service</p></div>
+        <form className="floating-container" style={{display: containerVisibility ? "flex":"none"}} onSubmit={handleSend}>
+            <div className='title'>
+                <p>Hello, I'm <span>SilverBot</span> at your service</p>
+                <img src="./photos/logo.png" alt="bot logo" />
+            </div>
             <div className="message-container">
                 {messages.length > 0 && messages.map((text,index) =>  {
                     return(
@@ -73,7 +73,7 @@ const FloatingButton = () => {
                 <button onClick={handleSend}><img src="./photos/send3.png" alt="" /></button>
             </div>
             
-        </div>
+        </form>
 
         <button className="floating-button" onClick={handleIconClicked}>
             <img src="./photos/bot.png" alt="" />

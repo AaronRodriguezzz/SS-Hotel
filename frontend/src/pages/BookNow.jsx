@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
+import { ChatProvider } from '../Components/ChatContext';
 import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 
@@ -97,6 +98,7 @@ const BookNowPage = () => {
 
     return(
         <>
+        
         <Navbar/>
             <div className='bookNow-search-section'>
                 <div className='form-group'>
