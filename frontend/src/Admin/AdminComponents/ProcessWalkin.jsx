@@ -85,6 +85,7 @@ const ProcessWalkIn = () => {
                 const data = await response.json();
                 
                 if(response.ok){
+                    console.log(data.rooms)
                     setRooms(data.rooms);
                 }
         
@@ -176,7 +177,14 @@ const ProcessWalkIn = () => {
                                     <label htmlFor="room-type">Room Type</label>
                                     <select name="room-type" id="room-type" value={selectedRooms[i]?.roomNum} onChange={(e) => handleChangeDetails(i,  e.target.value, 'roomNum')}>
                                         <option value={''} disabled>Select Room Number</option>
-                                        {roomNum && roomNum.filter(room => room.roomType === selectedRooms[i]?.roomType).map(room => (
+                                        {roomNum && roomNum.filter(room => {
+                                            const isExist = selectedRooms.find((selectedRoom, index) =>{
+                                                if(selectedRoom.roomType === room.roomType) console.log(selectedRoom.roomType === room.roomType)
+                                                return  selectedRoom.roomNum == room.roomNumber && selectedRoom.roomType === room.roomType && index !== i && new Date(selectedRoom.checkOutDate) >= new Date(selectedRooms[i].checkInDate)
+                                            });
+                                            
+                                            return isExist ? false : room.roomType === selectedRooms[i]?.roomType
+                                        }).map(room => (
                                             <option key={room.roomNumber} value={room.roomNumber}>
                                                 {room.roomNumber}
                                             </option>
@@ -187,10 +195,12 @@ const ProcessWalkIn = () => {
                             
 
                             <label htmlFor="guest-quantity">Room {i + 1} Guest Count</label>
+                        
                             <select name="guest-quantity" id="room-type" value={selectedRooms[i]?.guestCount} onChange={(e) => handleChangeDetails(i, e.target.value, 'guestCount')}>
-                                {rooms && rooms.map(room => 
-                                    <option value={room.roomLimit}>{room.roomLimit}</option>
-                                )}
+                                {Array.from({ length: rooms.find(room => room.roomType === selectedRooms[i]?.roomType)?.maximumGuest }, (_, i) => 
+                                <option value={i+1}>{i+1}</option>    
+                            )
+                                }
                             </select>
                         </div>      
                     )

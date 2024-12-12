@@ -48,7 +48,7 @@ const HotelRooms = () => {
 
    
     return (
-        <div>
+        <div style={{height: '100vh'}}>
             {viewIsClicked ? (
                 <div className="main">
                 {rooms && rooms.length > 0 ? (
@@ -71,8 +71,8 @@ const HotelRooms = () => {
                 )}
                 </div>
             ) : (
-                <div class="table-container">
-                     <button style={{
+                <div className='parent-table-container'>
+                    <button style={{
                                         border: "none", 
                                         backgroundColor: "transparent", 
                                         fontSize: "50px", 
@@ -83,6 +83,7 @@ const HotelRooms = () => {
                                     }}
                             onClick={handleClickBack}
                     > ← </button>
+                <div className="table-container">
                     <table>
                         <thead>
                             <tr>
@@ -110,13 +111,14 @@ const HotelRooms = () => {
                                         <td>{roomNum.status}</td>
                                         <td>{roomNum.updatedAt}</td>
                                         <td>
-                                            <button style={{width: "100%", fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={console.log('clicked')}>Check Out</button>
+                                            <button style={{ fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={console.log('clicked')}>Check Out</button>
                                         </td>
                                     </tr>
                                 )
                             }))}
                         </tbody>
                     </table>
+                </div>
                 </div>
             )}
         </div>

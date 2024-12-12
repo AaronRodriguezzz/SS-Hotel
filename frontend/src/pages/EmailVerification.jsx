@@ -87,7 +87,6 @@ function VerifyEmail() {
                 if(inputCode == String(code)){
 
                     const objectToSend = {stateData, rooms}
-                    console.log(objectToSend)
                     try{
                         const response = await fetch('/api/payment', {
                             method: 'POST',
@@ -100,6 +99,7 @@ function VerifyEmail() {
                         console.log(response)
                         if(response.ok){
                             const result = await response.json();
+                            console.log(result)
                             window.location.href = result.data.attributes.checkout_url;
                         }
                     }catch(err){

@@ -4,7 +4,7 @@ const url = process.env.NODE_ENV === 'production' ? 'https://silverstone-hotel.o
 const createPaymentCheckout = async (req, res) => {
     try{
         const { rooms } = req.body;
-        const line_items = rooms.forEach((room,i) => {
+        const line_items = rooms.map((room,i) => {
           return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: 1}
         })
 
