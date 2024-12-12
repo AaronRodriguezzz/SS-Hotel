@@ -48,22 +48,23 @@ const AvailableRoomSearch = async (req, res) => {
 
 const NewReservation = async (req,res) => {
     const checkoutData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
-    const {clientData, rooms}  = checkoutData; 
+    const {stateData, rooms}  = checkoutData; 
+    console.log(stateData);
 
     try{
 
         for (const [index, reservation] of rooms.entries()) {
             const checkIn = new Date(reservation.checkInDate);  
             const checkOut = new Date(reservation.checkOutDate);
-            
+
             // Create the reservation and update room information
             const newReservation = new ReservationSchedule({
                 roomType: reservation.roomType,
-                checkInDate:checkIn,
+                checkInDate:checkIn,    
                 checkOutDate:checkOut,
-                guestName: clientData.fullName,
-                guestContact: clientData.phoneNumber,
-                guestEmail: clientData.email,
+                guestName: stateData.fullName,
+                guestContact: stateData.phoneNumber,
+                guestEmail: stateData.email,
                 totalRooms: 1,
                 totalGuests: reservation.maximumGuest,
                 totalPrice: reservation.price * reservation.daysGap,

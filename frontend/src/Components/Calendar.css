@@ -24,7 +24,7 @@
   text-align: center;
   padding: 0;
   background-color: transparent;
-  color:rgb(187, 172, 90) ;
+  color:rgb(187, 172, 90);
 }
 
 .calendar-header h2{
@@ -41,7 +41,7 @@
 }
 
 .weekdays, .days {
-  display: grid;
+  display: grid;  
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
 }
@@ -57,3 +57,7 @@
 }
 
   
+.day.occupied {
+  background-color: rgb(187, 172, 90); /* Example: Light red */
+  color:#2a4b60; 
+}

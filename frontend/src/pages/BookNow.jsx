@@ -153,7 +153,7 @@ const BookNowPage = () => {
             </div>
             
             <div className="calendar-div" style={{display: !loading ? "flex":"none" }}>
-                <Calendar  roomType={roomToCalendar} checkIn={checkInDate}/>
+                <Calendar/>
             </div>
 
             <div className='avail-rooms'>

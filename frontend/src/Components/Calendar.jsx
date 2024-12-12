@@ -2,30 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { format, startOfMonth, getDaysInMonth, startOfWeek, addDays, isSameDay } from 'date-fns';
 import './Calendar.css';  // Make sure you style it in this file
 
-const Calendar = () => {
-  // State to manage the current date and the selected date
+const Calendar = ({ roomType, checkIn}) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());  // Default selected date is today's date
-  // Function to go to the previous month
-
-  useEffect(() => {
-    const fetchOccupiedDate = async () => {
-      try{
-        const response = await fetch('/api/get')
-      }catch(err){
-
-      }
-    }
-
-    fetchOccupiedDate();
-  })
-  const prevMonth = () => {
-    setCurrentDate(prev => addDays(prev, -30));  // Go back 30 days (approx 1 month)
-  };
-
-  // Function to go to the next month
-  const nextMonth = () => {
-    setCurrentDate(prev => addDays(prev, 30));  // Go forward 30 days (approx 1 month)
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [occupiedDates, setOccupiedDates] = useState([]);
+  const [datesToRender, setDatesToRender] = useState([]);
+  // Utility to check if a day is in the occupied dates
+  const isOccupied = (day) => {
+    return datesToRender.some((occupiedDate) =>
+      isSameDay(new Date(occupiedDate), day)
+    );
   };
 
   // Get the first day of the current month
@@ -56,16 +42,52 @@ const Calendar = () => {
   // Check if a day is selected
   const isSelected = (day) => isSameDay(day, selectedDate);
 
+  useEffect(() => {
+    const fetchReservations = async () => {    
+        try{
+            const response = await fetch('/api/reservations');
+            const data = await response.json();
+
+            if(response.ok){
+                setOccupiedDates(data.reservations);
+            }
+    
+        }catch(err){
+            console.log(err);
+        }
+    }
+    fetchReservations()
+  },[]);
+
+  useEffect(() => {
+    setDatesToRender(() => {
+      if(occupiedDates){
+        console.log('helloow')
+        const dates = [];
+        occupiedDates.map(data => {
+          let currentDate = new Date(data.checkInDate);
+          let endDate = new Date(data.checkOutDate);
+    
+          while (currentDate <= endDate) {
+            dates.push(new Date(currentDate));
+            currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
+          }
+        })
+  
+        return dates;
+      }
+    });
+  },[])
+
   return (
     <div className="calendar-container">
       <div className="calendar-header">
-        <button onClick={prevMonth}> ← </button>
-        <h2>{format(currentDate, 'MMMM yyyy')}</h2>  {/* Display current month and year */}
-        <button onClick={nextMonth}>→</button>
+        <button onClick={() => setCurrentDate(addDays(currentDate, -30))}>←</button>
+        <h2>{format(currentDate, 'MMMM yyyy')}</h2>
+        <button onClick={() => setCurrentDate(addDays(currentDate, 30))}>→</button>
       </div>
 
       <div className="calendar-grid">
-        {/* Render the weekdays */}
         <div className="weekdays">
           <div>Sun</div>
           <div>Mon</div>
@@ -76,18 +98,17 @@ const Calendar = () => {
           <div>Sat</div>
         </div>
 
-        {/* Render each day in the grid */}
         <div className="days">
           {allDays.map((day, index) => {
-            // Get day number
             const dayNumber = format(day, 'd');
-            // Check if the day is part of the current month
             const isInMonth = day.getMonth() === currentDate.getMonth();
             return (
               <div
                 key={index}
-                className={`day ${isInMonth ? '' : 'inactive'} ${isSelected(day) ? 'selected' : ''}`}
-                onClick={() => isInMonth && setSelectedDate(day)}  /* Set the selected date */
+                className={`day ${isInMonth ? '' : 'inactive'} ${isOccupied(day) ? 'occupied' : ''} ${
+                  isSelected(day) ? 'selected' : ''
+                }`}
+                onClick={() => isInMonth && setSelectedDate(day)}
               >
                 <span>{dayNumber}</span>
               </div>
@@ -99,4 +120,5 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+
+export default Calendar

@@ -100,7 +100,7 @@ function VerifyEmail() {
                         console.log(response)
                         if(response.ok){
                             const result = await response.json();
-                            //window.location.href = result.data.attributes.checkout_url;
+                            window.location.href = result.data.attributes.checkout_url;
                         }
                     }catch(err){
                         console.error(err)
