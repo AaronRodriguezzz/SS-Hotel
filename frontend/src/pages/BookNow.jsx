@@ -18,6 +18,7 @@ const BookNowPage = () => {
     const [daysGap , setDaysGap] = useState(0);
     const [loading, setLoading] = useState(false);
     const [totalPayment, setTotalPayment] = useState(0);
+    const [roomToCalendar, setRoomToCalendar] = useState('');
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
 
@@ -45,9 +46,14 @@ const BookNowPage = () => {
         if(bookedRoom.length > 0){
             sessionStorage.setItem("cart", JSON.stringify(bookedRoom));
             navigate('/booking/confirmation', {
-                state: { bookedRoom },
+                state: bookedRoom ,
             });
         }
+    }
+
+
+    const handleCalendar = (roomType) => {
+        
     }
 
     useEffect(() => {
@@ -146,8 +152,8 @@ const BookNowPage = () => {
                 </div>
             </div>
             
-            <div className="calendar-div">
-                <Calendar/>
+            <div className="calendar-div" style={{display: !loading ? "flex":"none" }}>
+                <Calendar  roomType={roomToCalendar} checkIn={checkInDate}/>
             </div>
 
             <div className='avail-rooms'>
@@ -170,7 +176,7 @@ const BookNowPage = () => {
 
                                         <div className="room-button-container">
                                             <button  className='link-button' onClick={() => handleAddRoom(JSON.stringify(room))}>ADD ROOM</button>
-                                            <button  className='calendar-button'><img src="./photos/calendar.png" alt="calendar" /></button>
+                                            <button  className='calendar-button' onClick={handleCalendar}><img src="./photos/calendar.png" alt="calendar" /></button>
                                         </div>
                                     
                                     </div>

@@ -48,37 +48,30 @@ const AvailableRoomSearch = async (req, res) => {
 
 const NewReservation = async (req,res) => {
     const checkoutData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
-    const {checkInDate,checkOutDate,
-        selectedRooms,fullName,
-        email,phoneNumber,
-        daysGap, roomCount,
-        guestNumber}  = checkoutData;
-
-    console.log('1');
-    const checkIn = new Date(checkInDate);  
-    const checkOut = new Date(checkOutDate);
+    const {clientData, rooms}  = checkoutData; 
 
     try{
 
-        for (const [index, reservation] of selectedRooms.entries()) {
-            const updatedPrice = ((reservation.price * daysGap) * roomCount[index]) + ((guestNumber[index] - reservation.maximumGuest) * 1200);
-
+        for (const [index, reservation] of rooms.entries()) {
+            const checkIn = new Date(reservation.checkInDate);  
+            const checkOut = new Date(reservation.checkOutDate);
+            
             // Create the reservation and update room information
             const newReservation = new ReservationSchedule({
                 roomType: reservation.roomType,
                 checkInDate:checkIn,
                 checkOutDate:checkOut,
-                guestName: fullName,
-                guestContact: phoneNumber,
-                guestEmail: email,
-                totalRooms: roomCount[index],
-                totalGuests: guestNumber[index],
-                totalPrice: updatedPrice,
+                guestName: clientData.fullName,
+                guestContact: clientData.phoneNumber,
+                guestEmail: clientData.email,
+                totalRooms: 1,
+                totalGuests: reservation.maximumGuest,
+                totalPrice: reservation.price * reservation.daysGap,
             });
             await newReservation.save();
             await RoomInfo.findOneAndUpdate(
                 { roomType: reservation.roomType },
-                { $set: { roomLimit: reservation.roomLimit - roomCount[index] } }
+                { $set: { roomLimit: reservation.roomLimit - 1 }}
             );
             
         }

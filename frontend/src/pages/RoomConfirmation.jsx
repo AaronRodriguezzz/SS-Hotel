@@ -6,8 +6,7 @@ import Footer from '../Components/Footer';
 import FloatingButton from '../Components/ChatBot';
 
 const RoomConfirmation = () => {
-    const location = useLocation();
-    const { bookedRoom } = location.state || [];
+    const storageRoom = JSON.parse(sessionStorage.getItem("cart") || "[]");
     const [rooms, setRooms] = useState([]);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -15,24 +14,22 @@ const RoomConfirmation = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(bookedRoom)
-        if(bookedRoom){
-            setRooms(bookedRoom);
+        if(storageRoom){
+            setRooms(storageRoom);  
         }
-    }, [])
+    },[])
 
     const handleFinishedClicked = async (e) => {
-            if(dataToSend){
-                navigate('/email_verification', { state: bookedRoom})                   
-            }
-    }
+        e.preventDefault();
 
-    const addMoreRoomClicked = () => { 
-        navigate('/booknow');
-    }
-
-    if (!rooms) {
-        return <Navigate to="/booknow" />;
+        const clientData = {
+            fullName: fullName,
+            email: email,
+            phoneNumber: phoneNumber
+        }
+        if(clientData){
+            navigate('/email_verification', {state: {clientData, rooms}})                   
+        }
     }
 
     return(
@@ -104,7 +101,8 @@ const RoomConfirmation = () => {
                     <Link to='/'>
                         <button type='button' className='cancel'>CANCEL</button>
                     </Link>
-                    <button className='finish'>FINISH</button>
+
+                    <button className='finish' onClick={(e) => handleFinishedClicked(e)}>FINISH</button>
                 </div>
             </form>
         </div>

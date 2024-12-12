@@ -6,6 +6,7 @@ import FloatingButton from '../Components/ChatBot';
 
 function VerifyEmail() {
     const location = useLocation();
+    const {clientData, rooms} = location.state;
     const [stateData, setStateData] = useState([]);
     const [timeLeft, setTimeLeft] = useState(2 * 60);
     const [timeFinished, setTimeFinished] = useState(false);
@@ -39,8 +40,8 @@ function VerifyEmail() {
     }, [resendIsClicked]);
 
     useEffect(() => {
-        if(location.state){
-            setStateData(location.state);
+        if(clientData){
+            setStateData(clientData);
         }
     },[location.state]);
 
@@ -53,7 +54,7 @@ function VerifyEmail() {
     const handleResendCode = () => {
         alert('New verification code sended to your gmail');
         setTimeLeft(2*60);
-        setResendIsClicked(true);
+        setResendIsClicked(!resendIsClicked);
         setTimeFinished(false);
     }
 
@@ -62,7 +63,6 @@ function VerifyEmail() {
     }
 
     useEffect(() => {
-        console.log(stateData.email);
         if (stateData) {
             const sendCode = async () => {
               try {
@@ -86,7 +86,8 @@ function VerifyEmail() {
                 const inputCode = numOne + numTwo + numThree + numFour; 
                 if(inputCode == String(code)){
 
-                    console.log(stateData);
+                    const objectToSend = {stateData, rooms}
+                    console.log(objectToSend)
                     try{
                         const response = await fetch('/api/payment', {
                             method: 'POST',
@@ -94,7 +95,7 @@ function VerifyEmail() {
                                 'Content-Type': 'application/json' 
                             },
                             credentials: 'include',
-                            body: JSON.stringify(stateData)
+                            body: JSON.stringify(objectToSend)
                         });
                         console.log(response)
                         if(response.ok){
