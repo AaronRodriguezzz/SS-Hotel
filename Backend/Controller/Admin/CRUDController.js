@@ -119,9 +119,7 @@ const processReservation = async (req, res) => {
             return res.status(404).json({message:'Add to Bin Failed'});
         }
        
-        const delReservation = await RoomSchedule.findOneAndDelete({id: reservation._id});
-
-        console.log('pass 3')
+        const delReservation = await RoomSchedule.findOneAndDelete({_id: reservation._id});
 
         if(delReservation){
             return res.status(200).json({message: 'Assigning to room/s Successful'});

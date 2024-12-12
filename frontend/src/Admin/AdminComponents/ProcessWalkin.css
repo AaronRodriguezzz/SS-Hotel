@@ -1,9 +1,9 @@
 .process-walkIn-page{
     margin-left: 350px;
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 40px;
+    justify-content: center;
 }
 
 .room-container{

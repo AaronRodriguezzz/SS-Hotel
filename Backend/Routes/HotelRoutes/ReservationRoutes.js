@@ -4,7 +4,7 @@ const HotelControllers = require('../../Controller/Hotel/ReservationHandling');
 
 router.post('/api/availabilitySearch', HotelControllers.AvailableRoomSearch);
 router.get('/api/reserve', HotelControllers.NewReservation);
+router.post('/api/reserve/admin', HotelControllers.AdminNewReservation);
 router.get('/api/send_code/:email', HotelControllers.get_verification_code);
-
 
 module.exports = router;

@@ -34,7 +34,6 @@ const AvailableRoomSearch = async (req, res) => {
             return(room.roomLimit !== 0)
         })
 
-
         return res.status(200).json({ roomAvailable:filteredRooms , schedule: available, gap });
 
     } catch (err) {
@@ -47,13 +46,12 @@ const AvailableRoomSearch = async (req, res) => {
 
 
 const NewReservation = async (req,res) => {
-    const checkoutData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
-    const {stateData, rooms}  = checkoutData; 
-    console.log(stateData);
+    const reservationData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
+    const {stateData, rooms}  = reservationData; 
 
     try{
 
-        for (const [index, reservation] of rooms.entries()) {
+        for (const reservation of rooms.entries()) {
             const checkIn = new Date(reservation.checkInDate);  
             const checkOut = new Date(reservation.checkOutDate);
 
@@ -90,6 +88,43 @@ const NewReservation = async (req,res) => {
     }
 }
 
+
+const AdminNewReservation = async (req,res) => {
+    const reservationData = req.body;
+    const {stateData, rooms}  = reservationData; 
+
+    try{
+        for (const [index, reservation] of rooms.entries()) {
+            const checkIn = new Date(reservation.checkInDate);  
+            const checkOut = new Date(reservation.checkOutDate);
+
+            // Create the reservation and update room information
+            const newReservation = new ReservationSchedule({
+                roomType: reservation.roomType,
+                checkInDate:checkIn,    
+                checkOutDate:checkOut,
+                guestName: stateData.fullName,
+                guestContact: stateData.phoneNumber,
+                guestEmail: stateData.email,
+                totalRooms: 1,
+                totalGuests: reservation.guestCount,
+                totalPrice: reservation.price * reservation.gap,
+            });
+            await newReservation.save();
+            await RoomInfo.findOneAndUpdate(
+                { roomType: reservation.roomType },
+                { $set: { roomLimit: reservation.roomLimit - 1 }}
+            );
+            
+        }
+
+        res.status(200).json({message: 'sucesss'});
+
+    }catch(err){
+        console.log('reservation err: ', err);
+        res.status(500).json({ message: err.message });
+    }
+}
 
 const get_verification_code = async (req,res) => {
     const {email} = req.params;
@@ -148,6 +183,7 @@ const UpdateReservation = async (req,res) => {
 module.exports = {
     AvailableRoomSearch,
     NewReservation,
+    AdminNewReservation,
     DeleteReservation,
     UpdateReservation,
     get_verification_code,
