@@ -6,6 +6,6 @@ router.post('/api/new-admin', AdminCrud.addAdmin);
 router.post('/api/assignRoom', AdminCrud.processReservation);
 router.post('/api/update/adminRole', AdminCrud.updateRole);
 router.post('/api/update/adminStatus', AdminCrud.updateStatus);
-
+router.delete('/api/reservation/:id', AdminCrud.processCancellation);
 
 module.exports = router;

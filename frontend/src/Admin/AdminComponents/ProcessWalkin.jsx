@@ -5,30 +5,29 @@ import { formatDate } from '../../utils/dateUtils';
 const ProcessWalkIn = () => {
     const [numberOfRooms, setNumberOfRooms] = useState(2);
     const [rooms, setRooms] = useState([]);
-    const [roomNum, setRoomNum] = useState([]);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-
-    // value of select elemet 
 
     const [selectedRooms, setSelectedRooms] = useState([]);
 
     const reserve = async (e) => {
         e.preventDefault();
-        try{
-            const response = await fetch(`/api/reserve/admin`,{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ stateData: {fullName, phoneNumber, email}, rooms: selectedRooms }),
-            });
-            console.log(response)
-
-
-        }catch(err){    
-            console.error('Error: ', err)
+        if(confirm('Click ok to continue')){
+            try{
+                const response = await fetch(`/api/reserve/admin`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ stateData: {fullName, phoneNumber, email}, rooms: selectedRooms }),
+                });
+                if(response.ok){
+                    window.location.reload();
+                }
+            }catch(err){    
+                console.error('Error: ', err)
+            }
         }
     }
 
@@ -119,23 +118,6 @@ const ProcessWalkIn = () => {
         fetchRooms()
     },[]);
 
-    useEffect(() => {
-        const fetchRoomNums = async () => {    
-            try{
-                const response = await fetch('/api/roomnum/available');
-                const data = await response.json();
-                
-                if(response.ok){
-                    setRoomNum(data.roomNum);
-                }
-        
-            }catch(err){
-                console.log(err);
-            }
-        }
-
-        fetchRoomNums()
-    },[]);
 
     return(
         <div className="process-walkIn-page">

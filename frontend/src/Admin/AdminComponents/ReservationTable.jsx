@@ -17,33 +17,23 @@ const ReservationTable = ({name}) => {
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
 
     const handleDelete = async (reservation) => {
-        try{
-            const dataToSend = {...reservation, updatedBy: 'Aaron', remarks:'Cancelled'}
-
-            const updateBin = await fetch(`/api/updateBin`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify(dataToSend)
-            });
-
-
-            const updateBinData = await updateBin.json();
-            if(updateBinData.ok){
-                const cancel = await fetch(`/api/cancelReservation/${reservation._id}`);
-                const data = await cancel.json();
-
-                if(data.ok){
-                    alert('Deleting data from reservations failed');
-                }
-            }else{
-                alert('Error on inserting data to the recycle bin');
-            }
-
+        if(confirm('Do you wan\'t to cancel this reservation?')){
+            try{
+                const dataToSend = {...reservation, remarks:'Cancelled'}
     
-        }catch(err){
-            console.log(err);
+                const updateBin = await fetch(`/api/reservation/${reservation._id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(dataToSend)
+                });
+                if(updateBin.ok){
+                    fetchReservations();
+                }
+            }catch(err){
+                console.log(err);
+            }
         }
     }
 
@@ -129,22 +119,22 @@ const ReservationTable = ({name}) => {
         setFilteredBin(filtered);
     };
 
-    useEffect(() => {
-        const fetchReservations = async () => {    
-            try{
-                const response = await fetch('/api/reservations');
-                const data = await response.json();
+    const fetchReservations = async () => {    
+        try{
+            const response = await fetch('/api/reservations');
+            const data = await response.json();
 
-                if(response.ok){
-                    setFilteredBin(data.reservations);
-                    setReservation(data.reservations);
-                }
-        
-            }catch(err){
-                console.log(err);
+            if(response.ok){
+                setFilteredBin(data.reservations);
+                setReservation(data.reservations);
             }
+    
+        }catch(err){
+            console.log(err);
         }
+    }
 
+    useEffect(() => {
         fetchReservations()
     },[]);
 
