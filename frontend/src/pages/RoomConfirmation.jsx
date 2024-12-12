@@ -94,12 +94,13 @@ const RoomConfirmation = () => {
 
                 
                 <div className="reservation-buttons">
-                    <Link to='/booknow'>
-                        <button type='button'>ADD MORE ROOMS</button>
-                    </Link>
 
                     <Link to='/'>
                         <button type='button' className='cancel'>CANCEL</button>
+                    </Link>
+
+                    <Link to='/booknow'>
+                        <button type='button' id='add-rooms'>ADD ROOMS</button>
                     </Link>
 
                     <button className='finish' onClick={(e) => handleFinishedClicked(e)}>FINISH</button>

@@ -33,7 +33,6 @@ const AdminNav = ({ onSectionChange, role }) => {
                 <li onClick={() => onSectionChange('reservations')}>Reservations</li>
                 <li onClick={() => onSectionChange('processed')}>Processed Reservation</li>
                 <li onClick={() => onSectionChange('walk-in')}>Process Walk In</li>
-                <li onClick={() => onSectionChange('events')}>Events Booking</li>
                 <li onClick={() => onSectionChange('restaurant')}>Restaurant Reservation</li>
                 <li onClick={() => onSectionChange('super-admin')}
                     style={{display: securityClearance === 'Super Admin' ? "block":"none"}}

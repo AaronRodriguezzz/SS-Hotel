@@ -88,16 +88,22 @@
 
 
 .reservation-buttons a > button{ 
-    width: 160px;
+    width: 120px;
     height: 50px;
     font-size: 17px;
     padding: 10px;
     border-radius: 10px;
     border: none;
-    background-color: rgba(204, 182, 57,.8);
     color: white;
-    letter-spacing: 2px;
+    background-color: rgba(204, 182, 57,.8)
 }
+
+#add-rooms,.finish{
+    background-color: rgba(204, 182, 57,.8);
+    font-size: 15px;
+    color: white;
+}
+
 
 .reservation-buttons a > button:hover{ 
     background-color:green;
@@ -115,20 +121,61 @@
 }
 
 @media (max-width: 425px) {
-    .main-page .container {
-        width: 95%; /* Further adjust for very small screens */
-        margin: 10px 0; /* Reduce top margin even more */
+    .main-page{
+        width: 100%;
     }
-}
-
-@media (max-width: 425px) {
-    .main-page .container {
-        width: 95%; /* Further adjust for very small screens */
-        margin: 10px 0; /* Reduce top margin even more */
-    }
-
     
-    .main-page .container  h1, h2{
-        font-size: 30px;
+    
+    .main-page form {
+        width: 80%;
+        padding: 30px;
+        border-radius: 20px;
+        padding-left: 10px;
+        margin: 180px 0px 60px 0px;
+        color: rgba(204, 182, 57,.8);
+    }
+    
+    .main-page form h1, h2{
+        font-size: 25px;
+        letter-spacing: 2px;
+        margin: 50px 0px 50px 20px;
+    }
+    
+    .main-page .reserved-rooms{
+        padding-bottom: 0px;
+    }
+
+    .main-page .reserved-rooms .roomType-roomPrice{
+        width: 100%;
+    }
+    
+    .main-page form .reserved-rooms h4{
+        font-size: 20px;
+        margin: 0;
+    }
+    
+    .main-page form .reserved-rooms h6{
+        font-size: 18px;
+        margin: 0;
+    }
+    
+    .main-page form .reserved-rooms p{
+        font-size: 16px;
+    }
+    
+    
+    .reservation-buttons a > button:hover{ 
+        background-color:green;
+        transition: transform .1s ease-out, background-color .5s ease-out;
+    }
+    
+    .reservation-buttons a > .cancel{
+        background-color: transparent;
+        border: 1px solid rgba(128, 128, 128, 0.384);
+    }
+    
+    .reservation-buttons a > .cancel:hover{
+        background-color:red;
+        transition: transform .1s ease-out, background-color .5s ease-out;
     }
 }

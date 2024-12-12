@@ -16,7 +16,11 @@ const adminLogin = async (req,res) => {
         const admin = await Admin.findOne({email});
 
         if (!admin) {
-            return res.status(404).json('Admin ID does not exist');
+            return res.status(404).json('Admin does not exist');
+        }
+
+        if(admin.adminStatus === 'Disabled'){
+            return res.status(404).json('Your Account is disabled');
         }
 
         // Compare the entered password with the stored hashed password

@@ -145,19 +145,13 @@ const ReservationHistory = () => {
                                 <td>{accts.contactNum}</td>
                                 <td>{accts.role}</td>
                                 <td>{accts.createdAt}</td>
-                                <td>
-                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"100%", marginBottom: "9px"}}>Remove</button>
-                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"100%", marginBottom: "9px", backgroundColor: accts.adminStatus === 'Enabled' ? 'red' : 'green'}}
+                                <td style={{display:"flex", gap: "5px"}}>
+                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"50%", marginBottom: "9px"}}>Remove</button>
+                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"50%", marginBottom: "9px", backgroundColor: accts.adminStatus === 'Enabled' ? 'red' : 'green'}}
                                             onClick={(e) => handleChangeStatus(e.target.textContent,accts._id)}
                                     >
                                         {accts.adminStatus === 'Enabled' ? "Disabled" : "Enabled"}
                                     </button>
-                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"100%", backgroundColor: accts.role === 'Admin' ? 'green' : 'red' }}
-                                            onClick={(e) => handleChangeRole(e.target.textContent,accts._id)}
-                                    >
-                                        {accts.role === 'Super Admin' ? "Demote" : "Promote"}
-                                    </button>
-
                                 </td>   
                             </tr>
                         )

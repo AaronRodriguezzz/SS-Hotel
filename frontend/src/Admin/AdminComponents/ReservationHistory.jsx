@@ -50,7 +50,7 @@ const ReservationHistory = () => {
         <>
 
         
-        <div class="table-container">
+        <div class="parent-table-container">
             <input
                 type="text"
                 placeholder="Search reservations..."
@@ -65,6 +65,7 @@ const ReservationHistory = () => {
                 }}
             />
 
+            <div className="table-container">
             <table>
                 <thead>
                     <tr>
@@ -80,7 +81,6 @@ const ReservationHistory = () => {
                         <th>Assigned Room</th>
                         <th>Remarks</th>
                         <th>Updated At</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,14 +99,12 @@ const ReservationHistory = () => {
                                 <td>{history.totalPrice}</td>
                                 <td>{history.remarks}</td>
                                 <td>{history.updatedAt}</td>
-                                <td>
-                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"110"}}>Check Out</button>
-                                </td>
                             </tr>
                         )
                     }))}
                 </tbody>
             </table>
+            </div>
         </div>
         </>
        

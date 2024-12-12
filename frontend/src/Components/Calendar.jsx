@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { format, startOfMonth, getDaysInMonth, startOfWeek, addDays, isSameDay } from 'date-fns';
 import './Calendar.css';  // Make sure you style it in this file
 
-const Calendar = ({ roomType, checkIn}) => {
+const Calendar = ({ roomType }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [occupiedDates, setOccupiedDates] = useState([]);
@@ -62,25 +62,35 @@ const Calendar = ({ roomType, checkIn}) => {
   useEffect(() => {
     setDatesToRender(() => {
       if(occupiedDates){
-        console.log('helloow')
         const dates = [];
         occupiedDates.map(data => {
           let currentDate = new Date(data.checkInDate);
           let endDate = new Date(data.checkOutDate);
-    
-          while (currentDate <= endDate) {
-            dates.push(new Date(currentDate));
-            currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
+        
+          if(roomType !== ''){
+            if(roomType === data.roomType){
+              while (currentDate <= endDate) {
+                dates.push(new Date(currentDate));
+                currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
+              }
+            }
+          }else{
+            while (currentDate <= endDate) {
+              dates.push(new Date(currentDate));
+              currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
+            }
           }
+          
         })
   
         return dates;
       }
     });
-  },[])
+  },[roomType,occupiedDates])
 
   return (
     <div className="calendar-container">
+      <h2>{roomType}</h2>
       <div className="calendar-header">
         <button onClick={() => setCurrentDate(addDays(currentDate, -30))}>←</button>
         <h2>{format(currentDate, 'MMMM yyyy')}</h2>

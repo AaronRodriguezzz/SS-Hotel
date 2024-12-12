@@ -71,7 +71,7 @@ const HotelRooms = () => {
                 )}
                 </div>
             ) : (
-                <div class="table-container">
+                <div class="parent-table-container">
                      <button style={{
                                         border: "none", 
                                         backgroundColor: "transparent", 
@@ -83,6 +83,7 @@ const HotelRooms = () => {
                                     }}
                             onClick={handleClickBack}
                     > ← </button>
+                    <div className="table-container">
                     <table>
                         <thead>
                             <tr>
@@ -117,6 +118,7 @@ const HotelRooms = () => {
                             }))}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             )}
         </div>
