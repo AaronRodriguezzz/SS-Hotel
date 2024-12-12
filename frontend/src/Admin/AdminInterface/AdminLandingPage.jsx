@@ -43,7 +43,7 @@ const AdminPage = () => {
     return(
         <>
             <div className="landingPage-container">
-                <Navigation onSectionChange={handleSectionChange} role={{ securityClearance}}/>
+                <Navigation onSectionChange={handleSectionChange} role={{ securityClearance }} name={{adminName}} choosen={activeSection}/>
                 {activeSection === 'hotelRooms' && <HotelRooms />}
                 {activeSection === 'reservations' && <Reservations name={{adminName}} />}
                 {activeSection === 'processed' && <Processed />}

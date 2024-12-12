@@ -28,7 +28,7 @@
     position:relative;
     border-radius: 10px;
     overflow: hidden;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-top: 20px;
 }
 
@@ -71,4 +71,36 @@
     margin: 0;
     padding: 20px;
 
+}
+
+
+@media (max-width:1024px) {
+    .main{
+        margin-left: 220px;
+    }
+    
+    
+    .container{
+        width: 30%;
+        height: 300px;
+    }
+    
+    .container .cover h2{
+        font-size: 21px;
+    }
+}
+
+@media (max-width:768px) {
+    .main{
+        margin-left: 200px;
+    }
+    
+    .container{
+        width: 30%;
+        height: 260px;
+    }
+    
+    .container .cover h2{
+        font-size: 18px;
+    }
 }

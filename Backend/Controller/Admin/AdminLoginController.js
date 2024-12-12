@@ -99,7 +99,7 @@ const check_clearance = async (req,res) => {
             res.status(404).json({message: 'Admin not found'});
         }
 
-        const fullName = admin.firstName + admin.lastName;
+        const fullName = admin.firstName + ' ' + admin.lastName;
         console.log(admin.role)
         return res.status(200).json({clearance: admin.role, name:fullName })
     }catch(err){    

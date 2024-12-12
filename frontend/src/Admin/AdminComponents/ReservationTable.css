@@ -115,3 +115,8 @@
     cursor: not-allowed;
 }
 
+@media (max-width:1024px){
+  .parent-table-container {
+    margin-left: 290px; 
+  }
+}

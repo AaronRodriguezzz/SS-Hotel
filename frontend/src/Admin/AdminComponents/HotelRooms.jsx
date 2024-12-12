@@ -21,7 +21,6 @@ const HotelRooms = () => {
         }catch(err){
             console.log(err);
         }
-    
     }
 
     const handleClickBack = () => {
@@ -62,7 +61,6 @@ const HotelRooms = () => {
                     >
                         <div className="cover" onClick={() => fetch_specific_room(room.roomType)}>
                         <h2>{room.roomType}</h2>
-                        <h4>{room.roomLimit} available</h4>
                         </div>
                     </div>
                     ))

@@ -20,8 +20,6 @@
     transition: transform 0.7s ease, background-color 0.7s ease;
 }
 
-
-
 .navigation .hotel-name{
     display: flex;
     flex-direction: column;

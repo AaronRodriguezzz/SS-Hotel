@@ -18,7 +18,7 @@
     border-radius: 15px;
     height: 100%;
     width:100%;
-    margin-left: 50px;
+    margin-left: 100px;
     animation: fadeIn 1s ease-in-out; 
 }
 
@@ -63,4 +63,10 @@
 .newAdmin-container button:hover{
     background-color:rgb(16, 198, 16);
     transition: transform .1s ease-out, background-color .5s ease-out;
+}
+
+@media (max-width:768px){
+    .newAdmin-container h1{
+        font-size: 30px;
+    }
 }

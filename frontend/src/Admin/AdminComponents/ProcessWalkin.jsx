@@ -121,7 +121,7 @@ const ProcessWalkIn = () => {
 
                     return (
                         <div className='room-div' key={i}>
-                            <h2>Room #{i + 1}</h2>
+                            <h2>ROOM {i + 1}</h2>
                             <div className="date-container">
                                 <div className="date-each-container">
                                     <label htmlFor="checkIn">Check-In Date</label>
@@ -173,7 +173,7 @@ const ProcessWalkIn = () => {
                                 
 
                                 <div className="room-input-info-each">
-                                    <label htmlFor="room-type">Room Type</label>
+                                    <label htmlFor="room-type">Room Number</label>
                                     <select name="room-type" id="room-type" value={selectedRooms[i]?.roomNum} onChange={(e) => handleChangeDetails(i,  e.target.value, 'roomNum')}>
                                         <option value={''} disabled>Select Room Number</option>
                                         {roomNum && roomNum.filter(room => room.roomType === selectedRooms[i]?.roomType).map(room => (
@@ -185,13 +185,12 @@ const ProcessWalkIn = () => {
                                 </div>
                             </div>
                             
-
-                            <label htmlFor="guest-quantity">Room {i + 1} Guest Count</label>
-                            <select name="guest-quantity" id="room-type" value={selectedRooms[i]?.guestCount} onChange={(e) => handleChangeDetails(i, e.target.value, 'guestCount')}>
-                                {rooms && rooms.map(room => 
-                                    <option value={room.roomLimit}>{room.roomLimit}</option>
-                                )}
-                            </select>
+                                <label htmlFor="guest-quantity">Room {i + 1} Guest Count</label>
+                                <select name="guest-quantity" id="room-type" value={selectedRooms[i]?.guestCount} onChange={(e) => handleChangeDetails(i, e.target.value, 'guestCount')}>
+                                    {rooms && rooms.map(room => 
+                                        <option value={room.roomLimit}>{room.roomLimit}</option>
+                                    )}
+                                </select>
                         </div>      
                     )
                 })}                
