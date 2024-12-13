@@ -3,7 +3,7 @@ const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
 
-const url = process.env.NODE_ENV === 'production' ? 'https://silverstone-hotel.onrender.com' : 'http://localhost:5173/';
+const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173/';
 
 const AvailableRoomSearch = async (req, res) => {
     const { checkInDate, checkOutDate } = req.body;
@@ -49,9 +49,10 @@ const NewReservation = async (req,res) => {
     const reservationData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
     const {stateData, rooms}  = reservationData; 
 
+    console.log(reservationData);
     try{
 
-        for (const reservation of rooms.entries()) {
+        for (const [index, reservation] of rooms.entries()) {
             const checkIn = new Date(reservation.checkInDate);  
             const checkOut = new Date(reservation.checkOutDate);
 
