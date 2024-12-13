@@ -1,7 +1,8 @@
 import { useState, useEffect} from 'react';
 import './ProcessWalkin.css';
-import { formatDate } from '../../utils/dateUtils';
+import { formatDate, formatDateTime } from '../../utils/dateUtils';
 import ReservationSummary from './ReservationSummary';
+import jsPDF from 'jspdf'
 
 const ProcessWalkIn = () => {
     const [numberOfRooms, setNumberOfRooms] = useState(2);
@@ -24,6 +25,7 @@ const ProcessWalkIn = () => {
                     body: JSON.stringify({ stateData: {fullName, phoneNumber, email}, rooms: selectedRooms }),
                 });
                 if(response.ok){
+                    generateReceipt();
                     window.location.reload();
                 }
             }catch(err){    
@@ -31,6 +33,84 @@ const ProcessWalkIn = () => {
             }
         }
     }
+
+    const generateReceipt = () => {
+        const initialPageHeight = 200;  
+        const doc = new jsPDF({
+            unit: 'mm',
+            format: [80, initialPageHeight]
+        });
+    
+        doc.setFontSize(15);
+        doc.setFontSize(8);
+        doc.text('Silver Stone Hotel Receipt', 40, 10, null, null, 'center');
+        doc.text('silverstonehotel@gmail.com', 40, 20, null, null, 'center');
+        let yPosition = 35;  // Initial yPosition after title
+        const margin = 10;
+        const lineHeight = 5;  // Space between lines
+        const itemWidth = 60;  // Width for price column
+    
+        // Helper function to track the total content height
+        const getContentHeight = () => yPosition + lineHeight;
+    
+        // Track total height needed
+        let totalHeight = getContentHeight();
+        doc.setFontSize(5);
+        // Add the static content (Date and Booking Reference)
+        doc.text(`Date: ${formatDateTime(new Date())}`, margin, yPosition);
+        yPosition += lineHeight;
+        doc.text(`Guest Name: ${fullName}`, margin, yPosition);
+        yPosition += lineHeight;
+        doc.text(`Guest Email: ${email}`, margin, yPosition);
+        yPosition += lineHeight;
+        doc.text(`Guest Phone Number: ${phoneNumber}`, margin, yPosition);
+        yPosition += lineHeight + 5;
+        
+        doc.text('Rooms', margin, yPosition);
+        doc.text('Price', itemWidth, yPosition);
+        yPosition += 5;
+    
+        // Calculate the total height after adding items
+        selectedRooms.forEach(item => {
+            // Check if we need to adjust the page height dynamically
+            if (getContentHeight() > doc.internal.pageSize.height) {
+                // Increase the page height by 20mm
+                const newHeight = doc.internal.pageSize.height + 10;  // Increase by 20mm (or more if necessary)
+                doc.internal.pageSize.height = newHeight;  // Update internal page height
+            }
+            
+            // Add item to receipt
+            doc.text(`${item.roomType} (${formatDate(new Date(item.checkInDate))} to ${formatDate(new Date(item.checkOutDate))})`, margin, yPosition);
+            doc.text((item.price * item.gap).toFixed(2), itemWidth, yPosition);  // Format price
+            yPosition += lineHeight;
+            totalHeight = getContentHeight();  // Update total height
+        });
+    
+        // Draw a horizontal line after the items
+        const startX = margin;
+        const startY = yPosition;
+        const endX = 70;  // Width of receipt
+    
+        doc.setLineWidth(0.1);  // Set line width
+        doc.line(startX, startY, endX, startY);  // Draw the horizontal line
+    
+        // Add total amount
+        const totalAmount = selectedRooms.reduce((total, current) => current.price * current.gap + total, 0);
+    
+        // Increase page height if needed for total
+        if (getContentHeight() > doc.internal.pageSize.height) {
+            doc.internal.pageSize.height += 15;  // Add 15mm for total and final line
+        }
+    
+        yPosition += lineHeight;  // Adjust Y position for total
+        doc.text('Total: ', margin, yPosition);  // Format total to two decimals
+        doc.text(`${totalAmount}`, 60, yPosition);
+        yPosition += lineHeight + 5;
+        doc.setFontSize(8);
+        doc.text('Thank you for choosing Silver Stone Hotel!', 40, yPosition, null, null, 'center');
+        // Save the PDF
+        doc.save('receipt.pdf');
+    };
 
     const add_div = (num) => {
         setNumberOfRooms(numberOfRooms + num);
