@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
-const url = process.env.NODE_ENV === 'production' ? 'https://silverstone-hotel.onrender.com' : 'http://localhost:5173/';
+const url = process.env.NODE_ENV === 'production' ? 'https://silverstone-hotel.onrender.com' : 'http://localhost:5173';
 
 const createPaymentCheckout = async (req, res) => {
     try{  
         
         const { rooms } = req.body;
-        console.log(rooms);
         const line_items = rooms.map((room,i) => {
           return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: 1}
         })
@@ -25,9 +24,9 @@ const createPaymentCheckout = async (req, res) => {
                       send_email_receipt: true,
                       show_description: false,
                       show_line_items: true,
-                      cancel_url: `${url}booknow`,
+                      cancel_url: `${url}/booknow`,
                       line_items,
-                      success_url: `${url}api/reserve`,
+                      success_url: `${url}/api/reserve`,
                       payment_method_types: ['card', 'gcash', 'paymaya', 'brankas_metrobank'],
                       description: 'dasdsadsa'
                     }
@@ -38,7 +37,6 @@ const createPaymentCheckout = async (req, res) => {
               if(response.ok){
                 const result = await response.json();
                 const token = jwt.sign(req.body, process.env.JWT_SECRET);
-                console.log('result ' , result)
                 res.cookie('checkoutData', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
                 res.status(200).json(result)
               }

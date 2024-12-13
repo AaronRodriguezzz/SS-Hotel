@@ -49,9 +49,10 @@ const NewReservation = async (req,res) => {
     const reservationData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
     const {stateData, rooms}  = reservationData; 
 
+    console.log(reservationData);
     try{
 
-        for (const reservation of rooms.entries()) {
+        for (const [index, reservation] of rooms.entries()) {
             const checkIn = new Date(reservation.checkInDate);  
             const checkOut = new Date(reservation.checkOutDate);
 
