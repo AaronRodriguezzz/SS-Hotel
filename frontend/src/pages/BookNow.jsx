@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
-import { ChatProvider } from '../Components/ChatContext';
 import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 import FloatingButton from '../Components/ChatBot';
@@ -29,8 +28,6 @@ const BookNowPage = () => {
         addedRoom.daysGap = daysGap;
         addedRoom.checkInDate = checkInDate;  
         addedRoom.checkOutDate = checkOutDate; 
-        
-        console.log(addedRoom); 
         setTotalPayment(totalPayment + (addedRoom.price * addedRoom.daysGap));
         setBookedRoom(prev => {
             return [...prev, addedRoom];
@@ -110,9 +107,6 @@ const BookNowPage = () => {
         fetchRooms();
     }, [checkInDate, checkOutDate]);
     
-    useEffect(() => {
-        console.log(roomsAvailable);
-    },[roomsAvailable])
 
     return(
         <>
@@ -164,7 +158,8 @@ const BookNowPage = () => {
                         roomsAvailable.length === 0 ? (
                             <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
                         ): (
-                          checkInDate !== '' && checkOutDate !== '' && roomsAvailable.map(room => (
+                          checkInDate !== '' && checkOutDate !== '' && roomsAvailable.map(room => {
+                            return(
                                 <div key={room._id} className='room'>
                                     <img src={`/photos/z${room.roomType}.jpg`} alt={`${room.roomType}`} />  
                                     <div className='room-text'>
@@ -175,8 +170,12 @@ const BookNowPage = () => {
                                         <p>{room.roomDescription}</p>
 
                                         <div className="room-button-container">
-                                            <button  className='link-button' onClick={() => handleAddRoom(JSON.stringify(room))}>ADD ROOM</button>
-                                            <button  className='calendar-button' onClick={() => {
+                                            <button  className='link-button' 
+                                                onClick={() => handleAddRoom(JSON.stringify(room))}
+                                                disabled={bookedRoom.filter(item => item.roomType === room.roomType).length === room.roomLimit}
+                                            >ADD ROOM</button>
+                                            <button  className='calendar-button' 
+                                            onClick={() => {
                                                 handleCalendar(room.roomType);
                                                 setShowCalendar(true)
                                             }}><img src="./photos/calendar.png" alt="calendar" /></button>
@@ -184,7 +183,7 @@ const BookNowPage = () => {
                                     
                                     </div>
                                 </div>
-                            ))
+                            )})
                         )
                     )}
                 </div>

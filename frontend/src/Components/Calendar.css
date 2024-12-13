@@ -12,7 +12,8 @@
   color:rgb(187, 172, 90) ;
   padding: 20px;
   position: fixed;
-
+  border: 3px solid rgb(204, 182, 57);
+  border-radius: 20px;
 }
 
 .calendar-container .close-btn{
