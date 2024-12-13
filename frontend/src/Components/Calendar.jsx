@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { format, startOfMonth, getDaysInMonth, startOfWeek, addDays, isSameDay } from 'date-fns';
 import './Calendar.css';  // Make sure you style it in this file
 
-const Calendar = ({ roomType }) => {
+const Calendar = ({ roomType, close }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [occupiedDates, setOccupiedDates] = useState([]);
@@ -91,6 +91,7 @@ const Calendar = ({ roomType }) => {
   return (
     <div className="calendar-container">
       <h2>{roomType}</h2>
+      <button className='close-btn' onClick={close}>X</button>
       <div className="calendar-header">
         <button onClick={() => setCurrentDate(addDays(currentDate, -30))}>←</button>
         <h2>{format(currentDate, 'MMMM yyyy')}</h2>

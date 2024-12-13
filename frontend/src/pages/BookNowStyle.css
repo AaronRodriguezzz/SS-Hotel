@@ -192,13 +192,16 @@
     margin-top: 30px;
     margin-bottom: 100px;    
     border-radius: 10px;
+}
+
+.avail-rooms .room-button-container .link-button:not(:disabled){
     background-color: rgb(204, 182, 57);
     color: WHITE;
     border: none;
     outline: none;
 }
 
-.avail-rooms .room-button-container .link-button:hover{
+.avail-rooms .room-button-container .link-button:not(:disabled):hover{
     transition: background-color 0.7s ease, transform 0.7s ease; 
     background-color: rgba(128, 128, 128, 0.199);
     color: rgb(204, 182, 57);

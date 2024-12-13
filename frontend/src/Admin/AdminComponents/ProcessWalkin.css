@@ -109,9 +109,12 @@
 }
 
 .client-info-container button{
+    height: 50px;
+}
+
+.client-info-container button:not(:disabled){
     background-color: rgb(212, 188, 52);
     border: none;
-    height: 50px;
 }
 
 @media (max-width:1440px) {
