@@ -21,6 +21,7 @@ const BookNowPage = () => {
     const [roomToCalendar, setRoomToCalendar] = useState('');
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
+    const [showCalendar, setShowCalendar] = useState(false);
 
 
     const handleAddRoom = (room) => {
@@ -152,7 +153,7 @@ const BookNowPage = () => {
             </div>
             
             <div className="calendar-div" style={{display: checkInDate !== '' && checkOutDate !== '' ? "flex":"none" }}>
-                <Calendar roomType={roomToCalendar}/>
+                {showCalendar && <Calendar roomType={roomToCalendar} close={() => setShowCalendar(false)}/>}
             </div>
 
             <div className='avail-rooms'>
@@ -175,7 +176,10 @@ const BookNowPage = () => {
 
                                         <div className="room-button-container">
                                             <button  className='link-button' onClick={() => handleAddRoom(JSON.stringify(room))}>ADD ROOM</button>
-                                            <button  className='calendar-button' onClick={() => handleCalendar(room.roomType)}><img src="./photos/calendar.png" alt="calendar" /></button>
+                                            <button  className='calendar-button' onClick={() => {
+                                                handleCalendar(room.roomType);
+                                                setShowCalendar(true)
+                                            }}><img src="./photos/calendar.png" alt="calendar" /></button>
                                         </div>
                                     
                                     </div>
