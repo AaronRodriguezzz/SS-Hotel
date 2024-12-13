@@ -240,7 +240,11 @@ const ProcessWalkIn = () => {
                     required
                 />  
 
-                <button>PROCEED PAYMENT</button>
+                <button disabled={selectedRooms.some(room => {
+
+                    return !(room.roomType && room.guestCount && room.checkInDate
+                    && room.checkOutDate && room.roomLimit && room.price && room.gap)
+                })}>PROCEED PAYMENT</button>
             </form>
         </div>
     )
