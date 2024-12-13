@@ -1,6 +1,7 @@
 const Rooms = require('../../Models/HotelSchema/RoomsSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const RoomNumbers = require('../../Models/HotelSchema/RoomNumber');
+const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
 
 const fetchRoom = async (req,res) => {
     
@@ -121,6 +122,20 @@ const handle_available_roomNum = async (req,res) => {
     }
 }
 
+const get_restaurant_reservation = async (req,res) => {
+    try{
+        const restaurant = await Restaurant.find();
+
+        if(!restaurant){
+            return res.status(404).json({message: 'Failed to fetch restaurant'})
+        }
+
+        return res.status(200).json({restaurant});
+    }catch(err){
+        console.log(err);
+    }
+}
+
 
 
 
@@ -131,5 +146,6 @@ module.exports = {
     fetchAvailableRooms,
     specific_room_schedule,
     Available_Search_WalkIn,
-    handle_available_roomNum
+    handle_available_roomNum,
+    get_restaurant_reservation
 };

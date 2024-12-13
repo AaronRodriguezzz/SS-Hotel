@@ -9,5 +9,6 @@ router.get('/api/roomsAvailable/:roomType', AdminFetch.fetchAvailableRooms);
 router.get('/api/room_details/:room', AdminFetch.specific_room_schedule);
 router.get('/api/walkIn_search/:room', AdminFetch.Available_Search_WalkIn);
 router.get('/api/roomnum/available', AdminFetch.handle_available_roomNum);
+router.get('/api/restaurant/reservations', AdminFetch.get_restaurant_reservation);
 
 module.exports = router;

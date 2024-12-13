@@ -9,6 +9,7 @@ import ReservationHistory from '../AdminComponents/ReservationHistory';
 import NewAdmin from '../AdminComponents/NewAdmin';
 import AdminTable from '../AdminComponents/AdminTable';
 import ProcessWalkIn from '../AdminComponents/ProcessWalkin';
+import RestaurantReservations from '../AdminComponents/RestaurantReservations';
 
 const AdminPage = () => {
     const location = useLocation();
@@ -51,6 +52,8 @@ const AdminPage = () => {
                 {activeSection === 'new-admin' && <NewAdmin name={{adminName}} />}
                 {activeSection === 'super-admin' && <AdminTable />}
                 {activeSection === 'history' && <ReservationHistory />}
+                {activeSection === 'restaurant' && <RestaurantReservations />}
+
             </div>
         </>
     )
