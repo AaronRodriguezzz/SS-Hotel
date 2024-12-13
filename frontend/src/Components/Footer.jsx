@@ -6,7 +6,7 @@ const footer = forwardRef((_, ref) => {
     return(
         <div className='footer' >
             <img src='/photos/logo.png' alt='Logo' />
-            <button>TERMS AND CONDITIONS</button>        
+            <button><a href="/terms-and-conditions">TERMS AND CONDITIONS</a></button>        
 
             <div className='social-medias' ref={ref}>
                 <button><img src='/photos/facebook.png' alt='Facebook' /></button>        

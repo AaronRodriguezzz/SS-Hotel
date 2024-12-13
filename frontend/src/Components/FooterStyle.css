@@ -12,6 +12,11 @@
     font-size: 18px;
     letter-spacing: 2px;
     color: rgb(226, 206, 93);
+    text-decoration: none;
+}
+
+.footer button a{
+    color: rgb(226, 206, 93);
 }
 
 .footer button:hover{
@@ -19,6 +24,8 @@
    transition: 1s ease;
    scale: 1.1;
 }
+
+
 
 .footer img{
     height: 250px;

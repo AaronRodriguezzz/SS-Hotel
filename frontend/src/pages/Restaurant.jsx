@@ -52,9 +52,9 @@ function Restaurant(){
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: .9, delay: .8 }}
-                        onClick={() => handleReserverClicked(true)}
+                        onClick={() => window.location.href = 'restaurant-form' }
                     >
-                        RESERVE TABLE
+                         RESERVE TABLE
                     </motion.button>     
                     
                     <div className='form-container'
