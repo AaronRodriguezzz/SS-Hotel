@@ -76,7 +76,7 @@ const ReservationHistory = () => {
                         <th>Check-Out Date</th>
                         <th>Guest Name</th>
                         <th>Contact Number</th>
-                        <th>Total Rooms</th>
+                        <th>Email</th>
                         <th>Total Guests</th>
                         <th>Total Price</th>
                         <th>Assigned Room</th>
