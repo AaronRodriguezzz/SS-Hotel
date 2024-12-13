@@ -57,7 +57,7 @@ const ProcessWalkIn = () => {
         let totalHeight = getContentHeight();
         doc.setFontSize(5);
         // Add the static content (Date and Booking Reference)
-        doc.text(`Book Date: ${formatDateTime(new Date())}`, margin, yPosition);
+        doc.text(`Date: ${formatDateTime(new Date())}`, margin, yPosition);
         yPosition += lineHeight;
         doc.text(`Guest Name: ${fullName}`, margin, yPosition);
         yPosition += lineHeight;
