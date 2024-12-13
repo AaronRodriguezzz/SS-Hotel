@@ -15,7 +15,7 @@ const fetchRoom = async (req,res) => {
 
 const fetchSchedule = async (req,res) => {
     
-    const reservations = await RoomSchedule.find();
+    const reservations = await RoomSchedule.find().sort({createdAt: -1});
 
 
     if(!reservations){

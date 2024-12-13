@@ -1,4 +1,5 @@
 import { useEffect,useState,} from 'react';
+import { formatDate, formatDateTime } from '../../utils/dateUtils';
 
 
 const ReservationHistory = () => {
@@ -89,8 +90,8 @@ const ReservationHistory = () => {
                             <tr key={history.updatedBy}>
                                 <td>{history.updatedBy}</td>
                                 <td>{history.roomType}</td>
-                                <td>{history.checkInDate}</td>
-                                <td>{history.checkOutDate}</td>
+                                <td>{formatDate(new Date(history.checkInDate))}</td>
+                                <td>{formatDate(new Date(history.checkOutDate))}</td>
                                 <td>{history.guestName}</td>
                                 <td>{history.guestContact}</td>
                                 <td>{history.guestEmail}</td>
@@ -98,7 +99,7 @@ const ReservationHistory = () => {
                                 <td>{history.totalGuests}</td>
                                 <td>{history.totalPrice}</td>
                                 <td>{history.remarks}</td>
-                                <td>{history.updatedAt}</td>
+                                <td>{formatDateTime(new Date(history.updatedAt))}</td>
                             </tr>
                         )
                     }))}

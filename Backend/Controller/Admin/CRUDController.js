@@ -2,6 +2,7 @@ const Admin = require('../../Models/AdminSchemas/AdminSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const RoomNums = require('../../Models/HotelSchema/RoomNumber');
 const History = require('../../Models/AdminSchemas/RecycleBin');
+const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 
@@ -119,9 +120,7 @@ const processReservation = async (req, res) => {
             return res.status(404).json({message:'Add to Bin Failed'});
         }
        
-        const delReservation = await RoomSchedule.findOneAndDelete({id: reservation._id});
-
-        console.log('pass 3')
+        const delReservation = await RoomSchedule.findOneAndDelete({_id: reservation._id});
 
         if(delReservation){
             return res.status(200).json({message: 'Assigning to room/s Successful'});
@@ -193,19 +192,55 @@ const updateStatus = async (req,res) => {
 
 const processCancellation = async (req, res) => {
     const {id} = req.params;
-
+     const token  = req.cookies.jwt;
+    
+    if(!token){
+        return res.status(401).json({ message: 'Token invalid'});
+    }
+    
+    const decodedToken= jwt.verify(token, process.env.JWT_SECRET);
     try{
-        const reservation = await RoomSchedule.findOneAndDelete({id});
+        const admin = await Admin.findOne({email: decodedToken.email })
+        if(!admin) throw new Error('Admin not found');
+        const bin = new History({
+            ...req.body,
+            roomAssigned: 'N/A',
+            updatedBy: admin.firstName
+        })
+
+        const reservation = await RoomSchedule.findByIdAndDelete(id);
 
         if(!reservation){
             return res.status(404).json({message: 'Failed to Cancel'});
         }
 
-        const bin = new History({
-            
-        })
+        await bin.save();
+        if(!bin) throw new Error('Cancellation error'); 
+        res.status(200).json({message: 'Cancellation success'});
     }catch(err){
-        console.log(err);
+        console.log(err)
+        res.status(400).json({error: err.message});
+    }
+}
+
+const processCheckOut = async (req, res) => {
+    try{
+        const roomNum = await RoomNums.findOneAndUpdate(
+            { roomNumber: req.params.roomNum },
+            {
+                clientName: '',
+                checkInDate: '',
+                checkOutDate: '',
+                contactNumber: '',
+                guestCount: '',
+                status: 'Available',
+            }
+        )
+        if(!roomNum) throw new Error('Room not found');
+
+        res.status(200).json({message: 'Checkout successful'})
+    }catch(err){
+        res.status(400).json({error: err.message});
     }
 }
 
@@ -214,5 +249,6 @@ module.exports = {
     processReservation,
     processCancellation,
     updateRole,
-    updateStatus
+    updateStatus,
+    processCheckOut
 }

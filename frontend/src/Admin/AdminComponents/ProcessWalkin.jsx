@@ -5,17 +5,30 @@ import { formatDate } from '../../utils/dateUtils';
 const ProcessWalkIn = () => {
     const [numberOfRooms, setNumberOfRooms] = useState(2);
     const [rooms, setRooms] = useState([]);
-    const [roomNum, setRoomNum] = useState([]);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    // value of select elemet 
-
     const [selectedRooms, setSelectedRooms] = useState([]);
 
-    const proceed_payment = () => {
-
+    const reserve = async (e) => {
+        e.preventDefault();
+        if(confirm('Click ok to continue')){
+            try{
+                const response = await fetch(`/api/reserve/admin`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ stateData: {fullName, phoneNumber, email}, rooms: selectedRooms }),
+                });
+                if(response.ok){
+                    window.location.reload();
+                }
+            }catch(err){    
+                console.error('Error: ', err)
+            }
+        }
     }
 
     const add_div = (num) => {
@@ -49,10 +62,19 @@ const ProcessWalkIn = () => {
     const handleChangeDetails = async (index, value, type) => {
         setSelectedRooms(await Promise.all(selectedRooms.map(async (room, i) => {
             if(index === i){
+                if(type === 'checkInDate'){
+                    room.checkOutDate = '';
+                }
+
                 if(type === 'checkInDate' || type === 'checkOutDate'){
                     room.roomType = '';
-                    room.roomNum = '';
                 }
+                if(type === 'roomType'){
+                    room.roomLimit = rooms.find(room => room.roomType === value).roomLimit;
+                    room.price = rooms.find(room => room.roomType === value).price;
+                }
+                const gap = Math.floor((new Date(room.checkOutDate) - new Date(room.checkInDate)) / (1000 * 60 * 60 * 24))
+                room.gap = gap;
                 room[type] = value;
                 room.availableRooms = await handleSearch(index);
 
@@ -71,8 +93,8 @@ const ProcessWalkIn = () => {
                 guestCount: selectedRooms[i]?.guestCount || '',
                 checkInDate: selectedRooms[i]?.checkInDate || '',
                 checkOutDate: selectedRooms[i]?.checkOutDate || '',
-                minCheckOut: selectedRooms[i]?.minCheckOut || '',
                 availableRooms: selectedRooms[i]?.availableRooms || [],
+                
             })))
         };
         initializeSelectedRooms();
@@ -96,23 +118,6 @@ const ProcessWalkIn = () => {
         fetchRooms()
     },[]);
 
-    useEffect(() => {
-        const fetchRoomNums = async () => {    
-            try{
-                const response = await fetch('/api/roomnum/available');
-                const data = await response.json();
-                
-                if(response.ok){
-                    setRoomNum(data.roomNum);
-                }
-        
-            }catch(err){
-                console.log(err);
-            }
-        }
-
-        fetchRoomNums()
-    },[]);
 
     return(
         <div className="process-walkIn-page">
@@ -170,27 +175,16 @@ const ProcessWalkIn = () => {
                                         )}
                                     </select>
                                 </div>
-                                
-
-                                <div className="room-input-info-each">
-                                    <label htmlFor="room-type">Room Number</label>
-                                    <select name="room-type" id="room-type" value={selectedRooms[i]?.roomNum} onChange={(e) => handleChangeDetails(i,  e.target.value, 'roomNum')}>
-                                        <option value={''} disabled>Select Room Number</option>
-                                        {roomNum && roomNum.filter(room => room.roomType === selectedRooms[i]?.roomType).map(room => (
-                                            <option key={room.roomNumber} value={room.roomNumber}>
-                                                {room.roomNumber}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
                             </div>
                             
                                 <label htmlFor="guest-quantity">Room {i + 1} Guest Count</label>
                                 <select name="guest-quantity" id="room-type" value={selectedRooms[i]?.guestCount} onChange={(e) => handleChangeDetails(i, e.target.value, 'guestCount')}>
-                                    {rooms && rooms.map(room => 
-                                        <option value={room.roomLimit}>{room.roomLimit}</option>
-                                    )}
-                                </select>
+                                <option value=""></option>
+                                {Array.from({ length: rooms.find(room => room.roomType === selectedRooms[i]?.roomType)?.maximumGuest }, (_, i) => 
+                                <option value={i+1}>{i+1}</option>    
+                            )
+                                }
+                            </select>
                         </div>      
                     )
                 })}                
@@ -201,7 +195,7 @@ const ProcessWalkIn = () => {
                 </div>
             </div>
 
-            <div className="client-info-container">
+            <form className="client-info-container" onSubmit={reserve}>
 
                 <label htmlFor="full-name">Full Name</label>
                 <input 
@@ -236,7 +230,7 @@ const ProcessWalkIn = () => {
                 />  
 
                 <button>PROCEED PAYMENT</button>
-            </div>
+            </form>
         </div>
     )
 }

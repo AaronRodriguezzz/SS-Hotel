@@ -45,7 +45,7 @@ const recycleBin = new mongoose.Schema({
         type: String,
         required: true,
     },
-    mmodeOfPayment: {
+    modeOfPayment: {
         type: String,
         enum: ['Online Payment', 'Cash'],
         default: 'Online Payment',

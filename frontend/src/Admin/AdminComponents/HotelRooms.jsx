@@ -1,5 +1,6 @@
 import { useEffect,useState,} from 'react';
 import './HotelRooms.css'
+import { formatDate, formatDateTime } from '../../utils/dateUtils';
 
 
 const HotelRooms = () => {
@@ -98,16 +99,17 @@ const HotelRooms = () => {
                         </thead>
                         <tbody>
                             {individualRoom && (individualRoom.map(roomNum => {
+                                console.log(roomNum)
                                 return(
                                     <tr key={roomNum.roomNumber}>
                                         <td>{roomNum.roomNumber}</td>
                                         <td>{roomNum.roomType}</td>
-                                        <td>{roomNum.checkInDate}</td>
-                                        <td>{roomNum.checkOutDate}</td>
+                                        <td>{roomNum.checkInDate ? formatDate(new Date(roomNum.checkInDate)) : ''}</td>
+                                        <td>{roomNum.checkOutDate ? formatDate(new Date(roomNum.checkOutDate)) : ''}</td>
                                         <td>{roomNum.clientName}</td>
                                         <td>{roomNum.contactNumber}</td>
                                         <td>{roomNum.status}</td>
-                                        <td>{roomNum.updatedAt}</td>
+                                        <td>{roomNum.updatedAt ? formatDateTime(new Date(roomNum.updatedAt)) : ''}</td>
                                         <td>
                                             <button style={{width: "100%", fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={console.log('clicked')}>Check Out</button>
                                         </td>
