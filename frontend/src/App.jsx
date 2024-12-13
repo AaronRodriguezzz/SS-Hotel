@@ -11,6 +11,8 @@ import AdminPage from './Admin/AdminInterface/AdminLandingPage'
 import EmailVerification from './pages/EmailVerification';
 import AdminRoute from './routes/adminRoute';
 import Calendar from './Components/Calendar';
+import TermsAndConditions from './pages/TermsAndConditions';
+import RestaurantForm from './pages/RestaurantReservationForm';
 
 function App() {
   return (
@@ -27,6 +29,12 @@ function App() {
               exact path='/restaurant'
               element={<Restaurant />}
             />
+
+            <Route 
+              exact path='/restaurant-form'
+              element={<RestaurantForm />}
+            />
+
 
             <Route 
               exact path='/room/:key'
@@ -70,7 +78,11 @@ function App() {
               element={<Calendar />} 
             />  
 
-
+            <Route 
+              exact path='/terms-and-conditions'
+              element={<TermsAndConditions />}
+            />
+            
           </Routes>
         </div>
       </BrowserRouter>

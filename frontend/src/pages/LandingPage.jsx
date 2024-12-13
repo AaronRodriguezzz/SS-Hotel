@@ -259,9 +259,9 @@ function FrontPage(){
 
                 <div className='rooms-buttom-sec'>
                         <div className='bottom-butt'>
-                            <button onClick={() => {handleRoomClick(0)}}></button>
-                            <button onClick={() => {handleRoomClick(1)}}></button>
-                            <button onClick={() => {handleRoomClick(2)}}></button>
+                            <button onClick={() => {handleRoomClick(0)}} className='bottom-button'></button>
+                            <button onClick={() => {handleRoomClick(1)}} className='bottom-button'></button>
+                            <button onClick={() => {handleRoomClick(2)}} className='bottom-button'></button>
                         </div>
 
                         <h1>Rates and Promo Offers are Exclusive to Online Bookings Only</h1>
@@ -278,7 +278,7 @@ function FrontPage(){
                         <div className='color-cover'>
                             <img src='/photos/fitness-img.jpg' alt='Fitness Center' />
                             <div className='overlay-text'>
-                                <h3>Fitness Gym</h3>
+                                <h3 id='amenities-title'>Fitness Gym</h3>
                                 <p>Experience the elegance of our hotel ballroom, 
                                 where luxury and versatility create the perfect setting
                                 for unforgettable events. With stunning chandeliers, 
@@ -293,7 +293,7 @@ function FrontPage(){
                         <div className='color-cover'>
                             <img src='/photos/restaurant-img.jpg' alt='Restaurant' />
                             <div className='overlay-text'>
-                                <h3>Restaurant</h3>
+                                <h3 id='amenities-title'>Restaurant</h3>
                                 <p>Experience the elegance of our hotel ballroom, 
                                 where luxury and versatility create the perfect setting
                                 for unforgettable events. With stunning chandeliers, 
@@ -308,7 +308,7 @@ function FrontPage(){
                         <div className='color-cover'>
                             <img src='/photos/pool-img.jpg' alt='Restaurant' />
                             <div className='overlay-text'>
-                                <h3>Pool Area</h3>
+                                <h3 id='amenities-title'>Pool Area</h3>
                                 <p hidden>Experience the elegance of our hotel ballroom, 
                                 where luxury and versatility create the perfect setting
                                 for unforgettable events. With stunning chandeliers, 
@@ -322,7 +322,7 @@ function FrontPage(){
                         <div className='color-cover'>
                             <img src='/photos/ballroom-img.jpg' alt='Restaurant' />
                             <div className='overlay-text'>
-                                <h3>Ballroom</h3>
+                                <h3 id='amenities-title'>Ballroom</h3>
                                 <p>Experience the elegance of our hotel ballroom, 
                                 where luxury and versatility create the perfect setting
                                 for unforgettable events. With stunning chandeliers, 
