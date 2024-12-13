@@ -7,6 +7,7 @@ const BookingSummary = ({selectedRooms, submit, close}) => {
         <div className="ReservationSummary">
             <form onSubmit={submit}>
             <button type='button' onClick={close}>X</button>
+            <div className='reserved-rooms-container'>
             {selectedRooms && selectedRooms.map((room) => {
                     return(
 
@@ -22,6 +23,7 @@ const BookingSummary = ({selectedRooms, submit, close}) => {
                         </div>
                     )
                 })}
+            </div>
                 <h2>Total: ₱{selectedRooms.reduce((total, room) => (room.price * room.gap) + total, 0)}</h2>
                 <button className='finish-btn'>Finish</button>
             </form>
