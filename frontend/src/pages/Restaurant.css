@@ -20,8 +20,9 @@
 
 .restaurant-content .cover-color  h2{
     color: #d3b15a;
-    font-size: 50px;
-    font-weight: 500;
+    font-size: 40px;
+    margin: 40px 0px 20px 0px;
+    font-weight: 300;
     word-spacing: 15px;
     letter-spacing: 6px;
 }

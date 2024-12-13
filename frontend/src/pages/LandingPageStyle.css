@@ -258,16 +258,18 @@
     justify-content: center;
 }
 
-.rooms-buttom-sec .bottom-butt button{
-    width: 13px;
-    height: 13px;
-    border-radius: 50px;
+.rooms-buttom-sec .bottom-butt > {
+    width: 2px;
+    height: 2px;
     background-color: rgba(240, 240, 240, 0.7);
     border: none;
     transition: transform .1s ease-out, background-color .5s ease-out;
-
 }
 
+.bottom-button{
+    width: 5px;
+    height: 5px;
+}
 .rooms-buttom-sec .bottom-butt button:active{
     background-color:rgb(226, 206, 93);
     transition: transform .1s ease-out, background-color .5s ease-out;
@@ -279,9 +281,6 @@
     color: rgb(226, 206, 93);
     margin-bottom: 30px;
 }
-
-
-
 
 .amenities{
     display: block;
@@ -362,7 +361,7 @@
 }
 
 
-.overlay-text h3{
+.overlay-text #amenities-title{
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -370,7 +369,7 @@
     color: rgb(226, 206, 93);
     font-size: 32px;
     letter-spacing: 5px;
-    z-index: 2;
+    z-index: 1;
     font-weight: 300;
     margin-bottom: 40px;
     text-align: center;
@@ -384,14 +383,15 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 20px;
-    z-index: 2;
+    font-size: 17px;
+    z-index: 1;
     text-align: justify;
 }
 
 
 .color-cover:hover .overlay-text h3{
     animation: slide-span 0.8s ease forwards;
+    z-index: 3;
 }
 
 .color-cover:hover .overlay-text p {
