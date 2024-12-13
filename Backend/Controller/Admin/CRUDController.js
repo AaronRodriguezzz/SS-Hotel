@@ -223,10 +223,32 @@ const processCancellation = async (req, res) => {
     }
 }
 
+const processCheckOut = async (req, res) => {
+    try{
+        const roomNum = await RoomNums.findOneAndUpdate(
+            { roomNumber: req.params.roomNum },
+            {
+                clientName: '',
+                checkInDate: '',
+                checkOutDate: '',
+                contactNumber: '',
+                guestCount: '',
+                status: 'Available',
+            }
+        )
+        if(!roomNum) throw new Error('Room not found');
+
+        res.status(200).json({message: 'Checkout successful'})
+    }catch(err){
+        res.status(400).json({error: err.message});
+    }
+}
+
 module.exports = {
     addAdmin,
     processReservation,
     processCancellation,
     updateRole,
-    updateStatus
+    updateStatus,
+    processCheckOut
 }

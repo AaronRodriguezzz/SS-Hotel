@@ -1,6 +1,5 @@
 import { useEffect,useState,} from 'react';
-import { formatDateToWeekday } from '../../utils/dateUtils';
-
+import { formatDateTime, formatDateToWeekday } from '../../utils/dateUtils';
 
 const ProcessedReservation = () => {
 
@@ -27,6 +26,25 @@ const ProcessedReservation = () => {
         fetchRoomNums()
     },[]);
 
+    const checkOut = async (roomNum) => {
+        if(confirm('Click ok to continue')){
+            try{
+                const response = await fetch(`/api/room/checkout/${roomNum}`,{
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if(response.ok){
+                    window.location.reload();
+                }else{
+                    alert('Checkout failed')
+                }
+            }catch(err){
+                
+            }
+        }
+    }
 
     return(
         <>
@@ -57,9 +75,9 @@ const ProcessedReservation = () => {
                                 <td>{roomNum.clientName}</td>
                                 <td>{roomNum.contactNumber}</td>
                                 <td>{roomNum.status}</td>
-                                <td>{roomNum.updatedAt}</td>
+                                <td>{roomNum.updatedAt ? formatDateTime(new Date(roomNum.updatedAt)) : ''}</td>
                                 <td>
-                                    <button style={{width: "100%", fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={console.log('clicked')}>Check Out</button>
+                                    <button style={{width: "100%", fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={() => checkOut(roomNum.roomNumber)}>Check Out</button>
                                 </td>
                             </tr>
                         )

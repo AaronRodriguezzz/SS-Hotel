@@ -1,6 +1,6 @@
 import { useEffect,useState,useRef} from 'react';
 import './ReservationTable.css'
-import { formatDateToWeekday } from '../../utils/dateUtils';
+import { formatDateTime, formatDateToWeekday } from '../../utils/dateUtils';
 
 
 const ReservationTable = ({name}) => {
@@ -169,6 +169,7 @@ const ReservationTable = ({name}) => {
                             <th>Room Quantity</th>
                             <th>Guest Quantity</th>
                             <th>Price Paid</th>
+                            <th>Book Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -185,6 +186,7 @@ const ReservationTable = ({name}) => {
                                     <td>{reservation.totalRooms}</td>   
                                     <td>{reservation.totalGuests}</td>
                                     <td>{reservation.totalPrice}</td>
+                                    <td>{formatDateTime(new Date(reservation.createdAt))}</td>
     
                                     <td className='buttons'>
                                         <button onClick={() => handleAssign(reservation)} style={{width: "50%"}}>Assign Room</button>
