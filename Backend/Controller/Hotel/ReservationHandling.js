@@ -92,7 +92,6 @@ const NewReservation = async (req,res) => {
 const AdminNewReservation = async (req,res) => {
     const reservationData = req.body;
     const {stateData, rooms}  = reservationData; 
-    console.log(reservationData);
     try{
         for (const [index, reservation] of rooms.entries()) {
             const checkIn = new Date(reservation.checkInDate);  

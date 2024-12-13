@@ -1,6 +1,7 @@
 import { useState, useEffect} from 'react';
 import './ProcessWalkin.css';
 import { formatDate } from '../../utils/dateUtils';
+import ReservationSummary from './ReservationSummary';
 
 const ProcessWalkIn = () => {
     const [numberOfRooms, setNumberOfRooms] = useState(2);
@@ -8,9 +9,9 @@ const ProcessWalkIn = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-
     const [selectedRooms, setSelectedRooms] = useState([]);
-
+    const [showSummary, setShowSummary] = useState();
+    
     const reserve = async (e) => {
         e.preventDefault();
         if(confirm('Click ok to continue')){
@@ -68,8 +69,11 @@ const ProcessWalkIn = () => {
 
                 if(type === 'checkInDate' || type === 'checkOutDate'){
                     room.roomType = '';
+                    room.roomLimit = '';
+                    room.price = '';
                 }
                 if(type === 'roomType'){
+                    room.guestCount = '';
                     room.roomLimit = rooms.find(room => room.roomType === value).roomLimit;
                     room.price = rooms.find(room => room.roomType === value).price;
                 }
@@ -89,11 +93,13 @@ const ProcessWalkIn = () => {
         const initializeSelectedRooms = () => {
             setSelectedRooms( Array.from({ length: numberOfRooms }, (_, i) => ({
                 roomType: selectedRooms[i]?.roomType || '',
-                roomNum: selectedRooms[i]?.roomNum || '',
                 guestCount: selectedRooms[i]?.guestCount || '',
                 checkInDate: selectedRooms[i]?.checkInDate || '',
                 checkOutDate: selectedRooms[i]?.checkOutDate || '',
                 availableRooms: selectedRooms[i]?.availableRooms || [],
+                roomLimit: selectedRooms[i]?.roomLimit || '',
+                price: selectedRooms[i]?.price || '',
+                gap: selectedRooms[i]?.gap || '',
                 
             })))
         };
@@ -121,6 +127,7 @@ const ProcessWalkIn = () => {
 
     return(
         <div className="process-walkIn-page">
+            {showSummary && <ReservationSummary selectedRooms={selectedRooms} submit={reserve} close={() => setShowSummary(false)}/>}
             <div className="room-container">
                 {rooms.length > 0 && Array.from({ length: numberOfRooms }, (_, i) => {
 
@@ -195,7 +202,11 @@ const ProcessWalkIn = () => {
                 </div>
             </div>
 
-            <form className="client-info-container" onSubmit={reserve}>
+            <form className="client-info-container" 
+            onSubmit={(e) => {
+                e.preventDefault();
+                setShowSummary(true)
+            }}>
 
                 <label htmlFor="full-name">Full Name</label>
                 <input 
