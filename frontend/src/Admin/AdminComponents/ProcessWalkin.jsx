@@ -16,7 +16,7 @@ const ProcessWalkIn = () => {
     const reserve = async (e) => {
         e.preventDefault();
         if(confirm('Click ok to continue')){
-            /* try{
+            try{
                 const response = await fetch(`/api/reserve/admin`,{
                     method: 'POST',
                     headers: {
@@ -30,7 +30,7 @@ const ProcessWalkIn = () => {
                 }
             }catch(err){    
                 console.error('Error: ', err)
-            }*/
+            }
            generateReceipt();
         }
     }
