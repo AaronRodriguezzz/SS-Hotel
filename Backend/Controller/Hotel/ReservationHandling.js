@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
+const Payment = require('../../Models/payment');
 const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
 
@@ -47,9 +48,8 @@ const AvailableRoomSearch = async (req, res) => {
 
 const NewReservation = async (req,res) => {
     const reservationData = jwt.verify(req.cookies.checkoutData, process.env.JWT_SECRET);
-    const {stateData, rooms}  = reservationData; 
+    const {stateData, rooms, payment_checkout_id}  = reservationData; 
 
-    console.log(reservationData);
     try{
 
         for (const [index, reservation] of rooms.entries()) {
@@ -68,6 +68,14 @@ const NewReservation = async (req,res) => {
                 totalGuests: reservation.maximumGuest,
                 totalPrice: reservation.price * reservation.daysGap,
             });
+            
+            if(!newReservation) throw new Error('Reservation failed');
+            const newPayment = new Payment({
+                reservation_id: newReservation._id,
+                payment_checkout_id,
+                totalPrice: reservation.price * reservation.daysGap
+            }) 
+            await newPayment.save();
             await newReservation.save();
             await RoomInfo.findOneAndUpdate(
                 { roomType: reservation.roomType },
@@ -110,7 +118,9 @@ const AdminNewReservation = async (req,res) => {
                 totalGuests: reservation.guestCount,
                 totalPrice: reservation.price * reservation.gap,
             });
+            
             await newReservation.save();
+
             await RoomInfo.findOneAndUpdate(
                 { roomType: reservation.roomType },
                 { $set: { roomLimit: reservation.roomLimit - 1 }}
@@ -157,34 +167,9 @@ const get_verification_code = async (req,res) => {
    
 }
 
-
-const DeleteReservation = async (req,res) => {
-    
-    try{
-        
-       
-        
-    }catch(err){
-        res.status(500).json('error' , { message: err.message });
-    }
-}
-
-const UpdateReservation = async (req,res) => {
-    
-    try{
-
-       
-        
-    }catch(err){
-        res.status(500).json('error' , { message: err.message });
-    }
-}
-
 module.exports = {
     AvailableRoomSearch,
     NewReservation,
     AdminNewReservation,
-    DeleteReservation,
-    UpdateReservation,
     get_verification_code,
 }

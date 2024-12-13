@@ -5,6 +5,8 @@ const History = require('../../Models/AdminSchemas/RecycleBin');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
+const Payment = require('../../Models/payment');
+const { getPaymentId, refundPayment } = require('../../services/paymentService');
 
 
 const addAdmin = async (req,res) => {
@@ -212,6 +214,20 @@ const processCancellation = async (req, res) => {
 
         if(!reservation){
             return res.status(404).json({message: 'Failed to Cancel'});
+        }
+
+        const payment = await Payment.findOne({reservation_id: id});
+        console.log(payment)
+        if(payment){
+            payment.status = 'Refunded';
+            if(payment.payment_checkout_id){
+                const paymongoPaymentId = await getPaymentId(payment.payment_checkout_id);
+                if(!paymongoPaymentId) throw new Error('Paymongo Payment Id not found');
+    
+                const refund = await refundPayment(paymongoPaymentId, payment.totalPrice)
+                if(!refund) throw new Error('Refund failed');
+            }
+            await payment.save();
         }
 
         await bin.save();

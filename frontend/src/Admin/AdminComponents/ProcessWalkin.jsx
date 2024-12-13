@@ -31,11 +31,12 @@ const ProcessWalkIn = () => {
             }catch(err){    
                 console.error('Error: ', err)
             }
+           generateReceipt();
         }
     }
 
     const generateReceipt = () => {
-        const initialPageHeight = 200;  
+        const initialPageHeight = 100;  
         const doc = new jsPDF({
             unit: 'mm',
             format: [80, initialPageHeight]
