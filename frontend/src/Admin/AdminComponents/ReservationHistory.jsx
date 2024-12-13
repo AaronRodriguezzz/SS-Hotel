@@ -3,49 +3,50 @@ import { formatDate, formatDateTime } from '../../utils/dateUtils';
 
 
 const ReservationHistory = () => {
-
+    const [history, setHistory] = useState();
     const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
 
+    const fetchHistory = async () => {    
+
+        try{
+            const response = await fetch('/api/history');
+            const data = await response.json();
+
+            console.log(data);
+            if(response.ok){
+                setHistory(data.history);
+            }
+    
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     const handleSearch = (event) => {
         const query = event.target.value.toLowerCase(); // Normalize input for case-insensitivity
         setSearchQuery(query);
-
         // Filter reservations based on the query
-        const filtered = filteredBin.filter((bin) => {
-            return (
-                bin.roomType.toLowerCase().includes(searchQuery) || 
-                bin.guestName.toLowerCase().includes(searchQuery) ||
-                bin.guestEmail.toLowerCase().includes(searchQuery) || 
-                bin.checkInDate.toLowerCase().includes(searchQuery) ||
-                bin.checkOutDate.toLowerCase().includes(searchQuery) 
-            );
-        });
+        const filtered = history.filter((bin) => {
+                return (
+                    bin.roomType.toLowerCase().includes(searchQuery) || 
+                    bin.guestName.toLowerCase().includes(searchQuery) ||
+                    bin.guestEmail.toLowerCase().includes(searchQuery) || 
+                    bin.checkInDate.toLowerCase().includes(searchQuery) ||
+                    bin.checkOutDate.toLowerCase().includes(searchQuery) 
+                );
+            });
 
-        setFilteredBin(filtered);
+        setFilteredBin(filtered)
     };
 
     useEffect(() => {
-        const fetchHistory = async () => {    
-
-            try{
-                const response = await fetch('/api/history');
-                const data = await response.json();
-
-                console.log(data);
-                if(response.ok){
-                    setFilteredBin(data.history);
-                }
-        
-            }catch(err){
-                console.log(err);
-            }
-        }
-
         fetchHistory()
     },[]);
 
+    useEffect(() => {
+        if(history) setFilteredBin(history);
+    }, [history])
 
     return(
         <>
@@ -85,9 +86,9 @@ const ReservationHistory = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredBin && (filteredBin.map(history => {
+                    {filteredBin && (filteredBin.map((history, i) => {
                         return(
-                            <tr key={history.updatedBy}>
+                            <tr key={i}>
                                 <td>{history.updatedBy}</td>
                                 <td>{history.roomType}</td>
                                 <td>{formatDate(new Date(history.checkInDate))}</td>
