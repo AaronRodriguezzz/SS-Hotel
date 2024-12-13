@@ -31,3 +31,20 @@ export const formatDate = (date) => {
           const result = finalFormattedDate + ')';
           return result
   }
+
+
+  export const formatTime = (time) => {
+    let [hours, minutes] = time.split(':');
+
+    // Convert hours to an integer
+    hours = parseInt(hours);
+
+    // Determine AM or PM
+    let period = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert 24-hour format to 12-hour format
+    hours = hours % 12 || 12; // If hours are 0, set to 12 (for 12 AM)
+    console.log(`${hours}:${minutes} ${period}`)
+    // Return the time in standard format
+    return `${hours}:${minutes} ${period}`;
+  }

@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const RenderRooms = require('./Routes/HotelRoutes/RenderingRoomRoutes');
-const Reservation = require('./Routes/HotelRoutes/ReservationRoutes')
+const Reservation = require('./Routes/HotelRoutes/ReservationRoutes');
+const Restaurant = require('./Routes/HotelRoutes/RestaurantReservationRoute');
 const Admin = require('./Routes/AdminRoutes/FetchRoomData')
 const SuperAdmin = require('./Routes/AdminRoutes/SuperAdminFetch')
 const AdminCrud = require('./Routes/AdminRoutes/CRUDRoute')
@@ -36,6 +37,7 @@ app.use(AdminLogin);
 app.use(AdminCrud);
 app.use(SuperAdmin);
 app.use(Reservation);
+app.use(Restaurant)
 app.use(ChatbotRoute);
 app.use(Admin);
 app.use(PaymentRoutes);

@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { format, startOfMonth, getDaysInMonth, startOfWeek, addDays, isSameDay } from 'date-fns';
 import './RestaurantCalendar.css';  // Make sure you style it in this file
+import { formatTime } from '../utils/dateUtils'
+const Calendar = ({ dateSelected, selectedTime }) => {
 
-const Calendar = ({ roomType }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [occupiedDates, setOccupiedDates] = useState([]);
-  const [datesToRender, setDatesToRender] = useState([]);
+  const [fullyBookedDate, setFullbookedDate] = useState([]);
+  const [dateData, setdateData] = useState([]);
+
   // Utility to check if a day is in the occupied dates
   const isOccupied = (day) => {
-    return datesToRender.some((occupiedDate) =>
-      isSameDay(new Date(occupiedDate), day)
+    return fullyBookedDate.some((occupiedDate) => 
+      isSameDay(new Date(occupiedDate.date), day)
     );
   };
 
@@ -39,54 +41,49 @@ const Calendar = ({ roomType }) => {
     allDays.push(addDays(startOfWeekBefore, i));
   }
 
-  // Check if a day is selected
+  // Check if a day is selected /api/specific/:date
   const isSelected = (day) => isSameDay(day, selectedDate);
 
   useEffect(() => {
-    const fetchReservations = async () => {    
+    console.log(dateSelected);
+
+    const fetch_specific_date = async () => {    
         try{
-            const response = await fetch('/api/reservations');
+            const response = await fetch(`/api/specific/${dateSelected}`);
             const data = await response.json();
 
             if(response.ok){
-                setOccupiedDates(data.reservations);
+              setdateData(data.data);
+            }
+     
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    fetch_specific_date()
+  },[dateSelected]);
+
+  useEffect(() => {
+
+    const fetchFullBookedDate = async () => {    
+        try{
+            const response = await fetch('/api/get/fullyBooked');
+            const data = await response.json();
+
+            if(response.ok){
+              setFullbookedDate(data.filteredDates);
+              
             }
     
         }catch(err){
             console.log(err);
         }
     }
-    fetchReservations()
+
+    fetchFullBookedDate()
   },[]);
 
-  useEffect(() => {
-    setDatesToRender(() => {
-      if(occupiedDates){
-        const dates = [];
-        occupiedDates.map(data => {
-          let currentDate = new Date(data.checkInDate);
-          let endDate = new Date(data.checkOutDate);
-        
-          if(roomType !== ''){
-            if(roomType === data.roomType){
-              while (currentDate <= endDate) {
-                dates.push(new Date(currentDate));
-                currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
-              }
-            }
-          }else{
-            while (currentDate <= endDate) {
-              dates.push(new Date(currentDate));
-              currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
-            }
-          }
-          
-        })
-  
-        return dates;
-      }
-    });
-  },[roomType,occupiedDates])
 
   return (
     <div className="restaurant-calendar-container">
@@ -111,12 +108,20 @@ const Calendar = ({ roomType }) => {
           {allDays.map((day, index) => {
             const dayNumber = format(day, 'd');
             const isInMonth = day.getMonth() === currentDate.getMonth();
+            let isHighlighted
+            
+            if(dateSelected !== ""){
+              const selectDate = new Date(dateSelected);
+              selectDate.setDate(selectDate.getDate() - 1);
+              isHighlighted = selectDate.toISOString().split('T')[0] === new Date(day).toISOString().split('T')[0];
+            }
+            
+
             return (
               <div
                 key={index}
-                className={`day ${isInMonth ? '' : 'inactive'} ${isOccupied(day) ? 'occupied' : ''} ${
-                  isSelected(day) ? 'selected' : ''
-                }`}
+                className={`day ${isInMonth ? '' : 'inactive'} ${isHighlighted ? 'highlited' : ''} 
+                ${isSelected(day) ? 'selected' : ''} `}
                 onClick={() => isInMonth && setSelectedDate(day)}
               >
                 <span>{dayNumber}</span>
@@ -124,6 +129,19 @@ const Calendar = ({ roomType }) => {
             );
           })}
         </div>
+      </div>
+
+      <div className="date-info-container">
+        <h2>Unavailable Time</h2>
+        {dateData && dateData.map(date => {
+          return(
+            <div className='sched-container'>
+              <p>Time: {formatTime(date.time)}</p>
+              <p> | </p>
+              <p>Guest Quantity: {date.guestQuantity}</p>
+            </div>
+          )
+        })}
       </div>
     </div>
   );
