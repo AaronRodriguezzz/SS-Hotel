@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const Payment = require('../../Models/payment');
-const url = process.env.NODE_ENV === 'production' ? 'https://silverstone-hotel.onrender.com' : 'http://localhost:5173';
+const { get_incomes_today, get_incomes_per_month, get_incomes_this_month, get_incomes_this_week  } = require('../../services/incomesService');
+const Reservation = require('../../Models/HotelSchema/RoomSchedules');
+const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173';
 
 const createPaymentCheckout = async (req, res) => {
     try{  
@@ -9,8 +11,6 @@ const createPaymentCheckout = async (req, res) => {
         const line_items = rooms.map((room,i) => {
           return {currency: 'PHP', amount: room.price * 100 , name: room.roomType, quantity: 1}
         })
-
-
             const options = {
                 method: 'POST',
                 headers: {
@@ -50,16 +50,45 @@ const createPaymentCheckout = async (req, res) => {
 
 const get_payments = async (req, res) => {
   try{
-    const payment = await Payment.find();
+    const payments = await Payment.find().sort({createdAt: -1});
+    const completedPayments = await Promise.all(payments.map(async (payment) => {
+      const reservation = await Reservation.findById(payment.reservation_id);
+      return reservation ? {
+        totalPrice: payment.totalPrice,
+        status: payment.status,
+        guestName: reservation.guestName,
+        checkInDate: reservation.checkInDate,
+        checkOutDate: reservation.checkOutDate,
+        paymentMethod: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
+        roomType: reservation.roomType,
+        createdAt: payment.createdAt
+      } : null
+    }))
 
-    res.status(200).json(payment);
+    res.status(200).json(completedPayments.filter(payment => payment));
 
   }catch(err){  
     res.status(400).json({error: err.message});
   }
 }
 
+const get_reports = async (req, res) => {
+  try{
+    const incomes_today = await get_incomes_today();
+    const incomes_this_month = await get_incomes_this_month();
+    const incomes_per_month = await get_incomes_per_month();
+    const incomes_this_week = await get_incomes_this_week();
+
+    res.status(200).json({incomes_today, incomes_this_week, incomes_per_month, incomes_this_month});
+
+  }catch(err){
+    res.status(400).json({error: err.message});
+  }
+}
+
+
 module.exports = {
     createPaymentCheckout,
-    get_payments
+    get_payments,
+    get_reports
 }

@@ -6,7 +6,8 @@ const ReservationHistory = () => {
     const [history, setHistory] = useState();
     const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
-
+    const [checkInDate, setCheckInDate] = useState('');
+    const [checkOutDate, setCheckOutDate] = useState('');
     const fetchHistory = async () => {    
 
         try{
@@ -32,8 +33,7 @@ const ReservationHistory = () => {
                     bin.roomType.toLowerCase().includes(searchQuery) || 
                     bin.guestName.toLowerCase().includes(searchQuery) ||
                     bin.guestEmail.toLowerCase().includes(searchQuery) || 
-                    bin.checkInDate.toLowerCase().includes(searchQuery) ||
-                    bin.checkOutDate.toLowerCase().includes(searchQuery) 
+                    bin.remarks.toLowerCase().includes(searchQuery)
                 );
             });
 
@@ -48,11 +48,49 @@ const ReservationHistory = () => {
         if(history) setFilteredBin(history);
     }, [history])
 
+    useEffect(() => {
+        const filterHistory = async () => {
+            if(checkInDate <= checkOutDate &&  checkInDate != '' && checkOutDate != ''){
+                setFilteredBin(history.filter(item => formatDate(new Date(new Date(item.checkInDate).toISOString().split('T')[0])) == formatDate(new Date(checkInDate)) && formatDate(new Date(new Date(item.checkOutDate).toISOString().split('T')[0])) == formatDate(new Date(checkOutDate))));
+            }
+        }
+        filterHistory ();
+    }, [checkInDate, checkOutDate])
+
+    const clear = async () => {
+        fetchHistory();
+        setCheckInDate('')
+        setCheckOutDate('')
+    }
+
+    const generateCSV = () => {
+        const csvRows = [];
+        const headers = ['Room Type', 'Check-In Date', 'Check-Out Date', 'Guest Name', 
+            'Contact Number', 'Email', 'Total Guests', 'Total Price', 'Assigned Room', 'Remarks'
+        ];
+        csvRows.push(headers.join(',')); // Add header row
+
+        // Add data rows
+        filteredBin.forEach(row => {
+        const values = [row.roomType, formatDateTime(new Date(row.checkInDate)), formatDateTime(new Date(row.checkOutDate)), row.guestName, row.guestContact, row.guestEmail, row.totalGuests, row.totalPrice, row.roomAssigned, row.remarks]
+        csvRows.push(values);
+        });
+
+        // Create a Blob from the CSV string
+        const csvBlob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+        const csvUrl = URL.createObjectURL(csvBlob);
+
+        // Create a link to download the CSV
+        const link = document.createElement('a');
+        link.href = csvUrl;
+        link.download = 'reservation_history_report.csv';
+        link.click();
+    };
+
     return(
         <>
-
-        
         <div class="parent-table-container">
+            <div className='filter-container'>
             <input
                 type="text"
                 placeholder="Search reservations..."
@@ -66,7 +104,16 @@ const ReservationHistory = () => {
                     borderRadius: "15px"
                 }}
             />
-
+                <div>
+                    <p>Check In Date</p>
+                    <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)}/>
+                </div>
+                <div>
+                    <p>Check Out Date</p>
+                    <input type="date" value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)}/>
+                </div>
+                <button onClick={() => clear()}>Clear</button>
+            </div>
             <div className="table-container">
             <table>
                 <thead>
@@ -96,9 +143,9 @@ const ReservationHistory = () => {
                                 <td>{history.guestName}</td>
                                 <td>{history.guestContact}</td>
                                 <td>{history.guestEmail}</td>
-                                <td>{history.totalRooms}</td>
                                 <td>{history.totalGuests}</td>
                                 <td>{history.totalPrice}</td>
+                                <td>{history.roomAssigned}</td>
                                 <td>{history.remarks}</td>
                                 <td>{formatDateTime(new Date(history.updatedAt))}</td>
                             </tr>
@@ -107,6 +154,7 @@ const ReservationHistory = () => {
                 </tbody>
             </table>
             </div>
+            <button onClick={generateCSV} className='export-btn'>Export</button>
         </div>
         </>
        

@@ -118,7 +118,11 @@ const AdminNewReservation = async (req,res) => {
                 totalGuests: reservation.guestCount,
                 totalPrice: reservation.price * reservation.gap,
             });
-            
+            const newPayment = new Payment({
+                reservation_id: newReservation._id,
+                totalPrice: reservation.price * reservation.gap
+            }) 
+            await newPayment.save();
             await newReservation.save();
 
             await RoomInfo.findOneAndUpdate(

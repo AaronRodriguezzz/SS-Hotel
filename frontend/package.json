@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coreui/react-chartjs": "^3.0.0",
     "backend": "file:..",
     "date-fns": "^4.1.0",
     "express-session": "^1.18.1",

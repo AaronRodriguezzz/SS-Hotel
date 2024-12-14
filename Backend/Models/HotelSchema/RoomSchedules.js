@@ -37,6 +37,11 @@ const RoomReservations = new mongoose.Schema({
         type: Number,
         require: true,
     },
+    status: {
+        type: String,
+        enum: ['Pending', 'Cancelled', 'Assigned'],
+        default: 'Pending'
+    }
     
 }, { timestamps: true});
 
