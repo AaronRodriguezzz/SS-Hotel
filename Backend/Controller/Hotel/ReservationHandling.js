@@ -14,7 +14,8 @@ const AvailableRoomSearch = async (req, res) => {
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
-        const RoomSchedules = await ReservationSchedule.find();
+        const RoomSchedules = await ReservationSchedule.find({ status: 'Pending' });
+
         const available = RoomSchedules.filter(sched => {
             return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
