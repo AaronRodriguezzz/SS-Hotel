@@ -54,7 +54,7 @@ const recycleBin = new mongoose.Schema({
     remarks: {
         type: String,
         required: true,
-        enum:['Cancelled', 'Completed']
+        enum:['Cancelled', 'Completed', 'No-Show']
     }
 },{ timestamps: true});
 

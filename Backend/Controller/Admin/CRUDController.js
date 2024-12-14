@@ -114,9 +114,6 @@ const processReservation = async (req, res) => {
         
         const isRoomAssigned = await addToBin.save();
 
-        console.log('pass 2')
-
-
         if(!isRoomAssigned){
             console.log('Error adding to History');
             return res.status(404).json({message:'Add to Bin Failed'});
@@ -277,8 +274,44 @@ const delete_admin = async (req,res) => {
         res.status(500).json({message: 'Admin deletion failed'})
         console.log(err);
     }
-
 }
+
+const delete_due_reservations = async (req, res) => {
+   /* const duesReservation = req.body; 
+    console.log('helow' , duesReservation)
+    try {
+        const roomUpdates = await Promise.all(
+            duesReservation.map(async (reservation) => {
+
+                const deletedRoom = await RoomSchedule.findOneAndDelete({ checkOutDate: reservation.checkOutDate });
+                
+                if (!deletedRoom) {
+                    throw new Error(`No room found with checkOutDate: ${reservation.checkOutDate}`);
+                }
+
+                // Add to history bin
+                const addToBin = new History({
+                    updatedBy: 'N/A',
+                    ...reservation,
+                    roomAssigned: 'N/A',
+                    remarks: 'No-Show',
+                });
+
+                await addToBin.save();
+                return true; // Indicating success
+            })
+        );
+
+        console.log('room updates', roomUpdates);
+        // If all operations succeeded
+        return res.status(200).json({ message: "Reservations processed successfully", roomUpdates });
+
+    } catch (err) {
+        console.error("Error processing reservations:", err);
+        return res.status(500).json({ message: "Internal server error", error: err.message });
+    }*/
+};
+
 
 module.exports = {
     addAdmin,
@@ -287,5 +320,6 @@ module.exports = {
     updateRole,
     updateStatus,
     processCheckOut,
-    delete_admin
+    delete_admin,
+    delete_due_reservations
 }
