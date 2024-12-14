@@ -140,35 +140,6 @@ const ReservationTable = ({name}) => {
         fetchReservations()
     },[]);
 
-
-    useEffect(() => {
-        const delete_due_reservation = async () => {
-            const filteredReservation = reservations.filter((reservation) => {
-                return(today > new Date(reservation.checkOutDate))
-            })
-
-            console.log('filtered array' , filteredReservation)
-            try{
-                const response = await fetch('/api/delete/due_reservation', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(filteredReservation),
-                })
-
-                if(response.ok){
-                    const data = await response.json();
-                    setFilteredBin(data.roomUpdates)
-                }
-
-            }catch(err){
-                console.log(err);
-            }
-        }
-
-        delete_due_reservation();
-    },[reservations])
     
 
     return(

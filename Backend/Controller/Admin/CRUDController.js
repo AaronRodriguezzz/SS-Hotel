@@ -237,7 +237,7 @@ const processCancellation = async (req, res) => {
     }
 }
 
-const processCheckOut = async (req, res) => {
+const processCheckOut = async (req, res) => {A
     try{
         const roomNum = await RoomNums.findOneAndUpdate(
             { roomNumber: req.params.roomNum },

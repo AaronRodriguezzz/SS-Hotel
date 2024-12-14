@@ -118,7 +118,7 @@ function FrontPage(){
 
                             <div className='room-price'>
                                 <h6>from</h6>
-                                <h4>₱ 5,389</h4>
+                                <h4>₱ 5,189</h4>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ function FrontPage(){
                         <div className='room-txt'>
                             <div className='room-info'>
                                 <h4>Accessible Suite</h4>
-                                <h6>2 GUESTS</h6>
+                                <h6>3 GUESTS</h6>
                             </div>
 
                             <div className='room-price'>
@@ -169,7 +169,7 @@ function FrontPage(){
                         <div className='room-txt'>
                             <div className='room-info'>
                                 <h4>Family Suite</h4>
-                                <h6>5-6 GUESTS</h6>
+                                <h6>5 GUESTS</h6>
                             </div>
 
                             <div className='room-price'>
@@ -204,7 +204,7 @@ function FrontPage(){
                     style={{display: rooomNum === 2 ? "flex" : "none",
                             animation: rooomNum === 2 ? "slide-in 1.5s ease forwards" : "none",
                     }}>
-                    <Link to='/room/3' className="room-link">                                    
+                    <Link to='/room/7' className="room-link">                                    
                     <div id='primiere-room' className='room'>
                         <img src='/photos/zLong Stay Suite.jpg' alt='Premiere Double Room' />
                         <div className='room-txt'>
@@ -244,12 +244,12 @@ function FrontPage(){
                         <div className='room-txt'>
                             <div className='room-info'>
                                 <h4>Presidential Suite</h4>
-                                <h6>4 GUESTS</h6>
+                                <h6>2 GUESTS</h6>
                             </div>
 
                             <div className='room-price'>
                                 <h6>from</h6>
-                                <h4>₱ 10,599</h4>
+                                <h4>₱ 15,799</h4>
                             </div>
                         </div>
                     </div>
