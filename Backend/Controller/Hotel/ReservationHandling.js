@@ -14,14 +14,14 @@ const AvailableRoomSearch = async (req, res) => {
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
-        const RoomSchedules = await ReservationSchedule.find();
+        const RoomSchedules = await ReservationSchedule.find({ status: 'Pending' });
+
         const available = RoomSchedules.filter(sched => {
             return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
 
-
         const rooms = await RoomInfo.find();
-
+        console.log(rooms)
         for (let i = 0; i < available.length; i++) {
             // Loop through rooms and update roomLimit
             for (let j = 0; j < rooms.length; j++) {
