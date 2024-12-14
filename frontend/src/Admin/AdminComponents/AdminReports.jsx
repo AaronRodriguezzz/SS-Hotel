@@ -54,9 +54,32 @@ const AdminReports = () => {
 
     const clear = async () => {
         setPayments(await getPayments())
-        setStartDate()
-        setEndDate()
+        setStartDate('')
+        setEndDate('')
     }
+
+          // Function to generate CSV data
+  const generateCSV = () => {
+        const csvRows = [];
+        const headers = ['Room Type', 'Guest Name', 'Check-In Date', 'Check-Out Date', 'Payment Method', 'Date Paid', 'Amount'];
+        csvRows.push(headers.join(',')); // Add header row
+
+        // Add data rows
+        payments.forEach(row => {
+        const values = [row.roomType, row.guestName, formatDateTime(new Date(row.checkInDate)), formatDateTime(new Date(row.checkOutDate)), row.paymentMethod, formatDateTime(new Date(row.createdAt)), row.totalPrice]
+        csvRows.push(values);
+        });
+
+        // Create a Blob from the CSV string
+        const csvBlob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+        const csvUrl = URL.createObjectURL(csvBlob);
+
+        // Create a link to download the CSV
+        const link = document.createElement('a');
+        link.href = csvUrl;
+        link.download = 'payments_report.csv';
+        link.click();
+    };
     
 
     return(
@@ -136,6 +159,7 @@ const AdminReports = () => {
                             <th>Status</th>
                             <th>Check-In Date</th>
                             <th>Check-Out Date</th>
+                            <th>Payment Method</th>
                             <th>Date Paid</th>
                             <th>Amount</th>
                         </tr>
@@ -149,6 +173,7 @@ const AdminReports = () => {
                                     <td>{payment.status}</td>
                                     <td>{formatDateTime(new Date(payment.checkInDate))}</td>
                                     <td>{formatDateTime(new Date(payment.checkOutDate))}</td>
+                                    <td>{payment.paymentMethod}</td>
                                     <td>{formatDateTime(new Date(payment.createdAt))}</td>
                                     <td>{payment.totalPrice}</td>
                                 </tr>
@@ -157,7 +182,10 @@ const AdminReports = () => {
                     </tbody>
                 </table>
             </div>
+            <div className='bottom-container'>
             <h3>Total: {payments && payments.reduce((total, payment) => payment.totalPrice + total, 0).toFixed(2) }</h3>
+            <button onClick={generateCSV}>Export</button>
+            </div>
             </div>
         </div>
     )

@@ -59,6 +59,7 @@ const get_payments = async (req, res) => {
         guestName: reservation.guestName,
         checkInDate: reservation.checkInDate,
         checkOutDate: reservation.checkOutDate,
+        paymentMethod: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
         roomType: reservation.roomType,
         createdAt: payment.createdAt
       } : null

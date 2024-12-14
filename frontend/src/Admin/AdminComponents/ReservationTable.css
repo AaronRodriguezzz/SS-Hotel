@@ -114,6 +114,38 @@
     cursor: not-allowed;
 }
 
+ .filter-container{
+  display: flex;
+  align-items: center;
+}
+
+.filter-container button{
+  background-color: #2a4b60;
+  color: white;
+}
+
+.filter-container button:hover{
+  border: 2px solid white;
+}
+
+.filter-container p{
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.filter-container input{
+  width: 150px;
+  height: 30px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.export-btn{
+  background-color: #2a4b60;
+  color: white;
+  margin: 30px 0;
+}
+
 @media (max-width:1024px){
   .parent-table-container {
     margin-left: 290px; 
