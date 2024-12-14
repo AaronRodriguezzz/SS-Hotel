@@ -65,36 +65,18 @@
 
 .admin-reports .parent-table-container .table-container{
     width: 100%;
-    min-height: 500px;
+    height: 500px;
     border: 1px solid black;
 }
 
-.admin-reports .filter-container{
+.admin-reports .bottom-container{
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    margin: 30px 0;
 }
 
-.admin-reports .filter-container button{
+.admin-reports .bottom-container button{
     background-color: #2a4b60;
     color: white;
-    margin-left: 20px;
-}
-
-.admin-reports .filter-container button:hover{
-    border: 2px solid white;
-}
-
-.admin-reports .filter-container p{
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
-.admin-reports .filter-container input{
-    width: 150px;
-    height: 30px;
-    margin-bottom: 20px;
-}
-
-.admin-reports .filter-container div:nth-child(2){
-    margin-left: 20px;
 }
