@@ -9,6 +9,8 @@ import NewAdmin from '../AdminComponents/NewAdmin';
 import AdminTable from '../AdminComponents/AdminTable';
 import ProcessWalkIn from '../AdminComponents/ProcessWalkin';
 import AdminReports from '../AdminComponents/AdminReports';
+import RestaurantReservations from '../AdminComponents/RestaurantReservations';
+
 
 const AdminPage = () => {
     const [activeSection, setActiveSection] = useState('hotelRooms');
@@ -50,6 +52,8 @@ const AdminPage = () => {
                 {activeSection === 'super-admin' && <AdminTable />}
                 {activeSection === 'admin-reports' && <AdminReports />}
                 {activeSection === 'history' && <ReservationHistory />}
+                {activeSection === 'restaurant' && <RestaurantReservations />}
+
             </div>
         </>
     )

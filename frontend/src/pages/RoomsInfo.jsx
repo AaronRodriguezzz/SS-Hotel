@@ -89,7 +89,7 @@ const RoomInfo = () =>{
                         <h5>₱{bookedRoom.price} only</h5>
                         <p >{bookedRoom.roomDescription}</p>
 
-                            <button type='button' ref={targetForm} onClick={scrollToForm}>BOOK NOW</button>
+                            <button type='button' ref={targetForm} onClick={() => window.location.href='/booknow'}>BOOK NOW</button>
                     </div>
                 </div>
             </div>

@@ -54,6 +54,26 @@ const ReservationHistory = () => {
         }
     }   
 
+    const handleRemoveAcct = async (id) => {
+        if(confirm('Do you really want to delete this account?')){
+            try{
+                const response = await fetch(`/api/delete_admin/${id}`, {
+                    method: 'DELETE',  // HTTP method for delete
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+
+                if(response.ok){
+                    const data  = await response.json();
+                    alert(data.message || 'Deletion Successful!')
+                }
+            }catch(err){
+                console.log('delete admin err', err);
+            }
+        }
+    }
+
     const handleChangeRole = async (toChange, id) => {
         const updatedRole = toChange === 'Demote' ? 'Admin' : 'Super Admin';
         const data = { updatedRole, id };
@@ -146,7 +166,10 @@ const ReservationHistory = () => {
                                 <td>{accts.role}</td>
                                 <td>{accts.createdAt}</td>
                                 <td style={{display:"flex", gap: "5px"}}>
-                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"50%", marginBottom: "9px"}}>Remove</button>
+                                    <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"50%", marginBottom: "9px"}} 
+                                            onClick={() => handleRemoveAcct(accts._id)}
+                                    >Remove</button>
+
                                     <button style={{backgroundColor: "rgb(212, 188, 52)", color: "white", width:"50%", marginBottom: "9px", backgroundColor: accts.adminStatus === 'Enabled' ? 'red' : 'green'}}
                                             onClick={(e) => handleChangeStatus(e.target.textContent,accts._id)}
                                     >

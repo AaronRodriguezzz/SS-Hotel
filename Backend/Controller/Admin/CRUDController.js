@@ -261,11 +261,32 @@ const processCheckOut = async (req, res) => {
     }
 }
 
+const delete_admin = async (req,res) => {
+    const {id} = req.params
+
+    try{
+        const admin = await Admin({_id: id});
+        
+        if(!admin){
+            return res.status(404).json({message: 'Admin doesn\'t exist'})
+        }
+        
+        await Admin.findOneAndDelete({_id: id})
+
+        return res.status(200).json({message: 'Admin deletion successful'})
+    }catch(err){
+        res.status(500).json({message: 'Admin deletion failed'})
+        console.log(err);
+    }
+
+}
+
 module.exports = {
     addAdmin,
     processReservation,
     processCancellation,
     updateRole,
     updateStatus,
-    processCheckOut
+    processCheckOut,
+    delete_admin
 }
