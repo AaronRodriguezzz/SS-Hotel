@@ -87,6 +87,7 @@ const ReservationHistory = () => {
                 </thead>
                 <tbody>
                     {filteredBin && (filteredBin.map((history, i) => {
+                        console.log(history)
                         return(
                             <tr key={i}>
                                 <td>{history.updatedBy}</td>
@@ -96,9 +97,9 @@ const ReservationHistory = () => {
                                 <td>{history.guestName}</td>
                                 <td>{history.guestContact}</td>
                                 <td>{history.guestEmail}</td>
-                                <td>{history.totalRooms}</td>
                                 <td>{history.totalGuests}</td>
                                 <td>{history.totalPrice}</td>
+                                <td>{history.roomAssigned}</td>
                                 <td>{history.remarks}</td>
                                 <td>{formatDateTime(new Date(history.updatedAt))}</td>
                             </tr>

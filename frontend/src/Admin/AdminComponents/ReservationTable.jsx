@@ -30,6 +30,7 @@ const ReservationTable = ({name}) => {
                 });
                 if(updateBin.ok){
                     fetchReservations();
+                    alert('Reservation successfully cancelled');
                 }
             }catch(err){
                 console.log(err);

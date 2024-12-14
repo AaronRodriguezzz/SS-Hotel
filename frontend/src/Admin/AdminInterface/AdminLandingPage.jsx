@@ -1,6 +1,5 @@
 import './AdminLandingPage.css';
 import { useEffect,useState,} from 'react';
-import { useLocation } from 'react-router-dom';
 import Navigation from '../AdminComponents/AdminNav'
 import HotelRooms from '../AdminComponents/HotelRooms'
 import Reservations from '../AdminComponents/ReservationTable'
@@ -9,10 +8,9 @@ import ReservationHistory from '../AdminComponents/ReservationHistory';
 import NewAdmin from '../AdminComponents/NewAdmin';
 import AdminTable from '../AdminComponents/AdminTable';
 import ProcessWalkIn from '../AdminComponents/ProcessWalkin';
+import AdminReports from '../AdminComponents/AdminReports';
 
 const AdminPage = () => {
-    const location = useLocation();
-    const { employeeEmail } = location.state || {};
     const [activeSection, setActiveSection] = useState('hotelRooms');
     const [securityClearance,setSecurityClearance] = useState('');
     const [adminName,setAdminName] = useState('');
@@ -50,6 +48,7 @@ const AdminPage = () => {
                 {activeSection === 'walk-in' && <ProcessWalkIn />}
                 {activeSection === 'new-admin' && <NewAdmin name={{adminName}} />}
                 {activeSection === 'super-admin' && <AdminTable />}
+                {activeSection === 'admin-reports' && <AdminReports />}
                 {activeSection === 'history' && <ReservationHistory />}
             </div>
         </>
