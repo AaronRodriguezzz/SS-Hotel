@@ -50,22 +50,22 @@ const createPaymentCheckout = async (req, res) => {
 
 const get_payments = async (req, res) => {
   try{
-    const payments = await Payment.find().sort({createdAt: -1});
+    const payments = await Payment.find({status: 'Completed'}).sort({createdAt: -1});
     const completedPayments = await Promise.all(payments.map(async (payment) => {
       const reservation = await Reservation.findById(payment.reservation_id);
-      return reservation ? {
+      return {
         totalPrice: payment.totalPrice,
         status: payment.status,
-        guestName: reservation.guestName,
-        checkInDate: reservation.checkInDate,
-        checkOutDate: reservation.checkOutDate,
+        guestName: reservation?.guestName || '',
+        checkInDate: reservation?.checkInDate || '',
+        checkOutDate: reservation?.checkOutDate || '',
         paymentMethod: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
-        roomType: reservation.roomType,
+        roomType: reservation?.roomType,
         createdAt: payment.createdAt
-      } : null
+      }
     }))
 
-    res.status(200).json(completedPayments.filter(payment => payment));
+    res.status(200).json(completedPayments);
 
   }catch(err){  
     res.status(400).json({error: err.message});
