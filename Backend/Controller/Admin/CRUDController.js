@@ -96,7 +96,6 @@ const processReservation = async (req, res) => {
             )
         );
 
-
         const processReservationResults = await Promise.all(roomUpdates);
 
         if (processReservationResults.some(result => !result)) {
@@ -122,9 +121,11 @@ const processReservation = async (req, res) => {
             return res.status(404).json({message:'Add to Bin Failed'});
         }
        
-        const delReservation = await RoomSchedule.findOneAndDelete({_id: reservation._id});
+        const existedReservation = await RoomSchedule.findById(reservation._id);
+        existedReservation.status = 'Assigned';
+        await existedReservation.save();
 
-        if(delReservation){
+        if(existedReservation){
             return res.status(200).json({message: 'Assigning to room/s Successful'});
         }
 
@@ -210,14 +211,14 @@ const processCancellation = async (req, res) => {
             updatedBy: admin.firstName
         })
 
-        const reservation = await RoomSchedule.findByIdAndDelete(id);
-
+        const reservation = await RoomSchedule.findById(id);
+        reservation.status = 'Cancelled';
         if(!reservation){
             return res.status(404).json({message: 'Failed to Cancel'});
         }
 
         const payment = await Payment.findOne({reservation_id: id});
-        console.log(payment)
+
         if(payment){
             payment.status = 'Refunded';
             if(payment.payment_checkout_id){
@@ -229,7 +230,7 @@ const processCancellation = async (req, res) => {
             }
             await payment.save();
         }
-
+        await reservation.save();
         await bin.save();
         if(!bin) throw new Error('Cancellation error'); 
         res.status(200).json({message: 'Cancellation success'});

@@ -15,18 +15,13 @@ const fetchRoom = async (req,res) => {
 }
 
 const fetchSchedule = async (req,res) => {
-    
-    const reservations = await RoomSchedule.find().sort({createdAt: -1});
-
-
+    const reservations = await RoomSchedule.find({status: 'Pending'}).sort({createdAt: -1});
     if(!reservations){
        return res.status(404).json({message:"Empty Room"});
     }
 
     return res.status(200).json({reservations});
 }
-
-
 
 const specific_room_schedule = async (req,res) => {
     const {room} = req.params; // Access query parameter

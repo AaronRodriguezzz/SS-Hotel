@@ -5,24 +5,24 @@ const ProcessedReservation = () => {
 
     const [roomNums, setRoomNums] = useState([]);
 
-    useEffect(() => {
-        const fetchRoomNums = async () => {    
+    const fetchRoomNums = async () => {    
 
-            try{
-                const response = await fetch('/api/roomnum');
-                const data = await response.json();
+        try{
+            const response = await fetch('/api/roomnum');
+            const data = await response.json();
 
-                console.log(data);
-                
-                if(response.ok){
-                    setRoomNums(data.roomNums);
-                }
-        
-            }catch(err){
-                console.log(err);
+            console.log(data);
+            
+            if(response.ok){
+                setRoomNums(data.roomNums);
             }
+    
+        }catch(err){
+            console.log(err);
         }
+    }
 
+    useEffect(() => {
         fetchRoomNums()
     },[]);
 
@@ -36,7 +36,8 @@ const ProcessedReservation = () => {
                     },
                 });
                 if(response.ok){
-                    window.location.reload();
+                    alert('Checkout Successful')
+                    fetchRoomNums();
                 }else{
                     alert('Checkout failed')
                 }

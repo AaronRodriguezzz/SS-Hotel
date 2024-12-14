@@ -10,7 +10,6 @@
 }
 
 .parent-table-container {
-    overflow-x: auto; 
     border: 1px solid #ddd; 
     margin-left: 350px; 
     padding-top: 50px;

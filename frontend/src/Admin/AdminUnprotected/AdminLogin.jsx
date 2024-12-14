@@ -25,7 +25,7 @@ function AdminLogIn() {
             const data = await response.json();
             if (data.token) {
                 alert('Login successful');  
-                navigate('/admin', { state: { employeeEmail } });
+                navigate('/admin');
             } else {
                 alert(data.message);
             }
