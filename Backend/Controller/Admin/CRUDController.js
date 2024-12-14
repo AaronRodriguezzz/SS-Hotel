@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const Payment = require('../../Models/payment');
+const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const { getPaymentId, refundPayment } = require('../../services/paymentService');
 
 
@@ -230,6 +231,9 @@ const processCancellation = async (req, res) => {
             }
             await payment.save();
         }
+        const room = await RoomInfo.findOne({roomType: reservation.roomType});
+        room.roomLimit = room.roomLimit + 1;
+        await room.save();
         await reservation.save();
         await bin.save();
         if(!bin) throw new Error('Cancellation error'); 
@@ -254,7 +258,9 @@ const processCheckOut = async (req, res) => {
             }
         )
         if(!roomNum) throw new Error('Room not found');
-
+        const room = await RoomInfo.findOne({roomType: roomNum.roomType});
+        room.roomLimit = room.roomLimit + 1;
+        await room.save();
         res.status(200).json({message: 'Checkout successful'})
     }catch(err){
         res.status(400).json({error: err.message});

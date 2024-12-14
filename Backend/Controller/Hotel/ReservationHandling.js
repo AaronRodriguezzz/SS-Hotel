@@ -20,9 +20,8 @@ const AvailableRoomSearch = async (req, res) => {
             return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
         });
 
-
         const rooms = await RoomInfo.find();
-
+        console.log(rooms)
         for (let i = 0; i < available.length; i++) {
             // Loop through rooms and update roomLimit
             for (let j = 0; j < rooms.length; j++) {
