@@ -277,23 +277,37 @@ const delete_admin = async (req,res) => {
     }
 }
 
-const delete_due_reservations = async (req, res) => {
-   /* const duesReservation = req.body; 
-    console.log('helow' , duesReservation)
+const handle_due_reservations = async (req, res) => {
     try {
+        let today = new Date();
+        today.setDate(today.getDate() - 1);
+        const duesReservation = await RoomSchedule.find({checkInDate: {$lt: today}, status: 'Pending'});
         const roomUpdates = await Promise.all(
             duesReservation.map(async (reservation) => {
 
-                const deletedRoom = await RoomSchedule.findOneAndDelete({ checkOutDate: reservation.checkOutDate });
-                
-                if (!deletedRoom) {
+                const updatedRoom = await RoomSchedule.findOneAndUpdate(
+                    { checkOutDate: reservation.checkOutDate },
+                    { status: 'No-Show'}
+                );
+                if (! updatedRoom) {
                     throw new Error(`No room found with checkOutDate: ${reservation.checkOutDate}`);
                 }
+
+                const payment = await Payment.findOne({reservation_id: reservation._id})
 
                 // Add to history bin
                 const addToBin = new History({
                     updatedBy: 'N/A',
-                    ...reservation,
+                    roomType: reservation.roomType,
+                    checkInDate: reservation.checkInDate,
+                    checkOutDate: reservation.checkOutDate,
+                    guestName: reservation.guestName,
+                    guestContact: reservation.guestContact,
+                    guestEmail: reservation.guestEmail,
+                    totalRooms: reservation.totalRooms,
+                    totalGuests: reservation.totalGuests,
+                    totalPrice: reservation.totalPrice,
+                    modeOfPayment: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
                     roomAssigned: 'N/A',
                     remarks: 'No-Show',
                 });
@@ -302,15 +316,13 @@ const delete_due_reservations = async (req, res) => {
                 return true; // Indicating success
             })
         );
-
-        console.log('room updates', roomUpdates);
         // If all operations succeeded
         return res.status(200).json({ message: "Reservations processed successfully", roomUpdates });
 
     } catch (err) {
         console.error("Error processing reservations:", err);
         return res.status(500).json({ message: "Internal server error", error: err.message });
-    }*/
+    }
 };
 
 
@@ -322,5 +334,5 @@ module.exports = {
     updateStatus,
     processCheckOut,
     delete_admin,
-    delete_due_reservations
+    handle_due_reservations
 }

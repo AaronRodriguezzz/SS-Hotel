@@ -70,39 +70,6 @@ const fetchAvailableRooms = async (req,res) => {
     }
 }
 
-const Available_Search_WalkIn = async (req,res) => {
-    const { checkInDate, checkOutDate } = req.body;
-    try {
-        // Convert check-in and check-out dates to Date objects
-        const checkIn = new Date(checkInDate);
-        const checkOut = new Date(checkOutDate);
-        const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-
-        const RoomSchedules = await RoomSchedule.find({status: 'Pending'});
-        const roomAvailable = RoomSchedules.filter(sched => {
-            return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
-        });
-
-        const rooms = await Rooms.find();
-
-        for (let i = 0; i < roomAvailable.length; i++) {
-            // Loop through rooms and update roomLimit
-            for (let j = 0; j < rooms.length; j++) {
-                if (roomAvailable[i].roomType === rooms[j].roomType) {
-                    rooms[j].roomLimit += roomAvailable[i].totalRooms;
-                }
-            }
-        }
-
-        return res.status(200).json({ roomAvailable:rooms , gap });
-
-    } catch (err) {
-        // Send an error response with the error message
-        console.log(err);
-        return res.status(500).json({ message: err.message });
-    }
-}
-
 const handle_available_roomNum = async (req,res) => {
     try{
         const roomNum = await RoomNumbers.find({ status: 'Available' });
@@ -132,16 +99,12 @@ const get_restaurant_reservation = async (req,res) => {
     }
 }
 
-
-
-
 module.exports = {
     fetchRoom,
     fetchSchedule,
     fetchRoomNum,
     fetchAvailableRooms,
     specific_room_schedule,
-    Available_Search_WalkIn,
     handle_available_roomNum,
     get_restaurant_reservation
 };
