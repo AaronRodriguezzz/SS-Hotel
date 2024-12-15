@@ -37,7 +37,7 @@ const AdminNav = ({ onSectionChange,role,name, choosen }) => {
 
     return(
         <div className="nav">
-            <div style={{width: "100%"}}>   
+            <div style={{width: "100%", display:"flex", alignItems:"center",flexDirection:"column"}}>   
                 <img src='/photos/logo.png' alt='Logo' />
 
                 <ul>

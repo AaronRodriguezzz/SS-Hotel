@@ -131,6 +131,11 @@
     font-size: 15px; 
   }
 
+
+  .nav #logout .admin-basic-info p{
+    font-size: 14px;
+  }
+
 }
 
 
@@ -146,6 +151,10 @@
   
   .nav button{
     font-size: 13px; 
+  }
+
+  .nav #logout .admin-basic-info p{
+    font-size: 12px;
   }
 
 }
