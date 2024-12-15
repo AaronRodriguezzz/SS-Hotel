@@ -2,7 +2,6 @@ const Admin = require('../../Models/AdminSchemas/AdminSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const RoomNums = require('../../Models/HotelSchema/RoomNumber');
 const History = require('../../Models/AdminSchemas/RecycleBin');
-
 const Payment = require('../../Models/payment');
 const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
