@@ -15,8 +15,6 @@ const RoomConfirmation = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [showOverlay, setShowOverlay] = useState(false);
     const [proceedNext, setProceedNext] = useState(false);
-
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -112,7 +110,9 @@ const RoomConfirmation = () => {
                         </div>
                     )
                 })}
+                <div className=''>
 
+                </div>
                 
                 <div className="reservation-buttons">
 

@@ -13,15 +13,13 @@ const AvailableRoomSearch = async (req, res) => {
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-
+        console.log(checkIn)
         const schedules = await ReservationSchedule.find({ 
             status: 'Pending',
-            checkInDate: { $gte: checkIn},
-            checkOutDate: { $lte: checkOut}
+            checkInDate: { $lte: checkIn},
+            checkOutDate: { $gte: checkOut}
         });
-
         const rooms = await RoomInfo.find();
-        console.log(rooms)
 
         schedules.forEach(schedule => {
             rooms.forEach(room => {
@@ -31,11 +29,8 @@ const AvailableRoomSearch = async (req, res) => {
             })
         })
         
-        const filteredRooms = rooms.filter(room => {
-            return(room.roomLimit !== 0)
-        })
 
-        return res.status(200).json({ roomAvailable:filteredRooms , schedule: schedules, gap });
+        return res.status(200).json({ roomAvailable: rooms , schedule: schedules, gap });
 
     } catch (err) {
         // Send an error response with the error message
