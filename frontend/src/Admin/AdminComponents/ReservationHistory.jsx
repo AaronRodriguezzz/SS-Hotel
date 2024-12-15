@@ -51,16 +51,15 @@ const ReservationHistory = () => {
     useEffect(() => {
         const filterHistory = async () => {
             if(checkInDate <= checkOutDate &&  checkInDate != '' && checkOutDate != ''){
-                setFilteredBin(history.filter(item => formatDate(new Date(new Date(item.checkInDate).toISOString().split('T')[0])) == formatDate(new Date(checkInDate)) && formatDate(new Date(new Date(item.checkOutDate).toISOString().split('T')[0])) == formatDate(new Date(checkOutDate))));
+                setFilteredBin(history.filter(item => formatDate(new Date(new Date(item.checkInDate).toISOString().split('T')[0])) == formatDate(new Date(checkInDate))));
             }
         }
         filterHistory ();
-    }, [checkInDate, checkOutDate])
+    }, [checkInDate])
 
     const clear = async () => {
         fetchHistory();
         setCheckInDate('')
-        setCheckOutDate('')
     }
 
     const generateCSV = () => {
@@ -107,10 +106,6 @@ const ReservationHistory = () => {
                 <div>
                     <p>Check In Date</p>
                     <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)}/>
-                </div>
-                <div>
-                    <p>Check Out Date</p>
-                    <input type="date" value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)}/>
                 </div>
                 <button onClick={() => clear()}>Clear</button>
             </div>
