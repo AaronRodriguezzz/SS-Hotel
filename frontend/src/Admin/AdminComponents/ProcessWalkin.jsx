@@ -131,7 +131,8 @@ const ProcessWalkIn = () => {
     
                 if(response.ok){
                     const data = await response.json();
-                    return data.roomAvailable
+                    const filteredAvailableRooms = data.roomAvailable.filter(room => room.roomLimit)
+                    return filteredAvailableRooms
                 }
             }
 
