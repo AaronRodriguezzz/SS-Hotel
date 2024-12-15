@@ -55,7 +55,7 @@ const RestaurantReservations = () => {
         console.log(id);
         try{
 
-            if(confirm('Are you sure you want to cancel this reservation?')){
+            if(confirm('Are you sure you want to remove this reservation?')){
 
                 const response = await fetch(`/api/delete/restaurant_reservation/${id}`, {
                     method: 'DELETE',
@@ -120,7 +120,7 @@ const RestaurantReservations = () => {
                                     <td>{reservations.phoneNumber}</td>
                                     <td>{reservations.date}</td>
                                     <td>{reservations.time}</td>
-                                    <td><button onClick={() => handle_cancel(reservations._id)}>Cancel</button></td>
+                                    <td><button onClick={() => handle_cancel(reservations._id)} style={{width:"100%"}}>Remove</button></td>
                                 </tr>
                             )
                     }))}

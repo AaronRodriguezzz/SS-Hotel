@@ -30,8 +30,8 @@
 }
 
 .amenities-page .cover h1{
-    font-size: 50px;
-    font-weight: 500;
+    font-size: 35px;
+    font-weight: 600;
     letter-spacing: 8px;
     color: #d3b23a;
     margin-bottom: 5px;
@@ -40,7 +40,7 @@
 }
 
 .amenities-page .cover p{
-    font-size: 30px;
+    font-size: 20px;
     letter-spacing: 3px;
     word-spacing: 3px;
     width: 40%;
@@ -50,10 +50,10 @@
 }
 
 .amenities-page .cover button{
-    font-size:25px;
+    font-size:17px;
     letter-spacing: 3px;
     border-radius: 14px;
-    padding: 20px 30px 20px 30px;
+    padding: 15px 25px 15px 25px;
     color: rgba(255, 255, 255, 0.76);
     text-align: center;
     background-color: #d3b23a ;

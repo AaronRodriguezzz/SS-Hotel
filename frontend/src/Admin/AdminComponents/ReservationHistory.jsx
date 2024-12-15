@@ -3,11 +3,12 @@ import { formatDate, formatDateTime } from '../../utils/dateUtils';
 
 
 const ReservationHistory = () => {
-    const [history, setHistory] = useState();
+    const [history, setHistory] = useState([]);
     const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
+
     const fetchHistory = async () => {    
 
         try{
@@ -27,6 +28,7 @@ const ReservationHistory = () => {
     const handleSearch = (event) => {
         const query = event.target.value.toLowerCase(); // Normalize input for case-insensitivity
         setSearchQuery(query);
+
         // Filter reservations based on the query
         const filtered = history.filter((bin) => {
                 return (
@@ -54,7 +56,8 @@ const ReservationHistory = () => {
                 setFilteredBin(history.filter(item => formatDate(new Date(new Date(item.checkInDate).toISOString().split('T')[0])) == formatDate(new Date(checkInDate))));
             }
         }
-        filterHistory ();
+
+        filterHistory();
     }, [checkInDate])
 
     const clear = async () => {

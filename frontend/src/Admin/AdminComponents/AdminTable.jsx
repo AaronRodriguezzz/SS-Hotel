@@ -66,7 +66,8 @@ const ReservationHistory = () => {
 
                 if(response.ok){
                     const data  = await response.json();
-                    alert(data.message || 'Deletion Successful!')
+                    alert(data.message || 'Deletion Successful!')    
+                    setIsUpdated(true)                
                 }
             }catch(err){
                 console.log('delete admin err', err);
