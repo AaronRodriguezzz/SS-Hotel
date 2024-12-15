@@ -46,7 +46,7 @@ const Amenities = () => {
                 <div className='cover'>
                     <motion.h1 {...fadeInAnimation}>{amenitiesTitle[divIndex]}</motion.h1>
                     <motion.p {...fadeInAnimation}>{amenitiesDescription[divIndex]}</motion.p>
-                    <motion.button {...fadeInAnimation}>BOOK NOW</motion.button>
+                    <motion.button {...fadeInAnimation} onClick={() => window.location.href='/booknow'}>BOOK NOW</motion.button>
                 </div>
             </div>
         </>
