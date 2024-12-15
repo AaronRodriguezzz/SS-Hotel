@@ -47,7 +47,7 @@
     text-transform: uppercase;
 }
 
-.landing-page .cover-color button{   
+.landing-page .cover-color .book-btn{   
     background-color:#d3b23a;
     color: white;
     border-radius: 10px;
@@ -60,12 +60,10 @@
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.landing-page .cover-color button:hover{   
+.landing-page .cover-color .book-btn:hover{   
     background-color:#d3b23a42;
     transition: transform .1s ease-out, background-color .5s ease-out;
 }
-
-
 
 .landing-page .hotel-primary-info{
     display: flex;
@@ -94,6 +92,7 @@
 
 .landing-page .hotel-primary-info h1{
     font-size: 45px;
+    text-align: center;
     font-weight: 700;
     letter-spacing: 3px;
     color:#2a4b60 ;
@@ -152,7 +151,7 @@
 .hotel-rooms .rooms-section-header  button{
     font-size: 18px;
     height: 60px;
-    width: 220px;
+    background-color: red;
     background-color:#2a4b60 ;
     color: rgb(187, 172, 90);
     border: 1px solid rgb(187, 172, 90);
@@ -420,7 +419,7 @@
         font-weight: 600;
     }
 
-    .landing-page .cover-color button{   
+    .landing-page .cover-color .book-btn{   
         width: 150px;
         height: 50px;
         padding: 10px;
@@ -720,7 +719,7 @@
         font-weight: 600;
     }
 
-    .landing-page .cover-color button{   
+    .landing-page .cover-color .book-btn{   
         width: 150px;
         height: 50px;
         padding: 10px;
@@ -882,7 +881,7 @@
         font-weight: 600;
     }
 
-    .landing-page .cover-color button{   
+    .landing-page .cover-color .book-btn{   
         width: 120px;
         height: 35px;
         font-size: 12px;
