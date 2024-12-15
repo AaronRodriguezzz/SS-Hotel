@@ -30,9 +30,6 @@ const specific_room_schedule = async (req,res) => {
 
     try{
         const specificRoom = await RoomNumbers.find({roomType:room});
-        const roomInfo = await RoomInfo.findOne({roomType: room});
-        roomInfo.roomLimit = 2;
-        await roomInfo.save();
 
         if(!specificRoom){
             return res.status(404).json({message:"Empty Room"});

@@ -13,14 +13,12 @@ const AvailableRoomSearch = async (req, res) => {
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-        console.log(checkIn)
         const schedules = await ReservationSchedule.find({ 
             status: 'Pending',
             checkInDate: { $lte: checkIn},
             checkOutDate: { $gte: checkOut}
         });
         const rooms = await RoomInfo.find();
-
         schedules.forEach(schedule => {
             rooms.forEach(room => {
                 if(schedule.roomType === room.roomType){
@@ -28,7 +26,6 @@ const AvailableRoomSearch = async (req, res) => {
                 }
             })
         })
-        
 
         return res.status(200).json({ roomAvailable: rooms , schedule: schedules, gap });
 
