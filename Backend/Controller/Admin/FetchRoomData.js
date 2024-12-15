@@ -2,6 +2,8 @@ const Rooms = require('../../Models/HotelSchema/RoomsSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const RoomNumbers = require('../../Models/HotelSchema/RoomNumber');
 const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
+const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
+
 
 const fetchRoom = async (req,res) => {
     
@@ -32,8 +34,7 @@ const specific_room_schedule = async (req,res) => {
         if(!specificRoom){
             return res.status(404).json({message:"Empty Room"});
         }
-
-        console.log(specificRoom);
+    
         return res.status(200).json({specificRoom});
 
     }catch(err){

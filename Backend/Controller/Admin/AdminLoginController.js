@@ -14,7 +14,6 @@ const adminLogin = async (req,res) => {
     try {
         // Find the user by profId
         const admin = await Admin.findOne({email});
-
         if (!admin) {
             return res.status(404).json('Admin does not exist');
         }
@@ -22,7 +21,6 @@ const adminLogin = async (req,res) => {
         if(admin.adminStatus === 'Disabled'){
             return res.status(404).json('Your Account is disabled');
         }
-        console.log(password)
         // Compare the entered password with the stored hashed password
         const passMatched = await bcrypt.compare(password, admin.password);
 
