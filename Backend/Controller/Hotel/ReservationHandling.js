@@ -19,9 +19,7 @@ const AvailableRoomSearch = async (req, res) => {
             checkInDate: { $lte: checkIn},
             checkOutDate: { $gte: checkOut}
         });
-        console.log(schedules)
         const rooms = await RoomInfo.find();
-        console.log(rooms)
 
         schedules.forEach(schedule => {
             rooms.forEach(room => {
@@ -31,11 +29,8 @@ const AvailableRoomSearch = async (req, res) => {
             })
         })
         
-        const filteredRooms = rooms.filter(room => {
-            return(room.roomLimit !== 0)
-        })
 
-        return res.status(200).json({ roomAvailable:filteredRooms , schedule: schedules, gap });
+        return res.status(200).json({ roomAvailable: rooms , schedule: schedules, gap });
 
     } catch (err) {
         // Send an error response with the error message
