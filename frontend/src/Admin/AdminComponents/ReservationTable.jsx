@@ -15,6 +15,7 @@ const ReservationTable = ({name}) => {
     const [selectedReservation, setSelectedReservation] = useState();
     const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
+    const today = new Date().toISOString().split('T')[0];
 
     const handleDelete = async (reservation) => {
         if(confirm('Do you wan\'t to cancel this reservation?')){
@@ -138,6 +139,8 @@ const ReservationTable = ({name}) => {
     useEffect(() => {
         fetchReservations()
     },[]);
+
+    
 
     return(
 

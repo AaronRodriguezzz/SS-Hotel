@@ -108,3 +108,50 @@
     display: flex;
     gap: 20px;
   }
+
+
+  @media (max-width:1440px){
+    .restaurant-calendar-container {
+      width: 50%;
+    }
+    
+    .weekdays, .days {
+      font-size: 18px;
+    }
+  }
+
+  
+  @media (max-width:1440px){
+    .restaurant-calendar-container {
+      width: 40%;
+    }
+    
+    .weekdays, .days {
+      gap: 5px;
+      font-size: 15px;
+    }
+
+    .date-info-container{
+      height: 50%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+      margin-top: 30px;
+    }
+  
+    .date-info-container h2{
+      font-size: 23px;
+    }
+  
+    .sched-container{
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width:425px) {
+    .restaurant-calendar-container {
+      width: 80%;
+    }
+  }
