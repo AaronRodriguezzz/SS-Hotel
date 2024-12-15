@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { format, startOfMonth, getDaysInMonth, startOfWeek, addDays, isSameDay } from 'date-fns';
 import './RestaurantCalendar.css';  // Make sure you style it in this file
-import { formatTime } from '../utils/dateUtils'
+import { formatTime,addTime } from '../utils/dateUtils'
 const Calendar = ({ dateSelected, selectedTime }) => {
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -143,7 +143,7 @@ const Calendar = ({ dateSelected, selectedTime }) => {
         {dateData && dateData.map(date => {
           return(
             <div className='sched-container'>
-              <p>Time: {formatTime(date.time)}</p>
+              <p>Time: {formatTime(date.time)} - {addTime(date.time, 3)}</p>
               <p> | </p>
               <p>Guest Quantity: {date.guestQuantity}</p>
             </div>

@@ -1,7 +1,7 @@
 import { CChart } from '@coreui/react-chartjs';
 import { useEffect, useState } from 'react';
 import './AdminReports.css'
-import { formatDate, formatDateTime } from '../../utils/dateUtils';
+import { formatDate, formatDateTime,addTime } from '../../utils/dateUtils';
 
 const AdminReports = () => {
     const [reports, setReports] = useState();

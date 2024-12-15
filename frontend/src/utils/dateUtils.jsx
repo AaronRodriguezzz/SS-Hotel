@@ -13,7 +13,7 @@ export const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, '0'); // Get day of the month
   
     return `${year}-${month}-${day}`;
-  };
+};
 
   export const formatDateTime = (date) => {
         // Custom format (MM-DD-YYYY HH:mm:ss)
@@ -47,4 +47,15 @@ export const formatDate = (date) => {
     console.log(`${hours}:${minutes} ${period}`)
     // Return the time in standard format
     return `${hours}:${minutes} ${period}`;
+  }
+
+  
+  export const addTime = (time, timeToAdd) => {
+    let [hours, minutes] = time.split(':').map(Number);
+
+    hours = parseInt(hours);
+    hours = hours + timeToAdd;
+    const updatedTime = `${hours}:${minutes}`
+
+    return formatTime(updatedTime)
   }
