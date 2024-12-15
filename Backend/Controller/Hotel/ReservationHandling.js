@@ -16,8 +16,7 @@ const AvailableRoomSearch = async (req, res) => {
 
         const schedules = await ReservationSchedule.find({ 
             status: 'Pending',
-            checkInDate: { $gte: checkIn},
-            checkOutDate: { $lte: checkOut}
+            checkInDate: { $gte: checkIn, $lte: checkIn},
         });
 
         const rooms = await RoomInfo.find();

@@ -11,6 +11,7 @@ const RoomConfirmation = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -91,7 +92,9 @@ const RoomConfirmation = () => {
                         </div>
                     )
                 })}
+                <div className=''>
 
+                </div>
                 
                 <div className="reservation-buttons">
 
@@ -103,7 +106,7 @@ const RoomConfirmation = () => {
                         <button type='button' id='add-rooms'>ADD ROOMS</button>
                     </Link>
 
-                    <button className='finish' onClick={(e) => handleFinishedClicked(e)}>FINISH</button>
+                    <button className='finish'>FINISH</button>
                 </div>
             </form>
         </div>
