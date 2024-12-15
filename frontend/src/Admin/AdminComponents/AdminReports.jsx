@@ -69,8 +69,8 @@ const AdminReports = () => {
 
         // Add data rows
         payments.forEach(row => {
-        const values = [row.roomType, row.guestName, formatDateTime(new Date(row.checkInDate)), formatDateTime(new Date(row.checkOutDate)), row.paymentMethod, formatDateTime(new Date(row.createdAt)), row.totalPrice]
-        csvRows.push(values);
+            const values = [row.roomType, row.guestName, formatDateTime(new Date(row.checkInDate)), formatDateTime(new Date(row.checkOutDate)), row.paymentMethod, formatDateTime(new Date(row.createdAt)), row.totalPrice]
+            csvRows.push(values);
         });
 
         // Create a Blob from the CSV string
