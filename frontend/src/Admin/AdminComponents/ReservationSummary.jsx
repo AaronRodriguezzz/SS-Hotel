@@ -8,7 +8,7 @@ const BookingSummary = ({selectedRooms, submit, close}) => {
             <form onSubmit={submit}>
             <button type='button' onClick={close}>X</button>
             <div className='reserved-rooms-container'>
-            {selectedRooms && selectedRooms.map((room) => {
+                {selectedRooms && selectedRooms.map((room) => {
                     return(
 
                         <div className="reserved-rooms" key={room._id}>
