@@ -38,7 +38,6 @@ const AdminNav = ({ onSectionChange,role,name, choosen }) => {
     return(
         <div className="nav">
            <img src='/photos/logo.png' alt='Logo' />
-
             <ul>
                 <li className={`${styleNav('hotelRooms') ? 'active': '' }`} onClick={() => onSectionChange('hotelRooms')}>Rooms</li>
                 <li className={`${styleNav('reservations') ? 'active': '' }`} onClick={() => onSectionChange('reservations')}>Reservations</li>
@@ -61,14 +60,13 @@ const AdminNav = ({ onSectionChange,role,name, choosen }) => {
                     className={`${styleNav('history') ? 'active': ''}`}
                 >Reservation History</li>
             </ul>
-
-            <button onClick={handleLogOut} id='logout'>
+            <div onClick={handleLogOut} id='logout'>
                 <div className='admin-basic-info'>
                     <p>{adminName}</p>
                     <p>{securityClearance}</p>
                 </div>
                 <img src="./photos/logout.png" alt="log out" />
-            </button>
+            </div>
         </div>
     )
 }
