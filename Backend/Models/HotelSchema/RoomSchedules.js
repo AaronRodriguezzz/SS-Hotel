@@ -39,7 +39,7 @@ const RoomReservations = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Cancelled', 'Assigned'],
+        enum: ['Pending', 'Cancelled', 'Assigned', 'No-Show'],
         default: 'Pending'
     }
     

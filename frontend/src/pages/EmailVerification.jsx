@@ -84,8 +84,7 @@ function VerifyEmail() {
     }
 
     useEffect(() => {
-        if (stateData) {
-            console.log(stateData.email);
+        if (stateData?.email) {
             const sendCode = async () => {
               try {
                 const response = await fetch(`/api/send_code/${stateData.email}`);

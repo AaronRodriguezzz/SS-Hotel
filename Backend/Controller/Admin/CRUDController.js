@@ -104,10 +104,13 @@ const processReservation = async (req, res) => {
             return res.status(404).json({ message: 'Updating Rooms Error' });
         }
 
+        const payment = await Payment.findOne({reservation_id: reservation._id});
+
         const roomsAssigned = selectedRoom.join(', ');
         const addToBin = new History({
             updatedBy: adminName,
             ...reservation,
+            modeOfPayment: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
             roomAssigned: roomsAssigned,
             remarks: 'Completed',
         });
@@ -203,17 +206,6 @@ const processCancellation = async (req, res) => {
     try{
         const admin = await Admin.findOne({email: decodedToken.email })
         if(!admin) throw new Error('Admin not found');
-        const bin = new History({
-            ...req.body,
-            roomAssigned: 'N/A',
-            updatedBy: admin.firstName
-        })
-
-        const reservation = await RoomSchedule.findById(id);
-        reservation.status = 'Cancelled';
-        if(!reservation){
-            return res.status(404).json({message: 'Failed to Cancel'});
-        }
 
         const payment = await Payment.findOne({reservation_id: id});
 
@@ -228,9 +220,20 @@ const processCancellation = async (req, res) => {
             }
             await payment.save();
         }
-        const room = await RoomInfo.findOne({roomType: reservation.roomType});
-        room.roomLimit = room.roomLimit + 1;
-        await room.save();
+
+        const bin = new History({
+            ...req.body,
+            modeOfPayment: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
+            roomAssigned: 'N/A',
+            updatedBy: admin.firstName
+        })
+
+        const reservation = await RoomSchedule.findById(id);
+        reservation.status = 'Cancelled';
+        if(!reservation){
+            return res.status(404).json({message: 'Failed to Cancel'});
+        }
+
         await reservation.save();
         await bin.save();
         if(!bin) throw new Error('Cancellation error'); 
@@ -255,9 +258,6 @@ const processCheckOut = async (req, res) => {A
             }
         )
         if(!roomNum) throw new Error('Room not found');
-        const room = await RoomInfo.findOne({roomType: roomNum.roomType});
-        room.roomLimit = room.roomLimit + 1;
-        await room.save();
         res.status(200).json({message: 'Checkout successful'})
     }catch(err){
         res.status(400).json({error: err.message});
@@ -283,40 +283,50 @@ const delete_admin = async (req,res) => {
     }
 }
 
-const delete_due_reservations = async (req, res) => {
-   /* const duesReservation = req.body; 
-    console.log('helow' , duesReservation)
+const handle_due_reservations = async (req, res) => {
     try {
-        const roomUpdates = await Promise.all(
-            duesReservation.map(async (reservation) => {
+        let today = new Date();
+        
+        const duesReservation = await RoomSchedule.find({checkInDate: {$lt: new Date(today.setHours(0, 0, 0, 0))}, status: 'Pending'});
+            duesReservation.forEach(async (reservation) => {
 
-                const deletedRoom = await RoomSchedule.findOneAndDelete({ checkOutDate: reservation.checkOutDate });
-                
-                if (!deletedRoom) {
+                const updatedRoom = await RoomSchedule.findByIdAndUpdate(
+                    reservation.id ,
+                    { status: 'No-Show'}
+                );
+                if (! updatedRoom) {
                     throw new Error(`No room found with checkOutDate: ${reservation.checkOutDate}`);
                 }
+
+                const payment = await Payment.findOne({reservation_id: reservation._id})
 
                 // Add to history bin
                 const addToBin = new History({
                     updatedBy: 'N/A',
-                    ...reservation,
+                    roomType: reservation.roomType,
+                    checkInDate: reservation.checkInDate,
+                    checkOutDate: reservation.checkOutDate,
+                    guestName: reservation.guestName,
+                    guestContact: reservation.guestContact,
+                    guestEmail: reservation.guestEmail,
+                    totalRooms: reservation.totalRooms,
+                    totalGuests: reservation.totalGuests,
+                    totalPrice: reservation.totalPrice,
+                    modeOfPayment: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
                     roomAssigned: 'N/A',
                     remarks: 'No-Show',
                 });
 
                 await addToBin.save();
-                return true; // Indicating success
+                
             })
-        );
-
-        console.log('room updates', roomUpdates);
         // If all operations succeeded
-        return res.status(200).json({ message: "Reservations processed successfully", roomUpdates });
+        return res.status(200).json({ message: "Reservations processed successfully"});
 
     } catch (err) {
         console.error("Error processing reservations:", err);
         return res.status(500).json({ message: "Internal server error", error: err.message });
-    }*/
+    }
 };
 
 
@@ -328,5 +338,5 @@ module.exports = {
     updateStatus,
     processCheckOut,
     delete_admin,
-    delete_due_reservations
+    handle_due_reservations
 }
