@@ -89,6 +89,8 @@ const chat_bot = async (req,res) => {
         ${reservations.map(room => {
           return`Room Type: ${room.roomType} \n  Check-in Date: ${room.checkInDate} - Check-out Date: ${room.checkOutDate} \n \n`
         })}
+        22. If you're ask about the restaurant reservation. The restaurant can accomodate 40 pax at the same time. The table will be arranged depending on the number of the guest they reserved. 
+        They can dined 3 hours from there time of reservation.
 
         Just apologize if their question is unrelated to the reservation or the hotel.
         `,
