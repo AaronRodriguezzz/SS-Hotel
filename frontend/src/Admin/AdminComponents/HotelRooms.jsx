@@ -9,6 +9,26 @@ const HotelRooms = () => {
     const [viewIsClicked, setViewIsClicked] = useState(true);
     const [individualRoom, setIndividualRoom] = useState([]);
 
+    const checkOut = async (roomNum) => {
+        if(confirm('Click ok to continue')){
+            try{
+                const response = await fetch(`/api/room/checkout/${roomNum}`,{
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if(response.ok){
+                    window.location.reload();
+                }else{
+                    alert('Checkout failed')
+                }
+            }catch(err){
+                
+            }
+        }
+    }
+
     const fetch_specific_room = async (room) => {
         setViewIsClicked(false);
 
@@ -111,7 +131,7 @@ const HotelRooms = () => {
                                         <td>{roomNum.status}</td>
                                         <td>{roomNum.updatedAt ? formatDateTime(new Date(roomNum.updatedAt)) : ''}</td>
                                         <td>
-                                            <button style={{width: "100%", fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={console.log('clicked')}>Check Out</button>
+                                            <button style={{width: "100%", fontSize: "18px",}} disabled={roomNum.clientName === ""} onClick={() => checkOut(roomNum.roomNumber)}>Check Out</button>
                                         </td>
                                     </tr>
                                 )
