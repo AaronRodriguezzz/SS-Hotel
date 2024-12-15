@@ -59,7 +59,7 @@ const RoomConfirmation = () => {
         <FloatingButton/>
 
         <div className="main-page">
-            <form>
+            <form onSubmit={handleShowOverlay}>
                 <h1>Booking Confirmation</h1>
                 <div className="reservation-info">
 
@@ -124,7 +124,7 @@ const RoomConfirmation = () => {
                         <button type='button' id='add-rooms'>ADD ROOMS</button>
                     </Link>
 
-                    <button className='finish' onClick={(e) => handleShowOverlay(e)}>FINISH</button>
+                    <button className='finish'>FINISH</button>
                 </div>
             </form>
 
