@@ -27,6 +27,7 @@
     margin-bottom: 25px;
     font-size: 20px;
     align-items: center;
+    width: 90%;
 }
 
 .room-container .room-div h2{
@@ -39,11 +40,14 @@
     flex-direction: row;
     gap:20px;
     margin-bottom: 30px;
+    width: 100%;
+
 }
 
 .room-container .room-div .date-container .date-each-container, .room-input-info-each{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .room-container .room-div .date-container .date-each-container input, .room-div select{
@@ -160,7 +164,7 @@
 
 @media (max-width:1024px) {
     .process-walkIn-page{
-        margin-left: 220px;
+        margin-left: 250px;
     }
     
     .room-container .room-div .date-container .date-each-container input, .room-div select{

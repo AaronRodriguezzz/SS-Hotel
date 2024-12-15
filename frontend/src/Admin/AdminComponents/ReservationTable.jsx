@@ -79,6 +79,7 @@ const ReservationTable = ({name}) => {
 
             if(response.ok){
                 alert('Assigning Room Sucessful');
+                setShowForm(false);
             }
         }catch(err){
             console.log(err);

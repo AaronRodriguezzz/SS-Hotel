@@ -40,6 +40,12 @@ const NewAdmin = ({name}) => {
                 alert(data.message || "Server error occurred!");
             } else if (response.ok) {
                 alert(data.message || "New admin added successfully!");
+                setLastName('')
+                setFirstName('')
+                setEmail('')
+                setContactNum('')
+                setRole('')
+                setAdminStatus('')
             } else {
                 alert("Unexpected error occurred.");
             }

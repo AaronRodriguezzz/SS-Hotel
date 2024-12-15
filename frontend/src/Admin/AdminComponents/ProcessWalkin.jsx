@@ -268,11 +268,10 @@ const ProcessWalkIn = () => {
                             
                                 <label htmlFor="guest-quantity">Room {i + 1} Guest Count</label>
                                 <select name="guest-quantity" id="room-type" value={selectedRooms[i]?.guestCount} onChange={(e) => handleChangeDetails(i, e.target.value, 'guestCount')}>
-                                <option value=""></option>
-                                {Array.from({ length: rooms.find(room => room.roomType === selectedRooms[i]?.roomType)?.maximumGuest }, (_, i) => 
-                                <option value={i+1}>{i+1}</option>    
-                            )
-                                }
+                                    <option value="" disabled selected>Select guest count</option>
+                                    {Array.from({ length: rooms.find(room => room.roomType === selectedRooms[i]?.roomType)?.maximumGuest }, (_, i) => 
+                                        <option value={i+1}>{i+1}</option>    
+                                    )}
                             </select>
                         </div>      
                     )

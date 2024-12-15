@@ -44,6 +44,8 @@ export const formatDate = (date) => {
 
     // Convert 24-hour format to 12-hour format
     hours = hours % 12 || 12; // If hours are 0, set to 12 (for 12 AM)
+    minutes = minutes.length == 1 ? `0${minutes}`: minutes
+    
     console.log(`${hours}:${minutes} ${period}`)
     // Return the time in standard format
     return `${hours}:${minutes} ${period}`;

@@ -9,6 +9,9 @@
     }
   }
 
+.parent-roomInfo-container{
+    width: 100vw;
+}
 
 
 .roomInfo-container{
@@ -16,6 +19,7 @@
     background-position: center;
     background-size: cover;
     height: 100vh;
+    width: 100%;
     font-family: "Josefin San", sans-serif;
     animation: fadeIn 1.5s ease forwards;
 }

@@ -81,18 +81,21 @@ const RoomInfo = () =>{
         <>
             <NavBar scrollToRooms={scrollToRooms} scrollToFooter={scrollToFooter} scrollToHotelAreas={scrollToHotelAreas}/>
             <FloatingButton/>
-            <div className="roomInfo-container"   style={{backgroundImage: `url('/photos/z${bookedRoom.roomType}.jpg')`}}>
-                <div className='cover-color'>
+            <div className='parent-roomInfo-container'>
+                <div className="roomInfo-container"   style={{backgroundImage: `url('/photos/z${bookedRoom.roomType}.jpg')`}}>
+                    <div className='cover-color'>
 
-                    <div className="room-info-txt">
-                        <h2>{bookedRoom.roomType}</h2>
-                        <h5>₱{bookedRoom.price} only</h5>
-                        <p >{bookedRoom.roomDescription}</p>
+                        <div className="room-info-txt">
+                            <h2>{bookedRoom.roomType}</h2>
+                            <h5>₱{bookedRoom.price} only</h5>
+                            <p >{bookedRoom.roomDescription}</p>
 
-                            <button type='button' ref={targetForm} onClick={() => window.location.href='/booknow'}>BOOK NOW</button>
+                                <button type='button' ref={targetForm} onClick={() => window.location.href='/booknow'}>BOOK NOW</button>
+                        </div>
                     </div>
                 </div>
             </div>
+           
 
             <Footer ref={targetRefFooter}/>
         </>

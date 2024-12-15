@@ -394,9 +394,9 @@ const delete_admin = async (req,res) => {
             return res.status(404).json({message: 'Admin doesn\'t exist'})
         }
         
-        await Admin.findOneAndDelete({_id: id})
+        const updatedAdmin = await Admin.findOneAndDelete({_id: id})
 
-        return res.status(200).json({message: 'Admin deletion successful'})
+        return res.status(200).json({message: 'Admin deletion successful', admin:updatedAdmin})
     }catch(err){
         res.status(500).json({message: 'Admin deletion failed'})
         console.log(err);
