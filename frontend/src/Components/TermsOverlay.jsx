@@ -22,6 +22,8 @@ const TermsOverlay = ({ onAccept, onCancel }) => {
             may incur additional charges.
           </li>
           <li>Guests must present a valid ID upon check-in.</li>
+          <li>Check-in time is 2:00 pm - Check-out time is 12:00 pm</li>
+
         </ul>
         <h3>2. Payment Policy</h3>
         <p>Full payment is required at the time of booking unless stated otherwise.</p>
