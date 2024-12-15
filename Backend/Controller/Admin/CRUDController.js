@@ -2,14 +2,15 @@ const Admin = require('../../Models/AdminSchemas/AdminSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const RoomNums = require('../../Models/HotelSchema/RoomNumber');
 const History = require('../../Models/AdminSchemas/RecycleBin');
+
+const Payment = require('../../Models/payment');
+const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
+const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
+const { getPaymentId, refundPayment } = require('../../services/paymentService');
+const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173';
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
-const Payment = require('../../Models/payment');
-const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
-const { getPaymentId, refundPayment } = require('../../services/paymentService');
-const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173';
-
 
 const addAdmin = async (req,res) => {
     const {email,lastName, firstName} = req.body;
@@ -109,7 +110,7 @@ const forgetPassword = async (req,res) => {
                         If you'd like to request a new password, click the button below:
                     </p>
                     <a 
-                        href=${url}/api/reset-password/${employeeEmail} 
+                        href="${url}/api/reset-password/${encodeURIComponent(employeeEmail)}"
                         style="
                             display: inline-block;
                             padding: 10px 20px;
@@ -142,14 +143,15 @@ const forgetPassword = async (req,res) => {
 }
 
 const reset_password = async (req,res) => {
-    const { employeeEmail } = req.params; // Extract the email from the query string
+    const { email } = req.params; // Extract the email from the query string
 
+    console.log('reset');
     try {
         // Generate a new password
         const code = Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000;
         const newPassword = await bcrypt.hash(String(code), 10);
 
-        await Admin.findOneAndUpdate({email: employeeEmail}, { $set: { password: newPassword }});
+        await Admin.findOneAndUpdate({email: email}, { $set: { password: newPassword }});
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -163,7 +165,7 @@ const reset_password = async (req,res) => {
             from: "SilverStone Hotel Management",
             to: email,
             subject: "Your New Password",
-            text: `Your new password is: ${employeeEmail}`
+            text: `Your new password is: ${newPassword}`
         });
 
         // Inform the user that their request was successful
@@ -235,6 +237,25 @@ const processReservation = async (req, res) => {
     }
 }
 
+const delete_restaurant_reservation = async (req,res) => {
+    const {id} = req.params;
+
+    try{
+        const reservation = await Restaurant.findOneAndDelete({_id: id});
+
+        if(!reservation){
+            return res.status(404).json({message: 'Delete Failed'})
+        }
+
+        const restaurant = await Restaurant.find();
+
+
+        return res.status(200).json({message: 'Deleted', restaurant: restaurant})
+
+    }catch(err){
+        console.log(err);
+    }
+}
 const updateRole = async (req,res) => {
     const { updatedRole, id } = req.body;
 
@@ -440,5 +461,6 @@ module.exports = {
     delete_admin,
     handle_due_reservations,
     forgetPassword,
-    reset_password
+    reset_password,
+    delete_restaurant_reservation
 }

@@ -33,7 +33,7 @@ const ReservationForm = () => {
 
       if(response.ok){
         const data = await response.json();
-        alert(data.message || "Thank you! Your reservation has been submitted.");
+        alert("Thank you! Your reservation has been submitted." || data.message);
 
         setFormData({
           name: "",

@@ -13,5 +13,6 @@ router.delete('/api/delete_admin/:id', AdminCrud.delete_admin);
 router.put('/api/reservation/due', AdminCrud.handle_due_reservations);
 router.put('/api/forget-password', AdminCrud.forgetPassword);
 router.put('/api/reset-password/:email', AdminCrud.reset_password);
+router.delete('/api/delete/restaurant_reservation/:id', AdminCrud.delete_restaurant_reservation);
 
 module.exports = router;
