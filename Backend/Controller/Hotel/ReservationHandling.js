@@ -14,28 +14,28 @@ const AvailableRoomSearch = async (req, res) => {
         const checkOut = new Date(checkOutDate);
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
 
-        const RoomSchedules = await ReservationSchedule.find();
-        const available = RoomSchedules.filter(sched => {
-            return (checkIn >= sched.checkOutDate || checkOut <= sched.checkInDate);
+        const schedules = await ReservationSchedule.find({ 
+            status: 'Pending',
+            checkInDate: { $gte: checkIn},
+            checkOutDate: { $lte: checkOut}
         });
 
-
         const rooms = await RoomInfo.find();
+        console.log(rooms)
 
-        for (let i = 0; i < available.length; i++) {
-            // Loop through rooms and update roomLimit
-            for (let j = 0; j < rooms.length; j++) {
-                if (available[i].roomType === rooms[j].roomType) {
-                    rooms[j].roomLimit += available[i].totalRooms;
+        schedules.forEach(schedule => {
+            rooms.forEach(room => {
+                if(schedule.roomType === room.roomType){
+                    room.roomLimit -= 1;
                 }
-            }
-        }
-
+            })
+        })
+        
         const filteredRooms = rooms.filter(room => {
             return(room.roomLimit !== 0)
         })
 
-        return res.status(200).json({ roomAvailable:filteredRooms , schedule: available, gap });
+        return res.status(200).json({ roomAvailable:filteredRooms , schedule: schedules, gap });
 
     } catch (err) {
         // Send an error response with the error message
@@ -77,10 +77,6 @@ const NewReservation = async (req,res) => {
             }) 
             await newPayment.save();
             await newReservation.save();
-            await RoomInfo.findOneAndUpdate(
-                { roomType: reservation.roomType },
-                { $set: { roomLimit: reservation.roomLimit - 1 }}
-            );
             
         }
 
@@ -124,12 +120,6 @@ const AdminNewReservation = async (req,res) => {
             }) 
             await newPayment.save();
             await newReservation.save();
-
-            await RoomInfo.findOneAndUpdate(
-                { roomType: reservation.roomType },
-                { $set: { roomLimit: reservation.roomLimit - 1 }}
-            );
-            
         }
 
         res.status(200).json({message: 'sucesss'});

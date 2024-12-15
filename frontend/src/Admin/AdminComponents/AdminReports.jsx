@@ -1,7 +1,7 @@
 import { CChart } from '@coreui/react-chartjs';
 import { useEffect, useState } from 'react';
 import './AdminReports.css'
-import { formatDateTime } from '../../utils/dateUtils';
+import { formatDate, formatDateTime } from '../../utils/dateUtils';
 
 const AdminReports = () => {
     const [reports, setReports] = useState();
@@ -43,14 +43,17 @@ const AdminReports = () => {
     }, [])
     
     useEffect(() => {
-        const filterPayments = async () => {
-            if(startDate <= endDate &&  startDate != '' && endDate != ''){
-                const payments = await getPayments();
-                setPayments(payments.filter(payment => payment.createdAt > startDate && payment.createdAt < endDate));
+            const filterHistory = async () => {
+                if(startDate <= endDate &&  startDate != '' && endDate != ''){
+                    const payments = await getPayments();
+                    setPayments(payments.filter(payment => 
+                        formatDate(new Date(new Date(payment.createdAt).toISOString().split('T')[0])) >= formatDate(new Date(startDate)) && 
+                        formatDate(new Date(new Date(payment.createdAt).toISOString().split('T')[0])) <= formatDate(new Date(endDate)))
+                    )
+                }
             }
-        }
-        filterPayments();
-    }, [startDate, endDate])
+            filterHistory ();
+        }, [startDate, endDate])
 
     const clear = async () => {
         setPayments(await getPayments())
