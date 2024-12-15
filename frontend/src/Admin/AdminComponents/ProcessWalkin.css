@@ -1,6 +1,7 @@
 .process-walkIn-page{
     margin-left: 350px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     gap: 40px;
     justify-content: center;
@@ -46,7 +47,7 @@
 }
 
 .room-container .room-div .date-container .date-each-container input, .room-div select{
-    width: 300px;
+    width: 100%;
     height: 40px;
     font-size: 18px;
 }
@@ -105,7 +106,6 @@
     padding: 10px;
     font-size: 20px;
     border-radius: 10px;
-    width: 600px;
 }
 
 .client-info-container button{

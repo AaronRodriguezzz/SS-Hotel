@@ -41,6 +41,7 @@ function FrontPage(){
                         </motion.h4>
                         <Link to='/booknow'>
                             <motion.button
+                                className='book-btn'
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: .9, delay: .8 }}

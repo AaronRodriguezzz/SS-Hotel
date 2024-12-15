@@ -6,6 +6,7 @@ import './NavBarStyle.css'
 function NavBar({scrollToRooms,scrollToFooter,scrollToHotelAreas}) {
     const [isScrolled, setScrollPosition] = useState(false);
     const [scrollValue, setScrollValue] = useState(0);
+    const [show, setShow] = useState(false);
 
 
     const handleScroll = () => {
@@ -75,7 +76,6 @@ function NavBar({scrollToRooms,scrollToFooter,scrollToHotelAreas}) {
                             transition={{ duration: 2 }}
                         >
                          <Link to='/' className="no-underline">
-                            <img src='/photos/logo.png' alt='Logo' />
                             <h5>THE</h5>
                             <h2>SILVERSTONE</h2>
                             <h5>HOTEL</h5>
@@ -91,7 +91,25 @@ function NavBar({scrollToRooms,scrollToFooter,scrollToHotelAreas}) {
                         <li onClick={scrollToFooter}>CONTACT US</li>
 
                         </ul>
+                        <button className='hamburger-btn' onClick={() => setShow(prev => !prev)}>
+                            <img src="/photos/hamburger.png" alt="" />
+                        </button>
+
+                        <div className={`drop-down ${show ? 'show' : ''}`}>
+                            <Link to='/'>  
+                            <li onClick={scrollToRooms}>OUR ROOMS</li>
+                        </Link>
                         
+                        <Link to='/Amenities' className="no-underline">  
+                            <li onClick={scrollToHotelAreas}>HOTEL AREAS</li>
+                        </Link>
+                        <Link to='/restaurant'>  
+                            <li>RESTAURANT</li>
+                        </Link>
+
+                        <li onClick={scrollToFooter}>CONTACT US</li>
+
+                        </div>
                 </motion.nav>
         </div>
     );

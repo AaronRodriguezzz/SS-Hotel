@@ -1,11 +1,11 @@
 .navigation{
-    width: 100vw;
     font-family: "Josefin San", sans-serif;
     z-index: 5;
     position: relative;
 }
 
 .navigation nav{
+    padding: 10px;
     display: flex;
     flex-direction: row;
     color: #d3b23a;
@@ -29,7 +29,6 @@
 
 .no-underline{
     color: #d3b23a;
-    margin:20px;
     text-decoration: none;
 }
 
@@ -49,7 +48,6 @@
 }
 
 .navigation .hotel-name img{
-    display:none;
     width: 100px;
     height: 100px;
 }
@@ -84,7 +82,46 @@
     text-decoration: underline;
 }
 
+.navigation .hamburger-btn{
+    background-color: transparent;
+    width: 80px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    display: none;
+}
 
+
+.navigation .hamburger-btn img{
+    width: 100%;
+    height: 100%;
+}
+
+.navigation .drop-down{
+    position: absolute;
+    background-color: rgb(42, 75, 96, 0.8);
+    width: 100%;
+    top: 100%;
+    flex-direction: column;
+    align-items: center;
+    display: none;
+}
+
+.navigation .drop-down li{
+    color: white;
+    list-style: none;
+    margin: 30px 0;
+}
+
+.navigation .drop-down li:hover{
+    text-decoration: underline;
+}
+
+.navigation li{
+    cursor: pointer;
+}
 
 @media (max-width: 1440px) {
     
@@ -103,124 +140,26 @@
     }
 }
 
-@media (max-width: 1024px) {
-    .no-underline{
-        letter-spacing: 0px;
-        margin:5px;
+@media (max-width: 950px){
+    .navigation ul{
+        display: none;
+    }
 
+    .navigation .hamburger-btn{
+        display: block;
     }
-    
-    .navigation .hotel-name h5{
-        font-size: 16px;
-    }
-    
-    .navigation .hotel-name h2{
-        font-size: 30px;
-    }
-    
-    .navigation ul li{        
-        margin-right: 60px;
-        font-size: 12px;
+
+    .drop-down.show{
+        display: flex;
     }
 }
 
-@media (max-width: 768px) {
-
-    .no-underline{
-        letter-spacing: 0px;
-        margin:5px;
-
-    }
-
-    
+@media (max-width: 425px){
     .navigation .hotel-name h5{
-        font-size: 12px;
+        font-size: 13px;
     }
     
     .navigation .hotel-name h2{
         font-size: 20px;
-        letter-spacing: 2px;
-    }
-    
-    .navigation ul {
-        padding-left: 10px;
-    }
-    
-    .navigation ul li{        
-        margin-right: 30px;
-        font-size: 10px;
-    }
-}
-
-@media (max-width: 425px) { 
-
-    .navigation nav{
-        justify-content: center;
-    }
-    
-    .navigation .hotel-name h5{
-        display: none;
-    }
-    
-    .navigation .hotel-name h2{
-        display: none;
-    }
-
-    
-    .navigation .hotel-name img{
-        display:flex;
-    }
-    
-    .no-underline{
-        letter-spacing: 0px;
-        margin:5px;
-
-    }
-
-    
-    .navigation  ul{
-        display: flex;
-        gap:5px;
-        padding-left: 0;
-
-    }
-    
-    
-    .navigation ul li{      
-        font-size: 10px;
-        margin-right: 0;
-
-    }
-    
-}
-
-
-@media (max-width: 375px) { 
-    
-    .navigation .hotel-name img{
-        display:flex;
-        width: 80px;
-        height: 80px;
-    }
-    .navigation ul li{      
-        font-size: 9px;
-    }
-}
-
-
-@media (max-width: 320px) { 
-    
-    .navigation .hotel-name img{
-        display:flex;
-        width: 70px;
-        height: 70px;
-    }
-
-    .navigation  ul{
-        gap:3px;
-    }
-
-    .navigation ul li{      
-        font-size: 8px;
     }
 }
