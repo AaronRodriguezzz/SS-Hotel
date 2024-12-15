@@ -37,41 +37,36 @@ const AdminNav = ({ onSectionChange,role,name, choosen }) => {
 
     return(
         <div className="nav">
-            <div style={{width: "100%", display:"flex", alignItems:"center",flexDirection:"column"}}>   
-                <img src='/photos/logo.png' alt='Logo' />
-
-                <ul>
-                    <li className={`${styleNav('hotelRooms') ? 'active': '' }`} onClick={() => onSectionChange('hotelRooms')}>Rooms</li>
-                    <li className={`${styleNav('reservations') ? 'active': '' }`} onClick={() => onSectionChange('reservations')}>Reservations</li>
-                    <li className={`${styleNav('processed') ? 'active': '' }`} onClick={() => onSectionChange('processed')}>Processed Reservation</li>
-                    <li className={`${styleNav('walk-in') ? 'active': '' }`} onClick={() => onSectionChange('walk-in')}>Process Walk In</li>
-                    <li className={`${styleNav('restaurant') ? 'active': ''}`} onClick={() => onSectionChange('restaurant')}>Restaurant Reservation</li>
-                    <li className={`${styleNav('super-admin') ? 'active': ''}  ${choosen === ''}`} onClick={() => onSectionChange('super-admin')}
-                        style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
-                    >Super Admin</li>
-                    <li onClick={() => onSectionChange('new-admin')} 
-                        style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
-                        className={`${styleNav('new-admin') ? 'active': ''}`}
-                    >New Admin</li>
-                    <li onClick={() => onSectionChange('admin-reports')} 
-                        style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
-                        className={`${styleNav('admin-reports') ? 'active': ''}`}
-                    >Reports</li>
-                    <li onClick={() => onSectionChange('history')} 
-                        style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
-                        className={`${styleNav('history') ? 'active': ''}`}
-                    >Reservation History</li>
-                </ul>
-
-            </div>
-
-            <button onClick={handleLogOut} id='logout'>
+           <img src='/photos/logo.png' alt='Logo' />
+            <ul>
+                <li className={`${styleNav('hotelRooms') ? 'active': '' }`} onClick={() => onSectionChange('hotelRooms')}>Rooms</li>
+                <li className={`${styleNav('reservations') ? 'active': '' }`} onClick={() => onSectionChange('reservations')}>Reservations</li>
+                <li className={`${styleNav('processed') ? 'active': '' }`} onClick={() => onSectionChange('processed')}>Processed Reservation</li>
+                <li className={`${styleNav('walk-in') ? 'active': '' }`} onClick={() => onSectionChange('walk-in')}>Process Walk In</li>
+                <li className={`${styleNav('restaurant') ? 'active': ''}`} onClick={() => onSectionChange('restaurant')}>Restaurant Reservation</li>
+                <li className={`${styleNav('super-admin') ? 'active': ''}  ${choosen === ''}`} onClick={() => onSectionChange('super-admin')}
+                    style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
+                >Super Admin</li>
+                <li onClick={() => onSectionChange('new-admin')} 
+                    style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
+                    className={`${styleNav('new-admin') ? 'active': ''}`}
+                >New Admin</li>
+                <li onClick={() => onSectionChange('admin-reports')} 
+                    style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
+                    className={`${styleNav('admin-reports') ? 'active': ''}`}
+                >Reports</li>
+                <li onClick={() => onSectionChange('history')} 
+                    style={{display: securityClearance === 'Super Admin' ? "block":"none"}}
+                    className={`${styleNav('history') ? 'active': ''}`}
+                >Reservation History</li>
+            </ul>
+            <div onClick={handleLogOut} id='logout'>
                 <div className='admin-basic-info'>
                     <p>{adminName}</p>
                     <p>{securityClearance}</p>
                 </div>
                 <img src="./photos/logout.png" alt="log out" />
-            </button>
+            </div>
         </div>
     )
 }
