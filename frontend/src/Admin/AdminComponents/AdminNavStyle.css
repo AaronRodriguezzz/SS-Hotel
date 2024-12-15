@@ -31,7 +31,7 @@
 
 .nav img{
     width: 230px;
-    height: 8%;
+    height: 50px;
     margin-bottom: 30px;
     margin-top: 30px;
     border-bottom: 3px solid #d4bc34;
@@ -50,6 +50,20 @@
     font-size: 20px;
     font-weight:100;
     overflow-y: auto;
+}
+
+.nav ul::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.nav ul::-webkit-scrollbar-track {
+  background: #2a4b60;
+}
+
+.nav ul::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
 }
 
 .nav ul li{
