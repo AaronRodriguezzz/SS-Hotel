@@ -164,7 +164,7 @@ const reset_password = async (req,res) => {
             from: "SilverStone Hotel Management",
             to: email,
             subject: "Your New Password",
-            text: `Your new password is: ${newPassword}`
+            text: `Your new password is: ${code}`
         });
 
         // Inform the user that their request was successful
