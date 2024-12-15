@@ -16,6 +16,12 @@ const Calendar = ({ dateSelected, selectedTime }) => {
     );
   };
 
+  const addHours = (time, hours) => {
+    const endTime = new Date(`1970-01-01T${String(time)}:00`); // Treat the stored time as a start time
+    endTime.setHours(endTime.getHours() + hours); // Add the specified number of hours
+    return endTime;
+  }
+
   // Get the first day of the current month
   const firstDayOfMonth = startOfMonth(currentDate);
   
@@ -54,6 +60,7 @@ const Calendar = ({ dateSelected, selectedTime }) => {
 
             if(response.ok){
               setdateData(data.data);
+              console.log(data.time);
             }
      
         }catch(err){
