@@ -94,42 +94,6 @@ const RoomInfo = () =>{
                 </div>
             </div>
 
-
-            <form className="date-form">
-                <h1>Fill the Dates to Proceed</h1>
-                <div className='form-group'>
-                    <label htmlFor="checkIn">Check-In Date</label>
-                    <input 
-                        type='date' 
-                        name='checkIn'
-                        value={checkInDate} 
-                        min={today}
-                        required 
-                        onChange={(e) => {
-                            setCheckInDate(e.target.value)
-                            const checkIn = new Date(e.target.value);
-                            checkIn.setDate(checkIn.getDate() + 1);
-                            setMinCheckOut(checkIn.toISOString().split('T')[0]);                    
-                        }}
-                    />
-                </div>
-
-                <div className='form-group'>
-                    <label htmlFor="checkOut">Check-Out Date</label>
-                    <input 
-                        type='date' 
-                        name='checkOut'
-                        value={checkOutDate} 
-                        onChange={(e) => setCheckOutDate(e.target.value)}  
-                        min={minCheckOut}
-                        required 
-                    />
-                </div>
-
-                <button type=''>PROCEED</button>
-
-            </form>
-
             <Footer ref={targetRefFooter}/>
         </>
     )

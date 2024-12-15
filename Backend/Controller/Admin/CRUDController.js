@@ -109,7 +109,7 @@ const forgetPassword = async (req,res) => {
                         If you'd like to request a new password, click the button below:
                     </p>
                     <a 
-                        href="${url}/api/reset-password/${employeeEmail}" 
+                        href=${url}/api/reset-password/${employeeEmail} 
                         style="
                             display: inline-block;
                             padding: 10px 20px;
