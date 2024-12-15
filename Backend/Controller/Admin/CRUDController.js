@@ -288,14 +288,12 @@ const handle_due_reservations = async (req, res) => {
         let today = new Date();
         
         const duesReservation = await RoomSchedule.find({checkInDate: {$lt: new Date(today.setHours(0, 0, 0, 0))}, status: 'Pending'});
-        const roomUpdates = await Promise.all(
-            duesReservation.map(async (reservation) => {
+            duesReservation.forEach(async (reservation) => {
 
                 const updatedRoom = await RoomSchedule.findByIdAndUpdate(
                     reservation.id ,
                     { status: 'No-Show'}
                 );
-                
                 if (! updatedRoom) {
                     throw new Error(`No room found with checkOutDate: ${reservation.checkOutDate}`);
                 }
@@ -320,11 +318,10 @@ const handle_due_reservations = async (req, res) => {
                 });
 
                 await addToBin.save();
-                return true; // Indicating success
+                
             })
-        );
         // If all operations succeeded
-        return res.status(200).json({ message: "Reservations processed successfully", roomUpdates });
+        return res.status(200).json({ message: "Reservations processed successfully"});
 
     } catch (err) {
         console.error("Error processing reservations:", err);
