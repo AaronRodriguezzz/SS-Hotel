@@ -51,6 +51,32 @@ const RestaurantReservations = () => {
     },[]);
 
 
+    const handle_cancel = async (id) => {
+        console.log(id);
+        try{
+
+            if(confirm('Are you sure you want to cancel this reservation?')){
+
+                const response = await fetch(`/api/delete/restaurant_reservation/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                 })
+
+                 if(response.ok){
+                    const data = await response.json();
+                    setFilteredAccounts(data.restaurant)
+                    alert(data.message || 'Deleted')
+                 }
+            }
+
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+
     return(
         <>
 
@@ -84,17 +110,19 @@ const RestaurantReservations = () => {
                 </thead>
 
                 <tbody>
-                    {filteredAccounts && (filteredAccounts.map(reservations => {
-                        return(
-                            <tr key={reservations.date}>
-                                <td>{reservations.name}</td>
-                                <td>{reservations.email}</td>
-                                <td>{reservations.phoneNumber}</td>
-                                <td>{reservations.date}</td>
-                                <td>{reservations.time}</td>
-                                <td><button>Cancel</button></td>
-                            </tr>
-                        )
+                    {filteredAccounts && (filteredAccounts
+                        .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date descending
+                        .map(reservations => {
+                            return (
+                                <tr key={reservations.date}>
+                                    <td>{reservations.name}</td>
+                                    <td>{reservations.email}</td>
+                                    <td>{reservations.phoneNumber}</td>
+                                    <td>{reservations.date}</td>
+                                    <td>{reservations.time}</td>
+                                    <td><button onClick={() => handle_cancel(reservations._id)}>Cancel</button></td>
+                                </tr>
+                            )
                     }))}
                 </tbody>
             </table>

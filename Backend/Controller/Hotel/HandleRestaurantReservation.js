@@ -20,7 +20,7 @@ const handle_Available_guest = async (req, res) => {
             const oldStartTime = new Date(`1970-01-01T${String(avail.time)}:00`); // Treat the stored time as a start time
             const oldEndTime = new Date(`1970-01-01T${String(avail.time)}:00`); // Same for end time
             oldEndTime.setHours(oldEndTime.getHours() + 3);  // Add 3 hours to the reservation end time
-
+            
             // Check for overlap: new reservation's time must overlap with an existing one
             return (newStartTime < oldEndTime && newEndTime > oldStartTime);  // Correct comparison for overlap
         });

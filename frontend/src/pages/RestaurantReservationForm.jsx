@@ -21,9 +21,13 @@ const ReservationForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    console.log("Reservation details:", formData);
+    if(formData.guestsQuantity > guestLimit){
+      return alert("We’re sorry, but no tables are available for the selected date and time. Please check the unavailable time");
+    }
+
     try{
       const response = await fetch('/api/submit/restaurantReservation', {
         method: 'POST',
@@ -33,7 +37,7 @@ const ReservationForm = () => {
 
       if(response.ok){
         const data = await response.json();
-        alert(data.message || "Thank you! Your reservation has been submitted.");
+        alert("Thank you! Your reservation has been submitted." || data.message);
 
         setFormData({
           name: "",
@@ -138,7 +142,6 @@ const ReservationForm = () => {
               value={formData.guestsQuantity}
               onChange={handleChange}
               min={1}
-              max={guestLimit}
               required
             />
 

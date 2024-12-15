@@ -80,3 +80,25 @@
     background-color: #2a4b60;
     color: white;
 }
+
+@media(max-width:1024px){
+    .admin-reports{
+        margin-left: 230px;
+    }
+    
+    .admin-reports .top-divs-container > div{
+        padding: 10px 20px;
+    }
+    
+    .admin-reports .top-divs-container > div img{
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+    
+    .admin-reports .top-divs-container div p{
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+}
