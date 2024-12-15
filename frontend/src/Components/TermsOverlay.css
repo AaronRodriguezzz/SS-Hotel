@@ -29,49 +29,121 @@
 /* Headings */
 .overlay-content h2 {
   color: #1a3d7c; /* Navy blue */
+  font-size: 1.8rem;
+  margin-bottom: 10px;
 }
 
 .overlay-content h3 {
   color: #d4af37; /* Gold accent */
+  font-size: 1.3rem;
+}
+
+/* Text Styling */
+.overlay-content p,
+.overlay-content ul {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.overlay-content ul {
+  padding-left: 20px;
+}
+
+/* Buttons Container */
+.terms-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+  flex-wrap: wrap; /* Wrap buttons on smaller screens */
 }
 
 /* Accept Button */
 .accept-button {
+  width: 100%;
   background-color: #1a3d7c; /* Navy blue */
   color: #fff;
-  border: 2px solid #1a3d7c; /* Navy blue border */
-  padding: 10px 15px;
+  border: none;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s ease, color 0.3s ease;
-  width: 100%;
-}
-
-.terms-footer{
-  margin-top: 70px;
+  font-size: 1rem;
+  transition: background 0.3s ease;
 }
 
 .accept-button:hover {
-  background-color: #d4af37; /* Gold on hover */
+  background-color: #d4af37; /* Gold accent on hover */
   color: #1a3d7c;
 }
 
 /* Cancel Button */
 .cancel-button {
-  background-color: #fff;
-  color: #1a3d7c; /* Navy blue text */
-  border: 2px solid #1a3d7c; /* Navy blue border */
-  padding: 10px 15px;
+  width: 100%;
+  background-color: #1a3d7c; /* Navy blue */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s ease, color 0.3s ease;
-  width: 100%;
-
+  font-size: 1rem;
+  transition: background 0.3s ease;
 }
 
 .cancel-button:hover {
-  background-color: #1a3d7c; /* Navy blue hover */
+  background-color: #1a3d7c;
   color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .overlay-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .overlay-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .overlay-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .overlay-content p,
+  .overlay-content ul {
+    font-size: 0.9rem;
+  }
+
+  .accept-button,
+  .cancel-button {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay-content {
+    width: 100%;
+    padding: 10px;
+    border-radius: 0; /* Remove rounded corners for full-width */
+  }
+
+  .overlay-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .overlay-content h3 {
+    font-size: 1rem;
+  }
+
+  .overlay-content p,
+  .overlay-content ul {
+    font-size: 0.8rem;
+  }
+
+  .terms-footer {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;
+  }
 }
