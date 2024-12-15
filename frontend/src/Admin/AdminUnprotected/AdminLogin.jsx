@@ -7,10 +7,6 @@ function AdminLogIn() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleForgetPass = () => {
-        
-    }
-
     const handleLogIn = async () => {
         try{
             const response = await fetch('/api/login', {
@@ -32,6 +28,32 @@ function AdminLogIn() {
 
         }catch(err){
             console.log('log in error:', err);
+        }
+    }
+
+    const handle_fogetpassword = async () => {
+
+        if(!employeeEmail){
+            return alert('You need to put your email first')
+        }
+
+        console.log(employeeEmail)
+        try{
+            const response = await fetch(`/api/forget-password`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ employeeEmail }),
+            }); 
+
+            if (response.ok) {
+                const data = await response.json();
+                alert(data.message || '');  
+            }
+
+        }catch(err){
+            console.log('foget error', err);
         }
     }
 
@@ -57,7 +79,7 @@ function AdminLogIn() {
                     />
 
                     <button onClick={handleLogIn}>LOG IN</button>
-                    <button onClick={handleForgetPass}>Forgot Password</button>
+                    <button onClick={handle_fogetpassword}>Forgot Password</button>
                 </div>
             </div>
         </div>

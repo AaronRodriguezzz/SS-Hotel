@@ -11,5 +11,7 @@ router.delete('/api/reservation/:id', AdminCrud.processCancellation);
 router.put('/api/room/checkout/:roomNum', AdminCrud.processCheckOut);
 router.delete('/api/delete_admin/:id', AdminCrud.delete_admin);
 router.put('/api/reservation/due', AdminCrud.handle_due_reservations);
+router.put('/api/forget-password', AdminCrud.forgetPassword);
+router.put('/api/reset-password/:email', AdminCrud.reset_password);
 
 module.exports = router;

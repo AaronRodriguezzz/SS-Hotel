@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 const Payment = require('../../Models/payment');
 const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const { getPaymentId, refundPayment } = require('../../services/paymentService');
+const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173';
 
 
 const addAdmin = async (req,res) => {
@@ -73,6 +74,105 @@ const addAdmin = async (req,res) => {
     }
 }
 
+
+const forgetPassword = async (req,res) => { 
+    const  { employeeEmail }  = req.body
+
+    try{
+        
+        const emailExist = await Admin.findOne({email:employeeEmail})
+
+        if(!emailExist){
+           return res.status(404).json({message:"Email don't exists"});
+        }
+
+        
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+        });
+
+
+        const info = await transporter.sendMail({
+            from: "SilverStone Hotel Management", 
+            to: employeeEmail, 
+            subject: "SilverStone Account", 
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <h2>Greetings, ${emailExist.lastName}, ${emailExist.firstName}!</h2>
+                    <p>Welcome to our growing SilverStone Hotel family staff. We hope you're in good condition.</p>
+                    <p>
+                        If you'd like to request a new password, click the button below:
+                    </p>
+                    <a 
+                        href="${url}/api/reset-password/${employeeEmail}" 
+                        style="
+                            display: inline-block;
+                            padding: 10px 20px;
+                            font-size: 16px;
+                            color: #fff;
+                            background-color: #007bff;
+                            text-decoration: none;
+                            border-radius: 5px;
+                        "
+                        target="_blank"
+                    >
+                        Request New Password
+                    </a>
+                    <p>Best Regards,</p>
+                    <p>SilverStone Management</p>
+                </div>
+            `
+        });
+        
+        if(!info){
+            return res.status(404).json({message:"Error Sending new password"});
+        }
+
+        return res.status(200).json({message:"Password Updated"});
+
+        
+    }catch(err){
+        console.log('forgot pass', err);
+    }
+}
+
+const reset_password = async (req,res) => {
+    const { employeeEmail } = req.params; // Extract the email from the query string
+
+    try {
+        // Generate a new password
+        const code = Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000;
+        const newPassword = await bcrypt.hash(String(code), 10);
+
+        await Admin.findOneAndUpdate({email: employeeEmail}, { $set: { password: newPassword }});
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+        });
+       
+        await transporter.sendMail({
+            from: "SilverStone Hotel Management",
+            to: email,
+            subject: "Your New Password",
+            text: `Your new password is: ${employeeEmail}`
+        });
+
+        // Inform the user that their request was successful
+        return res.status(200).json({message:'A new password has been sent to your email.'})
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong.' });
+    }
+}
 
 const processReservation = async (req, res) => {
     const {reservation, selectedRoom,adminName} = req.body;
@@ -338,5 +438,7 @@ module.exports = {
     updateStatus,
     processCheckOut,
     delete_admin,
-    handle_due_reservations
+    handle_due_reservations,
+    forgetPassword,
+    reset_password
 }
