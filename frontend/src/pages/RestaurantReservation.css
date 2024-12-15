@@ -1,7 +1,11 @@
+.restaurant-reservation{
+  width: 100vw;
+}
+
 .reservation-container {
     font-family: "Josefin San", sans-serif;
-    width: 70%;
     display: flex;
+    width: 70%;
     margin: 250px auto;
     padding: 20px;
     border-radius: 8px;

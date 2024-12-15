@@ -84,7 +84,7 @@ const ReservationForm = () => {
 
 
   return (
-    <>
+    <div className="restaurant-reservation">
     <NavBar/>
     <div className="reservation-container">
       <div className="child-reservation-container">
@@ -153,8 +153,7 @@ const ReservationForm = () => {
       <Calendar dateSelected={formData.date} selectedTime={formData.time}/>
     </div>
     <Footer/>
-    </>
-
+    </div>
   );
 };
 
