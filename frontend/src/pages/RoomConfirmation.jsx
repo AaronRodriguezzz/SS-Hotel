@@ -4,6 +4,8 @@ import { useLocation, Navigate, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Components/NavBar';
 import Footer from '../Components/Footer';
 import FloatingButton from '../Components/ChatBot';
+import TermsOverlay from '../Components/TermsOverlay';
+
 
 const RoomConfirmation = () => {
     const storageRoom = JSON.parse(sessionStorage.getItem("cart") || "[]");
@@ -11,6 +13,10 @@ const RoomConfirmation = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [showOverlay, setShowOverlay] = useState(false);
+    const [proceedNext, setProceedNext] = useState(false);
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,13 +38,28 @@ const RoomConfirmation = () => {
         }
     }
 
+    const handleShowOverlay = (e) => {
+        e.preventDefault();
+        setShowOverlay(true);
+    };
+    
+    const handleAcceptTerms = (e) => {
+        setShowOverlay(false);
+        handleFinishedClicked(e);
+    };
+
+    const handleCancel = () => {
+        setShowOverlay(false);
+        alert("You have canceled. The page will not proceed.");
+    };
+
     return(
         <>
         <Navbar/>
         <FloatingButton/>
 
         <div className="main-page">
-            <form onSubmit={handleFinishedClicked}>
+            <form>
                 <h1>Booking Confirmation</h1>
                 <div className="reservation-info">
 
@@ -103,9 +124,12 @@ const RoomConfirmation = () => {
                         <button type='button' id='add-rooms'>ADD ROOMS</button>
                     </Link>
 
-                    <button className='finish' onClick={(e) => handleFinishedClicked(e)}>FINISH</button>
+                    <button className='finish' onClick={(e) => handleShowOverlay(e)}>FINISH</button>
                 </div>
             </form>
+
+            {showOverlay && <TermsOverlay onAccept={(e) => handleAcceptTerms(e)} onCancel={handleCancel} />}
+
         </div>
 
         <Footer/>
