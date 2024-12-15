@@ -1,0 +1,77 @@
+/* Overlay Container */
+.overlay-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Overlay Content */
+.overlay-content {
+  background: #ffffff;
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  color: #333;
+  font-family: Arial, sans-serif;
+  border: 2px solid #1a3d7c; /* Navy blue border */
+}
+
+/* Headings */
+.overlay-content h2 {
+  color: #1a3d7c; /* Navy blue */
+}
+
+.overlay-content h3 {
+  color: #d4af37; /* Gold accent */
+}
+
+/* Accept Button */
+.accept-button {
+  background-color: #1a3d7c; /* Navy blue */
+  color: #fff;
+  border: 2px solid #1a3d7c; /* Navy blue border */
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease, color 0.3s ease;
+  width: 100%;
+}
+
+.terms-footer{
+  margin-top: 70px;
+}
+
+.accept-button:hover {
+  background-color: #d4af37; /* Gold on hover */
+  color: #1a3d7c;
+}
+
+/* Cancel Button */
+.cancel-button {
+  background-color: #fff;
+  color: #1a3d7c; /* Navy blue text */
+  border: 2px solid #1a3d7c; /* Navy blue border */
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease, color 0.3s ease;
+  width: 100%;
+
+}
+
+.cancel-button:hover {
+  background-color: #1a3d7c; /* Navy blue hover */
+  color: #fff;
+}
