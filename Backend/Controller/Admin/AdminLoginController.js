@@ -14,6 +14,7 @@ const adminLogin = async (req,res) => {
     try {
         // Find the user by profId
         const admin = await Admin.findOne({email});
+
         if (!admin) {
             return res.status(404).json('Admin does not exist');
         }

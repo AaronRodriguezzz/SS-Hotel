@@ -83,8 +83,6 @@ function FrontPage(){
                         <h4>WE CARE ABOUT THE DETAILS</h4>
                         <h2>OUR PROMO ROOMS</h2>
                     </div>
-
-                    <button id="view-rooms-btn">VIEW ALL ROOMS</button>
                 </div>  
 
                 <div className='rooms'  style={{display: rooomNum === 0 ? "flex" : "none",
