@@ -129,6 +129,7 @@ const ReservationHistory = () => {
                         <th>Total Price</th>
                         <th>Assigned Room</th>
                         <th>Remarks</th>
+                        <th>Payment</th>
                         <th>Updated At</th>
                     </tr>
                 </thead>
@@ -146,6 +147,7 @@ const ReservationHistory = () => {
                                 <td>{history.totalGuests}</td>
                                 <td>{history.totalPrice}</td>
                                 <td>{history.roomAssigned}</td>
+                                <td>{history.modeOfPayment}</td>
                                 <td>{history.remarks}</td>
                                 <td>{formatDateTime(new Date(history.updatedAt))}</td>
                             </tr>

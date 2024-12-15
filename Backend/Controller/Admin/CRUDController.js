@@ -104,10 +104,13 @@ const processReservation = async (req, res) => {
             return res.status(404).json({ message: 'Updating Rooms Error' });
         }
 
+        const payment = await Payment.findOne({reservation_id: reservation._id});
+
         const roomsAssigned = selectedRoom.join(', ');
         const addToBin = new History({
             updatedBy: adminName,
             ...reservation,
+            modeOfPayment: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
             roomAssigned: roomsAssigned,
             remarks: 'Completed',
         });
@@ -203,17 +206,6 @@ const processCancellation = async (req, res) => {
     try{
         const admin = await Admin.findOne({email: decodedToken.email })
         if(!admin) throw new Error('Admin not found');
-        const bin = new History({
-            ...req.body,
-            roomAssigned: 'N/A',
-            updatedBy: admin.firstName
-        })
-
-        const reservation = await RoomSchedule.findById(id);
-        reservation.status = 'Cancelled';
-        if(!reservation){
-            return res.status(404).json({message: 'Failed to Cancel'});
-        }
 
         const payment = await Payment.findOne({reservation_id: id});
 
@@ -228,6 +220,20 @@ const processCancellation = async (req, res) => {
             }
             await payment.save();
         }
+
+        const bin = new History({
+            ...req.body,
+            modeOfPayment: payment.payment_checkout_id ? 'Online Payment' : 'Cash',
+            roomAssigned: 'N/A',
+            updatedBy: admin.firstName
+        })
+
+        const reservation = await RoomSchedule.findById(id);
+        reservation.status = 'Cancelled';
+        if(!reservation){
+            return res.status(404).json({message: 'Failed to Cancel'});
+        }
+
         await reservation.save();
         await bin.save();
         if(!bin) throw new Error('Cancellation error'); 
@@ -280,15 +286,16 @@ const delete_admin = async (req,res) => {
 const handle_due_reservations = async (req, res) => {
     try {
         let today = new Date();
-        today.setDate(today.getDate() - 1);
-        const duesReservation = await RoomSchedule.find({checkInDate: {$lt: today}, status: 'Pending'});
+        
+        const duesReservation = await RoomSchedule.find({checkInDate: {$lt: new Date(today.setHours(0, 0, 0, 0))}, status: 'Pending'});
         const roomUpdates = await Promise.all(
             duesReservation.map(async (reservation) => {
 
-                const updatedRoom = await RoomSchedule.findOneAndUpdate(
-                    { checkOutDate: reservation.checkOutDate },
+                const updatedRoom = await RoomSchedule.findByIdAndUpdate(
+                    reservation.id ,
                     { status: 'No-Show'}
                 );
+                
                 if (! updatedRoom) {
                     throw new Error(`No room found with checkOutDate: ${reservation.checkOutDate}`);
                 }
