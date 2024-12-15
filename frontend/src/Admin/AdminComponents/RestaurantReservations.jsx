@@ -1,4 +1,5 @@
 import { useEffect,useState,} from 'react';
+import { formatDate } from '../../utils/dateUtils';
 
 
 const RestaurantReservations = () => {
@@ -112,13 +113,14 @@ const RestaurantReservations = () => {
                 <tbody>
                     {filteredAccounts && (filteredAccounts
                         .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date descending
-                        .map(reservations => {
+                        .map((reservations, i) => {
+                            console.log(reservations)
                             return (
-                                <tr key={reservations.date}>
+                                <tr key={i}>
                                     <td>{reservations.name}</td>
                                     <td>{reservations.email}</td>
                                     <td>{reservations.phoneNumber}</td>
-                                    <td>{reservations.date}</td>
+                                    <td>{formatDate(new Date(reservations.date))}</td>
                                     <td>{reservations.time}</td>
                                     <td><button onClick={() => handle_cancel(reservations._id)}>Cancel</button></td>
                                 </tr>

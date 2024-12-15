@@ -2,7 +2,6 @@ const Admin = require('../../Models/AdminSchemas/AdminSchema');
 const RoomSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const RoomNums = require('../../Models/HotelSchema/RoomNumber');
 const History = require('../../Models/AdminSchemas/RecycleBin');
-
 const Payment = require('../../Models/payment');
 const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
@@ -165,7 +164,7 @@ const reset_password = async (req,res) => {
             from: "SilverStone Hotel Management",
             to: email,
             subject: "Your New Password",
-            text: `Your new password is: ${newPassword}`
+            text: `Your new password is: ${code}`
         });
 
         // Inform the user that their request was successful
