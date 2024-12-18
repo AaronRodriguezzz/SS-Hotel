@@ -1,4 +1,3 @@
-const nodemailer = require('nodemailer');
 const History = require('../../Models/AdminSchemas/RecycleBin');
 const AdminAccts = require('../../Models/AdminSchemas/AdminSchema');
 
@@ -10,7 +9,6 @@ const fetchHistory = async (req,res) => {
     if(!history){
        return res.status(404).json({message:"Empty Room"});
     }
-    console.log(history)
 
     return res.status(200).json({history});
 }

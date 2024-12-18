@@ -63,7 +63,7 @@ function AdminLogIn() {
                 <div className='login-container'>
                 <h1><span>S</span>ILVERSTONE <span>H</span>OTEL</h1>
                     <input 
-                        placeholder='EMPLOYEE ID'
+                        placeholder='EMAIL'
                         type='text' 
                         value={employeeEmail} 
                         onChange={(e) => setEmail(e.target.value)} 

@@ -13,8 +13,6 @@ const ReservationHistory = () => {
         try{
             const response = await fetch('/api/history');
             const data = await response.json();
-
-            console.log(data);
             if(response.ok){
                 setHistory(data.history);
             }
@@ -62,7 +60,7 @@ const ReservationHistory = () => {
     }, [checkInDate, checkOutDate])
 
     const clear = async () => {
-        fetchHistory();
+        setFilteredBin(history)
         setCheckInDate('')
         setCheckOutDate('');
     }

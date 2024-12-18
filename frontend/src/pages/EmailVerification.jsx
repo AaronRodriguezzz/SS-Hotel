@@ -120,6 +120,7 @@ function VerifyEmail() {
                         });
                         console.log(response)
                         if(response.ok){
+                            sessionStorage.clear();
                             const result = await response.json();
                             window.location.href = result.data.attributes.checkout_url;
                         }

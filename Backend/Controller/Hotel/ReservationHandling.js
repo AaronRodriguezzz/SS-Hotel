@@ -11,12 +11,21 @@ const AvailableRoomSearch = async (req, res) => {
         // Convert check-in and check-out dates to Date objects
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
+        if (checkIn) {
+            checkIn.setHours(0, 0, 0, 0);  
+        }
+        if (checkOut) {
+            checkOut.setHours(23, 59, 59, 999); 
+        }
+        
+
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
         const schedules = await ReservationSchedule.find({ 
-            status: 'Pending',
-            checkInDate: { $lte: checkIn},
-            checkOutDate: { $gte: checkOut}
+            status: {$in: ['Pending', 'Assigned']},
+            checkInDate: { $lte: checkOut, $gte: checkIn }, 
+            checkOutDate: { $gte: checkIn } 
         });
+        
         const rooms = await RoomInfo.find();
         schedules.forEach(schedule => {
             rooms.forEach(room => {

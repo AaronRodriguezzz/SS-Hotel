@@ -5,6 +5,7 @@ import Navbar from '../Components/NavBar'
 import FloatingButton from '../Components/ChatBot';
 import Loading from '../Components/LoadindDiv';
 import Calendar from '../Components/Calendar';
+import formatPrice from '../utils/formatPrice';
 
 const BookNowPage = () => {
     const storageRoom = JSON.parse(sessionStorage.getItem("cart") || "[]");
@@ -12,7 +13,6 @@ const BookNowPage = () => {
     const [checkOutDate, setCheckOutDate] = useState('');
     const [minCheckOut, setMinCheckOut] = useState('');
     const [roomsAvailable, setRoomsAvailable] = useState([]);
-    const [roomSchedule, setRoomSchedule] = useState([]);
     const [bookedRoom,setBookedRoom]= useState([]);
     const [daysGap , setDaysGap] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -77,7 +77,7 @@ const BookNowPage = () => {
             if (checkInDate && checkOutDate) {
                 setLoading(true);
                 try {
-                    const dataToSend = { checkInDate, checkOutDate };
+                    const dataToSend = { checkInDate: new Date(checkInDate), checkOutDate: new Date(checkOutDate) };
 
                     const response = await fetch('/api/availabilitySearch', {
                         method: 'POST',
@@ -90,7 +90,6 @@ const BookNowPage = () => {
                     if (response.ok) {
                         const data = await response.json();
                         setRoomsAvailable(data.roomAvailable);
-                        setRoomSchedule(data.schedule);
                         setDaysGap(data.gap);
                     } else {
                         console.error('Failed to fetch room availability');
@@ -110,8 +109,6 @@ const BookNowPage = () => {
 
     return(
         <>
-        
-
         <Navbar/>
         <FloatingButton/>
 
@@ -168,7 +165,7 @@ const BookNowPage = () => {
                                     <img src={`/photos/z${room.roomType}.jpg`} alt={`${room.roomType}`} />  
                                     <div className='room-text'>
                                         <h1>{room.roomType}</h1>
-                                        <h4>₱ {room.price * daysGap} / {daysGap} days | ₱ {room.price} / day</h4>
+                                        <h4>{formatPrice(room.price * daysGap)} / {daysGap} days | {formatPrice(room.price)} / day</h4>
                                         <h4>MAXIMUM OF {room.maximumGuest} GUESTS</h4>
                                         <h4>{room.roomLimit} rooms available for your choosen date</h4>
                                         <p>{room.roomDescription}</p>
@@ -195,13 +192,12 @@ const BookNowPage = () => {
 
                 <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' && roomsAvailable ? 'block':'none'}}>
                     <h4>Your Cart: {bookedRoom.length} items</h4>
-
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
                         return(
                             <div className="added-summary-rooms">
                                 <div className="roomtype-price-container">
                                     <h6>{room.roomType}</h6>
-                                    <h4>₱{room.price * room.daysGap}.00</h4>
+                                    <h4>{formatPrice(room.price * room.daysGap)}</h4>
                                 </div>
                                 <p>{room.daysGap} Nights Stay</p>
 
@@ -216,7 +212,7 @@ const BookNowPage = () => {
                         )
                      })}
                     
-                    <h4>Total ₱{totalPayment}.00</h4>    
+                    <h4>Total: {formatPrice(totalPayment)}</h4>    
                     <button className='checkOut-rooms' onClick={handleCheckout}>CHECK OUT</button>
 
                 </div>  

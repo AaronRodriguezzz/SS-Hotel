@@ -1,4 +1,3 @@
-const { restart } = require('nodemon');
 const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
 const nodemailer = require('nodemailer');
 
