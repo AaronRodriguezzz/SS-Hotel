@@ -154,11 +154,12 @@ const BookNowPage = () => {
             </div>
 
             <div className='avail-rooms'>
-                <div className="room-choice">
-                    {loading ? (
+            {loading ? (
                         <Loading/>
-                    ) : (
-                        roomsAvailable.length === 0 ? (
+            ) : (
+                <div className="room-choice">
+                    
+                        {roomsAvailable.length === 0 ? (
                             <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
                         ): (
                           checkInDate !== '' && checkOutDate !== '' && roomsAvailable.map(room => {
@@ -187,10 +188,10 @@ const BookNowPage = () => {
                                     </div>
                                 </div>
                             )})
-                        )
-                    )}
+                        )}
+                   
                 </div>
-                
+            )}
 
                 <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' && roomsAvailable ? 'block':'none'}}>
                     <h4>Your Cart: {bookedRoom.length} items</h4>
