@@ -10,28 +10,29 @@ const ReservationHistory = () => {
     const [isUpdated, setIsUpdated] = useState(false);
 
     const handleSearch = (event) => {
-        const query = event.target.value.toLowerCase(); // Normalize input for case-insensitivity
+        const query = event.toLowerCase(); // Normalize input for case-insensitivity
         setSearchQuery(query);
-
-        if(query.trim() === ""){
+    
+        if (query.trim() === "") {
             setFilteredAccounts(adminAccounts);
             return;
         }
-        // Filter reservations based on the query
-        const filtered = filteredAccounts.filter((bin) => {
+    
+        // Filter accounts based on the query
+        const filtered = accounts.filter((bin) => {
             return (
                 bin.role.toLowerCase().includes(query) || 
                 bin.addedBy.toLowerCase().includes(query) ||
                 bin.lastName.toLowerCase().includes(query) || 
                 bin.firstName.toLowerCase().includes(query) ||
                 bin.email.toLowerCase().includes(query) ||
-                bin.contactNum.toLowerCase().includes(query) 
+                bin.contactNum.toLowerCase().includes(query)
             );
         });
-
+    
         setFilteredAccounts(filtered);
     };
-
+    
     const handleChangeStatus = async (toChange, id) => {
         const data = {toChange, id};
         console.log(data);
@@ -130,7 +131,7 @@ const ReservationHistory = () => {
                 type="text"
                 placeholder="Search reservations..."
                 value={searchQuery}
-                onChange={(e) => handleSearch(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 style={{
                     marginBottom: "20px",
                     padding: "10px",

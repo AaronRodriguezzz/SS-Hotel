@@ -102,8 +102,8 @@ const ReservationTable = ({name}) => {
         const query = event.toLowerCase(); 
         setSearchQuery(query);
 
-        if (query.trim() === "") {
-            setFilteredBin(reservations);
+        if(searchQuery.trim() === ""){
+            setFilteredAccounts(reservations);
             return;
         }
         
@@ -114,7 +114,9 @@ const ReservationTable = ({name}) => {
                 bin.guestName.toLowerCase().includes(query) ||
                 bin.guestEmail.toLowerCase().includes(query) || 
                 bin.checkInDate.toLowerCase().includes(query) ||
-                bin.checkOutDate.toLowerCase().includes(query) 
+                bin.checkOutDate.toLowerCase().includes(query) || 
+                bin.totalPrice.toLowerCase().includes(query) 
+
             );
         });
 

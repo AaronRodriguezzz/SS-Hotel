@@ -3,7 +3,6 @@ const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const Payment = require('../../Models/payment');
 const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
-
 const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173/';
 
 const AvailableRoomSearch = async (req, res) => {

@@ -3,9 +3,13 @@ import "./RestaurantReservation.css"; // Create this CSS file for styling
 import Calendar from '../Components/RestaurantCalendar'
 import NavBar from '../Components/NavBar';
 import Footer from '../Components/Footer';
+import Modal from '../Components/RestaurantModal';
+import RestaurantTerms from "../Components/RestaurantTerms";
 
 const ReservationForm = () => {
   const [guestLimit, setGuestLimit] = useState(40);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [successMessage, setSuccessMessage]  = useState(false);
   const today = new Date().toISOString().split('T')[0];
   const [formData, setFormData] = useState({
     name: "",
@@ -16,17 +20,35 @@ const ReservationForm = () => {
     guestsQuantity: "",
   });
 
+  const handle_view_terms = (e) => {
+    e.preventDefault();
+    
+    if(formData.guestsQuantity > guestLimit){
+      return alert(`We’re sorry, but we can only accommodate ${guestLimit} guest in that time`);
+    }
+
+    setShowOverlay(true);
+  } 
+
+  const handleGmailViewed = () => {
+    setSuccessMessage(false);
+  }
+
+  const accept_terms = () => {
+    setShowOverlay(false)    
+    handleSubmit();
+  }
+
+  const decline_terms = () => {
+    setShowOverlay(false);
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if(formData.guestsQuantity > guestLimit){
-      return alert("We’re sorry, but no tables are available for the selected date and time. Please check the unavailable time");
-    }
+  const handleSubmit = async () => { 
 
     try{
       const response = await fetch('/api/submit/restaurantReservation', {
@@ -36,19 +58,16 @@ const ReservationForm = () => {
       });
 
       if(response.ok){
-        const data = await response.json();
-        alert("Thank you! Your reservation has been submitted." || data.message);
-
         setFormData({
           name: "",
           email: "",
           phoneNumber: "",
           date: "",
           time: "",
-          guestQuantity: "",
+          guestsQuantity: "",
         });
 
-
+        setSuccessMessage(true);
       }
 
     }catch(err){
@@ -89,7 +108,7 @@ const ReservationForm = () => {
     <div className="reservation-container">
       <div className="child-reservation-container">
         <h1 className="reservation-title">Restaurant Reservation</h1>
-        <form className="reservation-form" onSubmit={handleSubmit}>
+        <form className="reservation-form" onSubmit={handle_view_terms}>
             <input
               type="text"
               name="name"
@@ -153,6 +172,8 @@ const ReservationForm = () => {
       <Calendar dateSelected={formData.date} selectedTime={formData.time}/>
     </div>
     <Footer/>
+    {showOverlay && <RestaurantTerms onAccept={accept_terms} onDecline={decline_terms}/>} 
+    {successMessage && <Modal onView={handleGmailViewed}/>}
     </div>
   );
 };
