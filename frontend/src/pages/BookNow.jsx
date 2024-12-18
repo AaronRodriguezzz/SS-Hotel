@@ -190,8 +190,12 @@ const BookNowPage = () => {
                 </div>
             )}
 
-                <div className="summary-container" style={{display: checkInDate !== '' && checkOutDate !== '' && roomsAvailable ? 'block':'none'}}>
+                <div className="summary-container"
+                    style={{
+                        display: checkInDate !== '' && checkOutDate !== '' && roomsAvailable ? 'flex':'none',
+                    }}>
                     <h4>Your Cart: {bookedRoom.length} items</h4>
+                    <div className='items-container'>
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
                         return(
                             <div className="added-summary-rooms">
@@ -211,10 +215,12 @@ const BookNowPage = () => {
                             </div>
                         )
                      })}
+                    </div>
                     
-                    <h4>Total: {formatPrice(totalPayment)}</h4>    
-                    <button className='checkOut-rooms' onClick={handleCheckout}>CHECK OUT</button>
-
+                    <div>
+                        <h4>Total: {formatPrice(totalPayment)}</h4>    
+                        <button className='checkOut-rooms' onClick={handleCheckout}>CHECK OUT</button>
+                    </div>
                 </div>  
             </div>
         </div>    
