@@ -330,7 +330,7 @@ function FrontPage(){
                                 </p>
                             </div>
                             
-                        </div>
+          ``              </div>
                     </div>
                 </div>
             </div>

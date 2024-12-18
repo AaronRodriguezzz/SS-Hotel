@@ -111,8 +111,11 @@ const BookNowPage = () => {
     return(
         <>
         
+
         <Navbar/>
         <FloatingButton/>
+
+        <div className="bookNow-parent-container">
             <div className='bookNow-search-section'>
                 <div className='form-group'>
                     <label htmlFor="checkIn">Check-In Date</label>
@@ -217,10 +220,7 @@ const BookNowPage = () => {
 
                 </div>  
             </div>
-
-
-
-            
+        </div>    
         </>
     )
 }
