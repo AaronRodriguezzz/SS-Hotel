@@ -53,6 +53,7 @@ const get_payments = async (req, res) => {
     const payments = await Payment.find({status: 'Completed'}).sort({createdAt: -1});
     const completedPayments = await Promise.all(payments.map(async (payment) => {
       const reservation = await Reservation.findById(payment.reservation_id);
+
       return {
         totalPrice: payment.totalPrice,
         status: payment.status,

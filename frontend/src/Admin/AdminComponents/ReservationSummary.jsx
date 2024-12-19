@@ -14,7 +14,7 @@ const BookingSummary = ({selectedRooms, submit, close}) => {
                         <div className="reserved-rooms" key={room._id}>
                             <div className="roomType-roomPrice">
                                 <h4>{room.roomType}</h4>
-                                <h6>₱{room.price * room.gap}.00 for {room.gap} nights </h6>
+                                <h6>₱{room.price * room.gap}.00 for {room.gap} night(s) </h6>
                             </div>
                             
                             <p>Duration: {room.checkInDate} - {room.checkOutDate}</p>

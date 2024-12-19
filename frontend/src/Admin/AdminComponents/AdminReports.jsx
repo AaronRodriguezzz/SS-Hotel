@@ -91,6 +91,16 @@ const AdminReports = () => {
         link.download = 'payments_report.csv';
         link.click();
     };
+
+    const handleSearch = (value) => {
+        const searchValue = value.toLowerCase();
+        setPayments(fetchedPayments.filter(payment => {
+            return payment.roomType.toLowerCase().includes(searchValue) || 
+            payment.guestName.toLowerCase().includes(searchValue) || 
+            payment.status.toLowerCase().includes(searchValue) || 
+            payment.paymentMethod.toLowerCase().includes(searchValue)
+        }))
+    }
     
 
     return(
@@ -152,6 +162,18 @@ const AdminReports = () => {
                 {loading && <p className='loading'>Please wait...</p>}
             <h3>Payments</h3>
             <div className='filter-container'>
+                <input
+                    type="text"
+                    placeholder="Search reservations..."
+                    onChange={ (e) => handleSearch(e.target.value)}
+                    style={{
+                        marginBottom: "20px",
+                        padding: "10px",
+                        fontSize: "16px",
+                        width: "40%",
+                        borderRadius: "15px"
+                    }}
+                />
                 <div>
                     <p>From</p>
                     <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>

@@ -1,13 +1,14 @@
 import { useEffect,useState,useRef} from 'react';
 import './ReservationTable.css'
 import { formatDateTime, formatDateToWeekday } from '../../utils/dateUtils';
+import formatPrice from '../../utils/formatPrice';
 
 
 const ReservationTable = ({name}) => {
 
     const {adminName}  = name;
     const selectedRooms = useRef(new Set());
-    const [reservations, setReservation] = useState([]); // Filtered reservations
+    const [reservations, setReservation] = useState([]);
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
@@ -29,8 +30,8 @@ const ReservationTable = ({name}) => {
                     body: JSON.stringify(dataToSend)
                 });
                 if(updateBin.ok){
-                    fetchReservations();
                     alert('Reservation successfully cancelled');
+                    window.location.reload();
                 }
             }catch(err){
                 console.log(err);
@@ -79,7 +80,7 @@ const ReservationTable = ({name}) => {
 
             if(response.ok){
                 alert('Assigning Room Sucessful');
-                setShowForm(false);
+                window.location.reload();
             }
         }catch(err){
             console.log(err);
@@ -101,21 +102,15 @@ const ReservationTable = ({name}) => {
     const handleSearch = (event) => {
         const query = event.toLowerCase(); 
         setSearchQuery(query);
-
-        if(searchQuery.trim() === ""){
-            setFilteredAccounts(reservations);
-            return;
-        }
         
         // Filter reservations based on the query
-        const filtered = filteredBin.filter((bin) => {
+        const filtered = reservations.filter((bin) => {
             return (
                 bin.roomType.toLowerCase().includes(query) || 
                 bin.guestName.toLowerCase().includes(query) ||
                 bin.guestEmail.toLowerCase().includes(query) || 
                 bin.checkInDate.toLowerCase().includes(query) ||
-                bin.checkOutDate.toLowerCase().includes(query) || 
-                bin.totalPrice.toLowerCase().includes(query) 
+                bin.checkOutDate.toLowerCase().includes(query)
 
             );
         });
@@ -197,7 +192,7 @@ const ReservationTable = ({name}) => {
                                     <td>{reservation.guestEmail}</td>
                                     <td>{reservation.totalRooms}</td>   
                                     <td>{reservation.totalGuests}</td>
-                                    <td>{reservation.totalPrice}</td>
+                                    <td>{formatPrice(reservation.totalPrice)}</td>
                                     <td>{formatDateTime(new Date(reservation.createdAt))}</td>
     
                                     <td className='buttons'>
@@ -212,16 +207,19 @@ const ReservationTable = ({name}) => {
                 </div>
                 
 
-                <form className='assigned-form' style={{display: showForm ? "flex":"none"}}>
+                <form onSubmit={(e) => handleSubmit(e,selectedReservation)} className='assigned-form' style={{display: showForm ? "flex":"none"}}>
                         <button style={{position: "absolute",
                                         backgroundColor: "transparent",
-                                        width:"20px",
-                                        height:"20px",
+                                        width:"30px",
+                                        height:"30px",
                                         color: "red",
                                         top: "-40px",
                                         right: "0",
                                         border:"none",
+                                        fontSize: "25px",
+                                        fontWeight: "600"
                                     }}
+                                type='button'
                                 onClick={(e) => setShowForm(false)}
                         >X</button>
                         
@@ -248,7 +246,7 @@ const ReservationTable = ({name}) => {
                             );
                         })}
 
-                    <button disabled={disable} onClick={(e) => handleSubmit(e,selectedReservation)}>ASSIGN</button>
+                    <button disabled={disable}>ASSIGN</button>
                 </form> 
             </div>
         </>

@@ -14,7 +14,6 @@ const RoomConfirmation = () => {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [showOverlay, setShowOverlay] = useState(false);
-    const [proceedNext, setProceedNext] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
