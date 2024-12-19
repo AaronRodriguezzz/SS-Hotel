@@ -311,6 +311,10 @@
         width: 80%;
     }
 
+    .avail-rooms .room-choice{
+        padding: 0;
+    }
+
     .avail-rooms .cart-container{
         position: fixed;
         background-color: white;
