@@ -20,6 +20,7 @@ const BookNowPage = () => {
     const [roomToCalendar, setRoomToCalendar] = useState('');
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
+    const [showCart, setShowCart] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false);
 
 
@@ -108,11 +109,10 @@ const BookNowPage = () => {
     
 
     return(
-        <>
+        <div className='bookNow-page'>
         <Navbar/>
         <FloatingButton/>
 
-        <div className="bookNow-parent-container">
             <div className='bookNow-search-section'>
                 <div className='form-group'>
                     <label htmlFor="checkIn">Check-In Date</label>
@@ -155,7 +155,6 @@ const BookNowPage = () => {
                         <Loading/>
             ) : (
                 <div className="room-choice">
-                    
                         {roomsAvailable.length === 0 ? (
                             <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
                         ): (
@@ -190,24 +189,21 @@ const BookNowPage = () => {
                 </div>
             )}
 
-                <div className="summary-container"
-                    style={{
-                        display: checkInDate !== '' && checkOutDate !== '' && roomsAvailable ? 'flex':'none',
-                    }}>
-                    <h4>Your Cart: {bookedRoom.length} items</h4>
+                <div className={`cart-container ${!showCart ? 'hide' : ''}`}>
+                    <h3>Your Cart: {bookedRoom.length} items</h3>
                     <div className='items-container'>
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
                         return(
                             <div className="added-summary-rooms">
                                 <div className="roomtype-price-container">
-                                    <h6>{room.roomType}</h6>
-                                    <h4>{formatPrice(room.price * room.daysGap)}</h4>
+                                    <h3>{room.roomType}</h3>
+                                    <h3>{formatPrice(room.price * room.daysGap)}</h3>
                                 </div>
                                 <p>{room.daysGap} Nights Stay</p>
 
 
                                 <div className="bottom-text-container">
-                                    <h5>{room.checkInDate} - {room.checkOutDate}</h5>
+                                    <h4>{room.checkInDate} - {room.checkOutDate}</h4>
                                     <p>Including taxes and fees</p>
                                 </div>
                                 
@@ -216,15 +212,16 @@ const BookNowPage = () => {
                         )
                      })}
                     </div>
-                    
                     <div>
-                        <h4>Total: {formatPrice(totalPayment)}</h4>    
+                        <h3 style={{fontSize: '20px'}}>Total: {formatPrice(totalPayment)}</h3>    
                         <button className='checkOut-rooms' onClick={handleCheckout}>CHECK OUT</button>
                     </div>
                 </div>  
             </div>
-        </div>    
-        </>
+            <button className='cart-btn' onClick={() => setShowCart(prev => !prev)}>
+                <img src="/photos/cart.png" alt="" />
+            </button>
+        </div>
     )
 }
 
