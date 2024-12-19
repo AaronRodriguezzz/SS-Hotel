@@ -29,8 +29,8 @@ const ReservationTable = ({name}) => {
                     body: JSON.stringify(dataToSend)
                 });
                 if(updateBin.ok){
-                    fetchReservations();
                     alert('Reservation successfully cancelled');
+                    window.location.reload();
                 }
             }catch(err){
                 console.log(err);
@@ -79,7 +79,7 @@ const ReservationTable = ({name}) => {
 
             if(response.ok){
                 alert('Assigning Room Sucessful');
-                setShowForm(false);
+                window.location.reload();
             }
         }catch(err){
             console.log(err);
@@ -212,16 +212,19 @@ const ReservationTable = ({name}) => {
                 </div>
                 
 
-                <form className='assigned-form' style={{display: showForm ? "flex":"none"}}>
+                <form onSubmit={(e) => handleSubmit(e,selectedReservation)} className='assigned-form' style={{display: showForm ? "flex":"none"}}>
                         <button style={{position: "absolute",
                                         backgroundColor: "transparent",
-                                        width:"20px",
-                                        height:"20px",
+                                        width:"30px",
+                                        height:"30px",
                                         color: "red",
                                         top: "-40px",
                                         right: "0",
                                         border:"none",
+                                        fontSize: "25px",
+                                        fontWeight: "600"
                                     }}
+                                type='button'
                                 onClick={(e) => setShowForm(false)}
                         >X</button>
                         
@@ -248,7 +251,7 @@ const ReservationTable = ({name}) => {
                             );
                         })}
 
-                    <button disabled={disable} onClick={(e) => handleSubmit(e,selectedReservation)}>ASSIGN</button>
+                    <button disabled={disable}>ASSIGN</button>
                 </form> 
             </div>
         </>
