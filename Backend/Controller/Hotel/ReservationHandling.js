@@ -3,6 +3,7 @@ const RoomInfo = require('../../Models/HotelSchema/RoomsSchema');
 const Payment = require('../../Models/payment');
 const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
+const { sendBookingDetails } = require('../../services/emailService');
 const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173/';
 
 const AvailableRoomSearch = async (req, res) => {
@@ -11,12 +12,21 @@ const AvailableRoomSearch = async (req, res) => {
         // Convert check-in and check-out dates to Date objects
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
+        if (checkIn) {
+            checkIn.setHours(0, 0, 0, 0);  
+        }
+        if (checkOut) {
+            checkOut.setHours(23, 59, 59, 999); 
+        }
+        
+
         const gap = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
         const schedules = await ReservationSchedule.find({ 
-            status: 'Pending',
-            checkInDate: { $lte: checkIn},
-            checkOutDate: { $gte: checkOut}
+            status: {$in: ['Pending', 'Assigned']},
+            checkInDate: { $lte: checkOut, $gte: checkIn }, 
+            checkOutDate: { $gte: checkIn } 
         });
+        
         const rooms = await RoomInfo.find();
         schedules.forEach(schedule => {
             rooms.forEach(room => {
@@ -71,11 +81,14 @@ const NewReservation = async (req,res) => {
             
         }
 
-        res.clearCookie('checkoutData', { 
+        /*res.clearCookie('checkoutData', { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production'  
-        });
-
+        });*/
+        await sendBookingDetails(stateData.email, Array.from(rooms), {
+            guestName: stateData.fullName,
+            guestContact: stateData.phoneNumber,
+        }  )
         res.redirect(url);
 
     }catch(err){
@@ -112,7 +125,10 @@ const AdminNewReservation = async (req,res) => {
             await newPayment.save();
             await newReservation.save();
         }
-
+        await sendBookingDetails(stateData.email, rooms.entries(), {
+            guestName: stateData.fullName,
+            guestContact: stateData.phoneNumber,
+        }  )
         res.status(200).json({message: 'sucesss'});
 
     }catch(err){

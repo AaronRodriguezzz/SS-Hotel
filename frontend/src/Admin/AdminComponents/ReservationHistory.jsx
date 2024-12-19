@@ -3,19 +3,16 @@ import { formatDate, formatDateTime } from '../../utils/dateUtils';
 
 
 const ReservationHistory = () => {
-    const [history, setHistory] = useState([]);
+    const [history, setHistory] = useState();
     const [filteredBin, setFilteredBin] = useState([]); // Filtered reservations
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
-
     const fetchHistory = async () => {    
 
         try{
             const response = await fetch('/api/history');
             const data = await response.json();
-
-            console.log(data);
             if(response.ok){
                 setHistory(data.history);
             }
@@ -28,7 +25,6 @@ const ReservationHistory = () => {
     const handleSearch = (event) => {
         const query = event.target.value.toLowerCase(); // Normalize input for case-insensitivity
         setSearchQuery(query);
-
         // Filter reservations based on the query
         const filtered = history.filter((bin) => {
                 return (
@@ -52,17 +48,21 @@ const ReservationHistory = () => {
 
     useEffect(() => {
         const filterHistory = async () => {
-            if(checkInDate <= checkOutDate &&  checkInDate != '' && checkOutDate != ''){
-                setFilteredBin(history.filter(item => formatDate(new Date(new Date(item.checkInDate).toISOString().split('T')[0])) == formatDate(new Date(checkInDate))));
+            if(history && checkInDate <= checkOutDate &&  checkInDate != '' && checkOutDate != ''){
+                setFilteredBin(history.filter(item => {
+                    return formatDate(new Date(new Date(item.checkInDate).toISOString().split('T')[0])) === formatDate(new Date(checkInDate)) && 
+                    formatDate(new Date(new Date(item.checkOutDate).toISOString().split('T')[0])) === formatDate(new Date(checkOutDate))
+                }
+             ))
             }
         }
-
-        filterHistory();
-    }, [checkInDate])
+        filterHistory ();
+    }, [checkInDate, checkOutDate])
 
     const clear = async () => {
-        fetchHistory();
+        setFilteredBin(history)
         setCheckInDate('')
+        setCheckOutDate('');
     }
 
     const generateCSV = () => {
@@ -109,6 +109,10 @@ const ReservationHistory = () => {
                 <div>
                     <p>Check In Date</p>
                     <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)}/>
+                </div>
+                <div>
+                    <p>Check Out Date</p>
+                    <input type="date" value={checkOutDate} min={checkInDate} onChange={(e) => setCheckOutDate(e.target.value)}/>
                 </div>
                 <button onClick={() => clear()}>Clear</button>
             </div>

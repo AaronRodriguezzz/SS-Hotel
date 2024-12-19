@@ -1,4 +1,3 @@
-const nodemailer = require('nodemailer');
 const History = require('../../Models/AdminSchemas/RecycleBin');
 const AdminAccts = require('../../Models/AdminSchemas/AdminSchema');
 

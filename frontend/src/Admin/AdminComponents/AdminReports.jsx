@@ -2,12 +2,15 @@ import { CChart } from '@coreui/react-chartjs';
 import { useEffect, useState } from 'react';
 import './AdminReports.css'
 import { formatDate, formatDateTime,addTime } from '../../utils/dateUtils';
+import formatPrice from '../../utils/formatPrice';
 
 const AdminReports = () => {
     const [reports, setReports] = useState();
     const [payments, setPayments] = useState();
+    const [fetchedPayments, setFetchedPayments] = useState();
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [loading, setLoading] = useState(true);
 
     const getReports = async () => {
         try{
@@ -35,7 +38,11 @@ const AdminReports = () => {
 
     useEffect(() => {
         const setData = async ()   => {
-            setPayments(await getPayments());
+            setLoading(true)
+            const allPayments = await getPayments()
+            setFetchedPayments(allPayments);
+            setPayments(allPayments)
+            setLoading(false);
             getReports();
         }
 
@@ -44,21 +51,22 @@ const AdminReports = () => {
     
     useEffect(() => {
             const filterHistory = async () => {
+                setLoading(true);
                 if(startDate <= endDate &&  startDate != '' && endDate != ''){
-                    const payments = await getPayments();
-                    setPayments(payments.filter(payment => 
+                    setPayments(fetchedPayments.filter(payment => 
                         formatDate(new Date(new Date(payment.createdAt).toISOString().split('T')[0])) >= formatDate(new Date(startDate)) && 
                         formatDate(new Date(new Date(payment.createdAt).toISOString().split('T')[0])) <= formatDate(new Date(endDate)))
                     )
                 }
+                setLoading(false);
             }
             filterHistory ();
         }, [startDate, endDate])
 
     const clear = async () => {
-        setPayments(await getPayments())
         setStartDate('')
         setEndDate('')
+        setPayments(fetchedPayments)
     }
 
           // Function to generate CSV data
@@ -72,7 +80,7 @@ const AdminReports = () => {
             const values = [row.roomType, row.guestName, formatDateTime(new Date(row.checkInDate)), formatDateTime(new Date(row.checkOutDate)), row.paymentMethod, formatDateTime(new Date(row.createdAt)), row.totalPrice]
             csvRows.push(values);
         });
-
+        csvRows.push(['Total', formatPrice(payments.reduce((total, payment) => payment.totalPrice + total, 0))])
         // Create a Blob from the CSV string
         const csvBlob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
         const csvUrl = URL.createObjectURL(csvBlob);
@@ -93,21 +101,21 @@ const AdminReports = () => {
                     <img src="/photos/peso.png" alt="" />
                     <div>
                     <p>Incomes this month</p>
-                    <h3>{reports?.incomes_this_month ? `₱ ${reports.incomes_this_month.toFixed(2)}` : 'No incomes'}</h3>
+                    <h3>{reports?.incomes_this_month ? `${formatPrice(reports.incomes_this_month)}` : 'No incomes'}</h3>
                     </div>
                 </div>
                 <div>
                     <img src="/photos/peso.png" alt="" />
                     <div>
                     <p>Incomes this week</p>
-                    <h3>{reports?.incomes_this_week ? `₱ ${reports.incomes_this_week.toFixed(2)}` : 'No incomes'}</h3>
+                    <h3>{reports?.incomes_this_week ? `${formatPrice(reports.incomes_this_week)}` : 'No incomes'}</h3>
                     </div>
                 </div>
                 <div>
                     <img src="/photos/peso.png" alt="" />
                     <div>
                     <p>Incomes this day</p>
-                    <h3>{reports?.incomes_today ? `₱ ${reports.incomes_today.toFixed(2)}` : 'No incomes'}</h3>
+                    <h3>{reports?.incomes_today ? `${formatPrice(reports.incomes_today)}` : 'No incomes'}</h3>
                     </div>
                 </div>
 
@@ -141,6 +149,7 @@ const AdminReports = () => {
                     />
             </div>
             <div className='parent-table-container'>
+                {loading && <p className='loading'>Please wait...</p>}
             <h3>Payments</h3>
             <div className='filter-container'>
                 <div>
@@ -151,7 +160,7 @@ const AdminReports = () => {
                     <p>To</p>
                     <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
                 </div>
-                <button onClick={() => clear()}>Clear</button>
+                <button onClick={clear}>Clear</button>
             </div>
             <div className='table-container'>
                 <table>
@@ -168,7 +177,7 @@ const AdminReports = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {payments && payments.map(payment => {
+                        {payments && !loading && payments.map(payment => {
                             return(
                                 <tr key={payment._id}>
                                     <td>{payment.roomType}</td>
@@ -178,7 +187,7 @@ const AdminReports = () => {
                                     <td>{formatDateTime(new Date(payment.checkOutDate))}</td>
                                     <td>{payment.paymentMethod}</td>
                                     <td>{formatDateTime(new Date(payment.createdAt))}</td>
-                                    <td>{payment.totalPrice}</td>
+                                    <td>{formatPrice(payment.totalPrice)}</td>
                                 </tr>
                             )
                         })}
@@ -186,7 +195,7 @@ const AdminReports = () => {
                 </table>
             </div>
             <div className='bottom-container'>
-            <h3>Total: {payments && payments.reduce((total, payment) => payment.totalPrice + total, 0).toFixed(2) }</h3>
+            <h3>Total: {payments && !loading && formatPrice(payments.reduce((total, payment) => payment.totalPrice + total, 0)) }</h3>
             <button onClick={generateCSV}>Export</button>
             </div>
             </div>
