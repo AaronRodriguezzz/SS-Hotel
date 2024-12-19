@@ -82,6 +82,66 @@ const sendBookingDetails = async (email, rooms, guest) => {
     });
   }
 
+  const send_restaurant_reservation_details = async (object) => {
+
+    const {name, email, phoneNumber, date,time, guestsQuantity} = object
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    const info = await transporter.sendMail({
+      from: "SilverStone Hotel Reservations",
+      to: email,
+      subject: "Restaurant Reservation Details",
+      html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Bookings</title>
+        </head>
+        <body style="margin: 0; padding: 0px; font-family: Arial, sans-serif; background-color: rgba(204, 182, 57,.8);">
+        <div style="background-color: white; padding: 20px">  
+          <div style="width: 80vw; background-color: #2a4b60; color: white; text-allign: end; padding: 20px; font-weight: 600; font-size: 23px;">
+            SilverStone Hotel
+          </div>
+          <h1>Your SilverStone Restaurant Booking</h1>
+          <p style="font-size: 17px;">Guest Name: ${name}</p>
+          <p style="font-size: 17px;">Guest Email: ${email}</p>
+          <p style="font-size: 17px;">Guest Contact: ${phoneNumber}</p>
+          <p style="font-size: 17px;">Book Date: ${formatDateTime(new Date())}</p>
+          <table width="100%" style="margin: 50px 0 30px 0; background-color: white;">
+              <thead>
+                <tr>
+                  <th style="background-color: #2a4b60; color: rgba(204, 182, 57,.8); padding: 10px; font-size: 17px; font-weight: 400;">Guest Name</th>
+                  <th style="background-color: #2a4b60; color: rgba(204, 182, 57,.8); padding: 10px; font-size: 17px; font-weight: 400;">Reservation Date</th>
+                  <th style="background-color: #2a4b60; color: rgba(204, 182, 57,.8); padding: 10px; font-size: 17px; font-weight: 400;">Reservation Time</th>
+                  <th style="background-color: #2a4b60; color: rgba(204, 182, 57,.8); padding: 10px; font-size: 17px; font-weight: 400;">Number of Guests</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td style="padding: 10px; font-size: 16px; text-align: center;">${name}</td>
+                    <td style="padding: 10px; font-size: 16px; text-align: center;">${new Date(date).toISOString().split('T')[0]}</td>
+                    <td style="padding: 10px; font-size: 16px; text-align: center;">${time}</td>
+                    <td style="padding: 10px; font-size: 16px; text-align: center;">${guestsQuantity}</td>
+                  </tr>
+              </tbody>
+            </table>
+            </div>
+        </body>
+        </html>
+      `,
+    });
+  }
+
+
   module.exports = {
-    sendBookingDetails
+    sendBookingDetails,
+    send_restaurant_reservation_details
   }
