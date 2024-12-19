@@ -16,7 +16,6 @@ import RestaurantForm from './pages/RestaurantReservationForm';
 
 function App() {
   return (
-    <div className="App">
       <BrowserRouter>
         <div className='pages'>
           <Routes>
@@ -86,7 +85,6 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
-    </div>
   );
 }
 
