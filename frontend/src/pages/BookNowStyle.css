@@ -60,14 +60,12 @@
 .avail-rooms{
     width: 100vw;
     display: flex;
-    padding: 20px;
-    display: flex;
-    gap: 50px;
+    padding: 30px;
     box-sizing: border-box;
 }
 
 .calendar-div{
-    width: 40%;
+    width: 30%;
     display: flex;
     justify-content: start;
     margin-left: 10px;
@@ -75,7 +73,7 @@
 
 .avail-rooms .room-choice{
     width: 60%;
-    padding: 30px;
+    padding: 10px;
     padding-top: 0px;
 }
 
@@ -114,7 +112,7 @@
 .avail-rooms .room .room-text h4{
     font-size: 18px;
     color: rgb(204, 182, 57);
-    margin-top: 10  px;
+    margin-top: 10px;
     margin-bottom: 0;
 }
 
@@ -178,10 +176,11 @@
     position: sticky;
     top: 170px;
     box-shadow: 0px 0px 5px 1px #2a4b60;
-    width: 35%;
+    width: 40%;
     height: 60vh;
     border-radius: 20px;
     padding: 20px;
+    margin-left: 70px;
     color: #2a4b60;
     display: flex;
     flex-direction: column;
@@ -191,7 +190,7 @@
 
 .avail-rooms .cart-container > .items-container{
     overflow-y: auto;
-    padding: 0 7px;
+    padding: 07px;
 }
 
 .avail-rooms .cart-container h4{
@@ -267,9 +266,9 @@
     left: 5px;
     display: none;
     z-index: 5;
-    width: 100px;
-    height: 80px;
-
+    width: 50px;
+    height: 50px;
+    padding: 10px;
     background-color: #2a4b60;
 }
 
