@@ -1,4 +1,5 @@
 const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
+const { send_restaurant_reservation_details } = require('../../services/emailService');
 const nodemailer = require('nodemailer');
 
 const handle_Available_guest = async (req, res) => {
@@ -56,28 +57,7 @@ const handle_reservation_submit = async (req,res) => {
 
         await dataSaved.save(); 
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });   
-            
-        const info = await transporter.sendMail({
-            from: "SilverStone Restaurant Reservations", // sender address
-            to: email, // list of receivers
-            subject: "Restaurant Reservations", // Subject line
-            text: `Reservation Information \n \n
-                    
-                    Reservation under the name of: ${name} \n
-                    Reservation Date and TIme: ${date} - ${time} \n
-                    Phone Number: ${phoneNumber} \n
-                    Number of Guests: ${guestsQuantity} \n \n \n
-
-                    Contact Us for any changes or cancellation. Thank you so much!
-                    `, 
-        });
+        await send_restaurant_reservation_details(req.body);
 
         return res.status(201).json({message: 'Reservation Successful'})
     }catch(err){
