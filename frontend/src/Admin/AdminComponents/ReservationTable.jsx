@@ -1,6 +1,7 @@
 import { useEffect,useState,useRef} from 'react';
 import './ReservationTable.css'
 import { formatDateTime, formatDateToWeekday } from '../../utils/dateUtils';
+import formatPrice from '../../utils/formatPrice';
 
 
 const ReservationTable = ({name}) => {
@@ -191,7 +192,7 @@ const ReservationTable = ({name}) => {
                                     <td>{reservation.guestEmail}</td>
                                     <td>{reservation.totalRooms}</td>   
                                     <td>{reservation.totalGuests}</td>
-                                    <td>{reservation.totalPrice}</td>
+                                    <td>{formatPrice(reservation.totalPrice)}</td>
                                     <td>{formatDateTime(new Date(reservation.createdAt))}</td>
     
                                     <td className='buttons'>
