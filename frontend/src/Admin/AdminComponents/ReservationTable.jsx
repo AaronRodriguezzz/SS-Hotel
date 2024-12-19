@@ -7,7 +7,7 @@ const ReservationTable = ({name}) => {
 
     const {adminName}  = name;
     const selectedRooms = useRef(new Set());
-    const [reservations, setReservation] = useState([]); // Filtered reservations
+    const [reservations, setReservation] = useState([]);
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [roomCountToAssign, setRoomCountToAssign] = useState(0);
     const [showForm, setShowForm] = useState(false);
@@ -101,21 +101,15 @@ const ReservationTable = ({name}) => {
     const handleSearch = (event) => {
         const query = event.toLowerCase(); 
         setSearchQuery(query);
-
-        if(searchQuery.trim() === ""){
-            setFilteredAccounts(reservations);
-            return;
-        }
         
         // Filter reservations based on the query
-        const filtered = filteredBin.filter((bin) => {
+        const filtered = reservations.filter((bin) => {
             return (
                 bin.roomType.toLowerCase().includes(query) || 
                 bin.guestName.toLowerCase().includes(query) ||
                 bin.guestEmail.toLowerCase().includes(query) || 
                 bin.checkInDate.toLowerCase().includes(query) ||
-                bin.checkOutDate.toLowerCase().includes(query) || 
-                bin.totalPrice.toLowerCase().includes(query) 
+                bin.checkOutDate.toLowerCase().includes(query)
 
             );
         });
