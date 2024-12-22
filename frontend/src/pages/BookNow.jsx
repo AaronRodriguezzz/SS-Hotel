@@ -219,6 +219,7 @@ const BookNowPage = () => {
                 </div> } 
             </div>
             <button className='cart-btn' onClick={() => setShowCart(prev => !prev)}>
+                {bookedRoom.length > 0 && <span>{bookedRoom.length}</span>}
                 <img src="/photos/cart.png" alt="" />
             </button>
         </div>
