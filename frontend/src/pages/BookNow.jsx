@@ -189,7 +189,7 @@ const BookNowPage = () => {
                 </div>
             )}
 
-                <div className={`cart-container ${!showCart ? 'hide' : ''}`}>
+                {!loading && <div className={`cart-container ${!showCart ? 'hide' : ''}`}>
                     <h3>Your Cart: {bookedRoom.length} items</h3>
                     <div className='items-container'>
                     {bookedRoom.length > 0 && bookedRoom.map((room,index) => {
@@ -216,9 +216,10 @@ const BookNowPage = () => {
                         <h3 style={{fontSize: '20px'}}>Total: {formatPrice(totalPayment)}</h3>    
                         <button className='checkOut-rooms' onClick={handleCheckout}>CHECK OUT</button>
                     </div>
-                </div>  
+                </div> } 
             </div>
             <button className='cart-btn' onClick={() => setShowCart(prev => !prev)}>
+                {bookedRoom.length > 0 && <span>{bookedRoom.length}</span>}
                 <img src="/photos/cart.png" alt="" />
             </button>
         </div>

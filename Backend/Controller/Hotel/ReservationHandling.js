@@ -125,10 +125,10 @@ const AdminNewReservation = async (req,res) => {
             await newPayment.save();
             await newReservation.save();
         }
-        await sendBookingDetails(stateData.email, rooms.entries(), {
+        await sendBookingDetails(stateData.email, Array.from(rooms), {
             guestName: stateData.fullName,
             guestContact: stateData.phoneNumber,
-        }  )
+        })
         res.status(200).json({message: 'sucesss'});
 
     }catch(err){
