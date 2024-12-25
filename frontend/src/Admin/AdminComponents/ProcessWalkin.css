@@ -18,7 +18,6 @@
     margin: 50px 0;
 }
 
-
 .room-container .room-div{
     display: flex;
     flex-direction: column;
@@ -33,6 +32,7 @@
 .room-container .room-div h2{
     margin: 0 0 20px 0;
     font-weight: 400;
+    
 }
 
 .room-container .room-div .date-container, .room-input-info{
