@@ -19,6 +19,12 @@
     position: relative;
 }
 
+.table-pagination{
+  padding-right: 5%;
+  box-sizing: border-box;
+
+}
+
 .table-container{
   width: 95%;
   height: 80%;

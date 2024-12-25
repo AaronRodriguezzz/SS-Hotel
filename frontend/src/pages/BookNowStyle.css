@@ -9,38 +9,27 @@
 
 .bookNow-page{
     width: 100vw;
-    height: 100vh;
 }
 
 .bookNow-search-section{
     padding-top: 200px;
     background: linear-gradient(to bottom, #2a4b60 50%, #2a4b6096);
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: center;
     gap: 20px;
 }    
 
 .bookNow-search-section .form-group{
+    display: grid;
+    background-color: white;
+    padding: 30px;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 70px;
-}
-
-.bookNow-search-section .form-group label{
-    font-size: 25px;
-    margin-bottom: 10px;
-    color: rgb(187, 172, 90);
-}
-
-.bookNow-search-section .form-group input{
-    width: 300px;
-    height: 40px;
-    font-size: 20px;
-    border-radius: 10px;
-    padding: 10px;
-    border: none;
-
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px auto;
+    border-radius: 20px;
 }
 
 .message{
@@ -56,9 +45,8 @@
     text-transform: uppercase;
 }
 
-
 .avail-rooms{
-    width: 100vw;
+    width: 100%;
     display: flex;
     padding: 20px;
     display: flex;
@@ -67,7 +55,7 @@
 }
 
 .calendar-div{
-    width: 40%;
+    width: 50%;
     display: flex;
     justify-content: start;
     margin-left: 10px;
@@ -313,17 +301,6 @@
 }
 
 @media (max-width: 850px){
-    .bookNow-search-section{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .bookNow-search-section .form-group input{
-        width: 80%;
-    }
 
     .avail-rooms .room-choice{
         padding: 0;
@@ -356,4 +333,10 @@
         display: none;
     }
 
+}
+
+@media (max-width: 600px) {
+    .bookNow-search-section .form-group{
+        width: 60%;
+    }
 }
