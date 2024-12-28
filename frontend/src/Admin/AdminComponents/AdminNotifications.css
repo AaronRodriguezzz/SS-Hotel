@@ -48,9 +48,14 @@
 
 .notifications .notification{
     display: flex;
-    padding: 10px;
+    padding: 5px 10px;
     align-items: center;
     position: relative;
+    cursor: pointer;
+}
+
+.notifications .notification:hover{
+    background-color: rgb(187, 187, 187);
 }
 
 .notifications span{
@@ -65,9 +70,15 @@
     border-radius: 50%;
 }
 
-.notifications .notification.unread{
+
+.notifications .notification.unread p:first-child{
     font-weight: 600;
     color: black;
+}
+
+.notifications .notification p:last-child{
+    font-size: 14px;
+    color: rgb(99, 99, 99);
 }
 
 .notifications .notification.unread::after{

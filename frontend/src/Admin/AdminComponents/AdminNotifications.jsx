@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import './AdminNotifications.css';
 import io from 'socket.io-client';
+import { formatDateTime } from '../../utils/dateUtils';
 
 const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4001';
 
-const AdminNotifications = () => {
+const AdminNotifications = ({handleSectionChange}) => {
     const [limit, setLimit] = useState(10);
     const [notifications, setNotifications] = useState([]);
     const [show, setShow] = useState(false);
@@ -50,9 +51,14 @@ const AdminNotifications = () => {
                 <h1>Notifications</h1>
                 <div className='notifications-container'>
                 {notifications.length > 0 && notifications.map(notification => 
-                    <div className={`notification ${notification.status === 'Unread' ? 'unread' : ''}`}>
+                    <div className={`notification ${notification.status === 'Unread' ? 'unread' : ''}`}
+                        onClick={() => handleSectionChange('reservations')}
+                    >
                         <img src="/photos/notification.png" alt="" />
-                        <p>{notification.message}</p>                        
+                        <div>
+                        <p>{notification.message}</p>    
+                        <p>{formatDateTime(new Date(notification.createdAt))}</p>      
+                        </div>              
                     </div>
                 )
                 }

@@ -54,7 +54,7 @@ const AdminPage = () => {
                 {activeSection === 'admin-reports' && <AdminReports />}
                 {activeSection === 'history' && <ReservationHistory />}
                 {activeSection === 'restaurant' && <RestaurantReservations />}
-                <AdminNotifications />
+                <AdminNotifications handleSectionChange={handleSectionChange}/>
             </div>
     )
 }
