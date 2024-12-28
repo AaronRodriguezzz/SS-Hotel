@@ -4,6 +4,10 @@ const Payment = require('../../Models/payment');
 const ReservationSchedule = require('../../Models/HotelSchema/RoomSchedules');
 const jwt = require('jsonwebtoken');
 const { sendBookingDetails } = require('../../services/emailService');
+const Admin = require('../../Models/AdminSchemas/AdminSchema');
+const Notification = require('../../Models/AdminSchemas/Notification');
+const { socketInstance, sendNotification } = require('../../socket/socket');
+
 const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173/';
 
 const AvailableRoomSearch = async (req, res) => {
@@ -78,17 +82,26 @@ const NewReservation = async (req,res) => {
             }) 
             await newPayment.save();
             await newReservation.save();
-            
+
+            const admins = await Admin.find();
+
+            let notification;
+
+            for(const admin of admins){
+                notification = await Notification.create({email: admin.email, message: `New reservation for ${reservation.roomType} room`})
+            }
+            sendNotification(notification)
         }
 
-        /*res.clearCookie('checkoutData', { 
+        res.clearCookie('checkoutData', { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production'  
-        });*/
+        });
         await sendBookingDetails(stateData.email, Array.from(rooms), {
             guestName: stateData.fullName,
             guestContact: stateData.phoneNumber,
         }  )
+
         res.redirect(url);
 
     }catch(err){

@@ -10,6 +10,7 @@ import AdminTable from '../AdminComponents/AdminTable';
 import ProcessWalkIn from '../AdminComponents/ProcessWalkin';
 import AdminReports from '../AdminComponents/AdminReports';
 import RestaurantReservations from '../AdminComponents/RestaurantReservations';
+import AdminNotifications from '../AdminComponents/AdminNotifications';
 
 
 const AdminPage = () => {
@@ -41,7 +42,7 @@ const AdminPage = () => {
     };
 
     return(
-        <>
+
             <div className="landingPage-container">
                 <Navigation onSectionChange={handleSectionChange} role={{ securityClearance }} name={{adminName}} choosen={activeSection}/>
                 {activeSection === 'hotelRooms' && <HotelRooms />}
@@ -53,9 +54,8 @@ const AdminPage = () => {
                 {activeSection === 'admin-reports' && <AdminReports />}
                 {activeSection === 'history' && <ReservationHistory />}
                 {activeSection === 'restaurant' && <RestaurantReservations />}
-
+                <AdminNotifications handleSectionChange={handleSectionChange}/>
             </div>
-        </>
     )
 }
 

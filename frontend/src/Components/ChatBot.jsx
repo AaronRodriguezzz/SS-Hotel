@@ -5,7 +5,13 @@ const FloatingButton = () => {
 
     const localMessages = localStorage.getItem("bot-messages");
     const [prompt, setPrompt] = useState('');  
-    const [messages,setMessages] = useState(JSON.parse(localMessages) || []);
+    const [messages,setMessages] = useState(JSON.parse(localMessages) || [
+        {
+            sender: 'bot',
+            message: 'I\'m a AI chatbot that can answer your inquiries and questions about SilverStone Hotel'
+        }
+
+    ]);
     const [containerVisibility, setContainerVisibility] = useState(false);
 
     const handleIconClicked = () => setContainerVisibility(!containerVisibility);
@@ -57,11 +63,14 @@ const FloatingButton = () => {
                     <p>Hello, I'm StoneBot</p>
                 </div>
                 <div className="message-container">
-                    {messages.length > 0 ?  messages.map((text,index) =>  {
+                    {messages.length > 0 && messages.map((text,index) =>  {
                         return(
-                            <p className='user-response' key={index} style={{marginLeft: index % 2 !== 0 ? "0px": "125px"}}>{text.message.trim()}</p> 
+                            <div className={text.sender === 'bot' ? 'bot' : 'user'} >
+                                <p key={index}>{text.message.trim()}</p> 
+                            </div>
+
                         )
-                    }) : <p>I'm a AI chatbot that can answer your inquiries and questions about SilverStone Hotel</p>} 
+                    })}
                 </div>
                 
 

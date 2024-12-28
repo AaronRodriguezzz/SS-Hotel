@@ -9,38 +9,27 @@
 
 .bookNow-page{
     width: 100vw;
-    height: 100vh;
 }
 
 .bookNow-search-section{
     padding-top: 200px;
     background: linear-gradient(to bottom, #2a4b60 50%, #2a4b6096);
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: center;
     gap: 20px;
 }    
 
 .bookNow-search-section .form-group{
+    display: grid;
+    background-color: white;
+    padding: 30px;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 70px;
-}
-
-.bookNow-search-section .form-group label{
-    font-size: 25px;
-    margin-bottom: 10px;
-    color: rgb(187, 172, 90);
-}
-
-.bookNow-search-section .form-group input{
-    width: 300px;
-    height: 40px;
-    font-size: 20px;
-    border-radius: 10px;
-    padding: 10px;
-    border: none;
-
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px auto;
+    border-radius: 20px;
 }
 
 .message{
@@ -56,16 +45,17 @@
     text-transform: uppercase;
 }
 
-
 .avail-rooms{
-    width: 100vw;
+    width: 100%;
     display: flex;
-    padding: 30px;
+    padding: 20px;
+    display: flex;
+    gap: 50px;
     box-sizing: border-box;
 }
 
 .calendar-div{
-    width: 30%;
+    width: 50%;
     display: flex;
     justify-content: start;
     margin-left: 10px;
@@ -73,7 +63,7 @@
 
 .avail-rooms .room-choice{
     width: 60%;
-    padding: 10px;
+    padding: 30px;
     padding-top: 0px;
 }
 
@@ -112,7 +102,7 @@
 .avail-rooms .room .room-text h4{
     font-size: 18px;
     color: rgb(204, 182, 57);
-    margin-top: 10px;
+    margin-top: 10  px;
     margin-bottom: 0;
 }
 
@@ -176,11 +166,10 @@
     position: sticky;
     top: 170px;
     box-shadow: 0px 0px 5px 1px #2a4b60;
-    width: 40%;
+    width: 35%;
     height: 60vh;
     border-radius: 20px;
     padding: 20px;
-    margin-left: 70px;
     color: #2a4b60;
     display: flex;
     flex-direction: column;
@@ -190,7 +179,7 @@
 
 .avail-rooms .cart-container > .items-container{
     overflow-y: auto;
-    padding: 07px;
+    padding: 0 7px;
 }
 
 .avail-rooms .cart-container h4{
@@ -312,17 +301,6 @@
 }
 
 @media (max-width: 850px){
-    .bookNow-search-section{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .bookNow-search-section .form-group input{
-        width: 80%;
-    }
 
     .avail-rooms .room-choice{
         padding: 0;
@@ -355,4 +333,10 @@
         display: none;
     }
 
+}
+
+@media (max-width: 600px) {
+    .bookNow-search-section .form-group{
+        width: 60%;
+    }
 }

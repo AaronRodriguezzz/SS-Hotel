@@ -12,10 +12,12 @@ const AdminCrud = require('./Routes/AdminRoutes/CRUDRoute')
 const AdminLogin = require('./Routes/AdminRoutes/AdminLogInRoute')
 const PaymentRoutes = require('./Routes/PaymentRoutes/paymentRoutes');
 const ChatbotRoute = require('./Routes/AiRoute/ChatBotRoute');
-
+const http = require('http');
 const app = express();
+const server = http.createServer(app);
 const morgan = require('morgan');
 const path = require('path');
+const { initializeSocket, socketInstance } = require('./socket/socket');
 
 app.use(cors({
     origin: 'http://localhost:5173', 
@@ -30,6 +32,8 @@ app.use((req,res,next) => {
     console.log(req.path, req.method);
     next()
 })
+
+initializeSocket(server)
 
 //Routes Usage
 app.use(RenderRooms);
@@ -56,7 +60,7 @@ if (process.env.NODE_ENV === "production") {
 
 mongoose.connect(process.env.dbURI)
     .then(() => {
-        app.listen(process.env.PORT || 4001, () => {
+        server.listen(process.env.PORT || 4001, () => {
             console.log('Listening on port', process.env.PORT)
             console.log('Connected to the Database');
         })    

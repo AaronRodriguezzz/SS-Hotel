@@ -1,5 +1,6 @@
 import { useEffect,useState,} from 'react';
 import { formatDate, formatDateTime } from '../../utils/dateUtils';
+import { Pagination, TablePagination } from '@mui/material';
 
 
 const ReservationHistory = () => {
@@ -8,6 +9,10 @@ const ReservationHistory = () => {
     const [searchQuery, setSearchQuery] = useState(""); // Search input value
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
+    const [pagination, setPagination] = useState({
+        page: 0,
+        rowsPerPage: 10,
+    })
     const fetchHistory = async () => {    
 
         try{
@@ -15,6 +20,7 @@ const ReservationHistory = () => {
             const data = await response.json();
             if(response.ok){
                 setHistory(data.history);
+                setFilteredBin(data.history.slice(0, (pagination.page + 1) * pagination.rowsPerPage))
             }
     
         }catch(err){
@@ -34,8 +40,7 @@ const ReservationHistory = () => {
                     bin.remarks.toLowerCase().includes(searchQuery)
                 );
             });
-
-        setFilteredBin(filtered)
+        setFilteredBin(filtered.slice(0, (pagination.page + 1) * pagination.rowsPerPage))
     };
 
     useEffect(() => {
@@ -43,8 +48,9 @@ const ReservationHistory = () => {
     },[]);
 
     useEffect(() => {
-        if(history) setFilteredBin(history);
-    }, [history])
+        if(history) setFilteredBin(history.slice(pagination.page * pagination.rowsPerPage, (pagination.page + 1) * pagination.rowsPerPage));
+    }, [pagination])
+
 
     useEffect(() => {
         const filterHistory = async () => {
@@ -53,14 +59,15 @@ const ReservationHistory = () => {
                     return formatDate(new Date(new Date(item.checkInDate).toISOString().split('T')[0])) === formatDate(new Date(checkInDate)) && 
                     formatDate(new Date(new Date(item.checkOutDate).toISOString().split('T')[0])) === formatDate(new Date(checkOutDate))
                 }
-             ))
+                ).slice(0, (pagination.page + 1) * pagination.rowsPerPage))
             }
+
         }
         filterHistory ();
     }, [checkInDate, checkOutDate])
 
     const clear = async () => {
-        setFilteredBin(history)
+        setPagination(prev => ({...prev, page: 0}));
         setCheckInDate('')
         setCheckOutDate('');
     }
@@ -115,6 +122,17 @@ const ReservationHistory = () => {
                     <input type="date" value={checkOutDate} min={checkInDate} onChange={(e) => setCheckOutDate(e.target.value)}/>
                 </div>
                 <button onClick={() => clear()}>Clear</button>
+            </div>
+            <div className='table-pagination'>
+            <TablePagination
+                    component="div"
+                    count={history?.length}
+                    page={pagination.page}
+                    
+                    onPageChange={(e, value) => setPagination(prev => ({...prev, page: value}))}
+                    rowsPerPage={pagination.rowsPerPage}
+                    onRowsPerPageChange={(e) => setPagination(({page: 0, rowsPerPage: parseInt(e.target.value, 10)}))}
+                />
             </div>
             <div className="table-container">
             <table>

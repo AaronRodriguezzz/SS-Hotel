@@ -68,7 +68,6 @@
     height: 75%;
     padding: 10px;
     overflow-y: scroll;
-    flex-direction: column-reverse; /* Reverse the flow so the bottom content is visible by default */
 }
 
 .floating-container .message-container p{
@@ -80,10 +79,22 @@
     font-size: 18px;
     animation: slideInLeft 1.5s ease-out;
     background-color:#2a4b60;
+}
 
+.floating-container .message{
+    display: flex;
 }
 
 
+.floating-container .message-container .bot{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.floating-container .message-container .user{
+    display: flex;
+   justify-content: flex-end;
+}
 
 
 .floating-container .input-send-container{

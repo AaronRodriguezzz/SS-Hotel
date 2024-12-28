@@ -1,24 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './BookNowStyle.css'
 import Navbar from '../Components/NavBar'
 import FloatingButton from '../Components/ChatBot';
 import Loading from '../Components/LoadindDiv';
 import Calendar from '../Components/Calendar';
 import formatPrice from '../utils/formatPrice';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+import { formatDate } from '../utils/dateUtils';
 
 const BookNowPage = () => {
     const storageRoom = JSON.parse(sessionStorage.getItem("cart") || "[]");
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
-    const [minCheckOut, setMinCheckOut] = useState('');
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [bookedRoom,setBookedRoom]= useState([]);
     const [daysGap , setDaysGap] = useState(0);
     const [loading, setLoading] = useState(false);
     const [totalPayment, setTotalPayment] = useState(0);
     const [roomToCalendar, setRoomToCalendar] = useState('');
-    const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
     const [showCart, setShowCart] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false);
@@ -115,35 +119,37 @@ const BookNowPage = () => {
 
             <div className='bookNow-search-section'>
                 <div className='form-group'>
-                    <label htmlFor="checkIn">Check-In Date</label>
-                    <input 
-                        type='date' 
-                        name='checkIn'
-                        value={checkInDate} 
-                        min={today}
-                        required 
+                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                    <DemoContainer components={['DatePicker']} >
+                    <DatePicker
+                        label="Check In Date"
+                        disablePast
                         onChange={(e) => {
-                            setCheckInDate(e.target.value)
-                            const checkIn = new Date(e.target.value);
-                            checkIn.setDate(checkIn.getDate() + 1);
-                            setMinCheckOut(checkIn.toISOString().split('T')[0]);     
-                            setCheckOutDate('');               
+                            if(new Date(formatDate(new Date(e.$d))) >= new Date(checkOutDate)){
+                                setCheckOutDate()
+                            }
+                            setCheckInDate(formatDate(new Date(e.$d)))
                         }}
-                    
-                    />
+                        value={!checkInDate ? null : dayjs(checkInDate)}
+                        minDate={dayjs(new Date())}
+                        />
+                    </DemoContainer>
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                    <DemoContainer components={['DatePicker']} >
+                    <DatePicker
+                        label="Check Out Date"
+                        disablePast
+                        onChange={(e) => setCheckOutDate(formatDate(new Date(e.$d)))}
+                        value={!checkOutDate ? null : dayjs(checkOutDate)}
+                        minDate={!checkInDate ? null : dayjs(new Date(new Date(checkInDate).setDate(new Date(checkInDate).getDate() + 1)))}
+                        />
+                    </DemoContainer>
+                </LocalizationProvider>
                 </div>
 
-                <div className='form-group'>
-                    <label htmlFor="checkOut">Check-Out Date</label>
-                    <input 
-                        type='date' 
-                        name='checkOut'
-                        value={checkOutDate} 
-                        onChange={(e) => setCheckOutDate(e.target.value)}  
-                        min={minCheckOut}
-                        required 
-                    />
-                </div>
+                
+
             </div>
             
             <div className="calendar-div" style={{display: checkInDate !== '' && checkOutDate !== '' ? "flex":"none" }}>
@@ -155,10 +161,10 @@ const BookNowPage = () => {
                         <Loading/>
             ) : (
                 <div className="room-choice">
-                        {roomsAvailable.length === 0 ? (
+                        {roomsAvailable.length === 0 && checkInDate && checkOutDate ? (
                             <h1 className='message' style={{display: checkInDate !== '' && checkOutDate !== '' ? 'block':'none'}}>No Rooms Available on that date</h1>
                         ): (
-                          checkInDate !== '' && checkOutDate !== '' && roomsAvailable.map(room => {
+                          checkInDate && checkOutDate && roomsAvailable.map(room => {
                             return(
                                 <div key={room._id} className='room'>
                                     <img src={`/photos/z${room.roomType}.jpg`} alt={`${room.roomType}`} />  
