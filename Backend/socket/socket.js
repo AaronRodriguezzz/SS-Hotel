@@ -35,10 +35,11 @@ const initializeSocket = (server) => {
             // Handle 'notifications' event
             socket.on('notifications', async (limit) => {
                 try {
+                    const total = await Notification.countDocuments({email});
                     const notifications = await Notification.find({ email })
                     .limit(limit)
                     .sort({createdAt: -1});
-                    socket.emit('notifications', notifications);
+                    socket.emit('notifications', {notifications, total});
                 } catch (err) {
                     console.log(err);
                 }

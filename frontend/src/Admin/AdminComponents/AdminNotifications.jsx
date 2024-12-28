@@ -9,6 +9,7 @@ const AdminNotifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [show, setShow] = useState(false);
     const [socket, setSocket] = useState();
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         const socket = io(URL,{
@@ -17,7 +18,8 @@ const AdminNotifications = () => {
         
         socket.emit('notifications', limit)
         socket.on('notifications', (notifications) => {
-            setNotifications(notifications)
+            setNotifications(notifications.notifications)
+            setTotal(notifications.total)
         })
         
         socket.on('notification', (notification) => {
@@ -28,6 +30,11 @@ const AdminNotifications = () => {
 
     }, []);
 
+    useEffect(() => {
+        if(socket){
+            socket.emit('notifications', limit);
+        }
+    }, [limit])
 
     return (
         <div className='notifications'>
@@ -50,6 +57,7 @@ const AdminNotifications = () => {
                 )
                 }
                 </div>
+                {limit < total && <button onClick={() => setLimit(prev => prev + 10)}>Show More</button>}
             </div>}
 
         </div>

@@ -35,6 +35,11 @@
     font-size: 35px;
 }
 
+.notifications .notifications-dropdown button{
+    margin-top: 10px;
+    background-color: #d4bc34;
+}
+
 .notifications .notifications-container{
     width: 100%;
     flex: 1;
