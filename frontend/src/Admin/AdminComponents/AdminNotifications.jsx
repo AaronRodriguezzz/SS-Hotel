@@ -52,7 +52,9 @@ const AdminNotifications = ({handleSectionChange}) => {
                 <div className='notifications-container'>
                 {notifications.length > 0 && notifications.map(notification => 
                     <div className={`notification ${notification.status === 'Unread' ? 'unread' : ''}`}
-                        onClick={() => handleSectionChange('reservations')}
+                        onClick={async () =>{
+                            handleSectionChange('reservations');
+                        }}
                     >
                         <img src="/photos/notification.png" alt="" />
                         <div>
