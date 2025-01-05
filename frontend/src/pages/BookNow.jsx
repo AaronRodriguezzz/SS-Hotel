@@ -147,9 +147,6 @@ const BookNowPage = () => {
                     </DemoContainer>
                 </LocalizationProvider>
                 </div>
-
-                
-
             </div>
             
             <div className="calendar-div" style={{display: checkInDate !== '' && checkOutDate !== '' ? "flex":"none" }}>
