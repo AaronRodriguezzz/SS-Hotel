@@ -25,7 +25,7 @@ const initializeSocket = (server) => {
         // Get the 'jwt' token from the cookies
         const token = cookies.jwt;
 
-        try {
+        
             // Verify the JWT token
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
             const email = decodedToken.email;
@@ -58,14 +58,11 @@ const initializeSocket = (server) => {
                 console.log('User disconnected:', email);
             });
 
-        } catch (err) {
-            console.log('Error verifying token:', err);
-        }
     });
 };
 
 const sendNotification = (notification) => {
-    socketInstance.emit('notification', notification)
+    if(socketInstance) socketInstance.emit('notification', notification)
     
 }
 
