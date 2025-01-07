@@ -27,9 +27,6 @@ const RestaurantTerms = ({ onAccept, onDecline }) => {
           <li>Check-in time is 2:00 pm - Check-out time is 12:00 pm</li>
 
         </ul>
-        <h3>2. Payment Policy</h3>
-        <p>Full payment is required at the time of booking unless stated otherwise.</p>
-        <p>Accepted payment methods include credit cards, debit cards, and cash.</p>
 
         <div className="terms-footer">
           <button className="accept-button" onClick={onAccept}>
