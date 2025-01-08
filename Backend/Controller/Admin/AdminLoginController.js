@@ -16,7 +16,7 @@ const adminLogin = async (req,res) => {
         const admin = await Admin.findOne({email});
 
         if (!admin) {
-            return res.status(404).json('Admin does not exist');
+            return res.status(404).json('Invalid Email');
         }
 
         if(admin.adminStatus === 'Disabled'){
@@ -26,7 +26,7 @@ const adminLogin = async (req,res) => {
         const passMatched = await bcrypt.compare(password, admin.password);
 
         if (!passMatched) {
-            return res.status(400).json({message:"Log In Failed"});
+            return res.status(400).json({message:"Invalid Password"});
         } 
 
         const token = jwt.sign(
