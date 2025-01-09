@@ -52,7 +52,12 @@ const ProcessedReservation = () => {
         const add = new Date(today);
         add.setDate(add.getDate() + 1)
 
-        if (today >= date) {
+        const currentTime = new Date();
+  
+        const currentHour = currentTime.getHours() - 1; // Get the hour (0-23)
+        const currentMinute = currentTime.getMinutes();
+
+        if (today >= date && (currentHour >= 11 && currentMinute >= 0)) {
           return 'critical';
         }
     
