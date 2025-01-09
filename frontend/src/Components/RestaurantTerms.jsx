@@ -19,6 +19,7 @@ const RestaurantTerms = ({ onAccept, onDecline }) => {
           <li>All reservations are subject to availability.</li>
           <li>There's 3 hours dining time</li>
           <li>Reservation cannot be cancelled. The reservation payment will not be refunded</li>
+          <li>The reservation fee is not refundable but consumable within the restaurant premises only</li>
           <li>
             Early check-in and late check-out are subject to availability and
             may incur additional charges.
