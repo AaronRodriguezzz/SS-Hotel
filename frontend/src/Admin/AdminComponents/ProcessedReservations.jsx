@@ -1,5 +1,5 @@
 import { useEffect,useState,} from 'react';
-import { formatDateTime, formatDateToWeekday } from '../../utils/dateUtils';
+import { formatDateTime, formatDateToWeekday,formatDate} from '../../utils/dateUtils';
 
 const ProcessedReservation = () => {
 
@@ -47,6 +47,23 @@ const ProcessedReservation = () => {
         }
     }
 
+    const check_warning_date = (date) => {
+        const today = formatDate(new Date());
+        const add = new Date(today);
+        add.setDate(add.getDate() + 2)
+
+        if (today >= date) {
+          return 'critical';
+        }
+    
+        if (formatDate(new Date(add)) === date) {
+          return 'warning';
+        }
+
+      };
+      
+
+
     return(
         <>
         <div class="parent-table-container">
@@ -67,8 +84,9 @@ const ProcessedReservation = () => {
                 </thead>
                 <tbody>
                     {roomNums && (roomNums.map(roomNum => {
+                        const status = check_warning_date(formatDate(new Date(roomNum.checkOutDate)));
                         return(
-                            <tr key={roomNum.roomNumber}>
+                            <tr key={roomNum.roomNumber} style={status === 'warning' ? {backgroundColor: 'rgba(230, 112, 1, 0.82)', color:"white"} : status === 'critical' ? {backgroundColor: 'rgba(255, 0, 0, 0.81)', color: 'white'} : {}}>
                                 <td>{roomNum.roomNumber}</td>
                                 <td>{roomNum.roomType}</td>
                                 <td>{roomNum.checkInDate ? formatDateToWeekday(new Date(roomNum.checkInDate)) : ''}</td>
