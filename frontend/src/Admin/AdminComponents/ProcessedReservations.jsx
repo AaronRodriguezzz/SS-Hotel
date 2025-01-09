@@ -50,7 +50,7 @@ const ProcessedReservation = () => {
     const check_warning_date = (date) => {
         const today = formatDate(new Date());
         const add = new Date(today);
-        add.setDate(add.getDate() + 2)
+        add.setDate(add.getDate() + 1)
 
         if (today >= date) {
           return 'critical';
