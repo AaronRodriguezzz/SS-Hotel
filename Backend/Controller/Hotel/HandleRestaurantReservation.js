@@ -1,6 +1,8 @@
 const Restaurant = require('../../Models/HotelSchema/RestaurantReservation');
 const { send_restaurant_reservation_details } = require('../../services/emailService');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const url = process.env.NODE_ENV === 'production' ? 'https://ss-hotel.onrender.com' : 'http://localhost:5173';
 
 const handle_Available_guest = async (req, res) => {
     const { date, time } = req.body;
@@ -44,7 +46,8 @@ const handle_Available_guest = async (req, res) => {
 const handle_reservation_submit = async (req,res) => {
 
     try{
-        const {name, email, phoneNumber, date,time, guestsQuantity} = req.body
+        const reservationData = jwt.verify(req.cookies.restaurantdata, process.env.JWT_SECRET);
+        const {name, email, phoneNumber, date,time, guestsQuantity} = reservationData
 
         const dataSaved = new Restaurant({
             name: name,
@@ -57,9 +60,12 @@ const handle_reservation_submit = async (req,res) => {
 
         await dataSaved.save(); 
 
-        await send_restaurant_reservation_details(req.body);
+        await send_restaurant_reservation_details(reservationData);
 
+        res.redirect(`${url}/restaurant-form`);
+        
         return res.status(201).json({message: 'Reservation Successful'})
+        
     }catch(err){
         console.log('Saving reservation ' , err);
     }

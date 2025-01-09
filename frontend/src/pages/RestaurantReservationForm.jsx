@@ -23,6 +23,30 @@ const ReservationForm = () => {
   const handle_view_terms = (e) => {
     e.preventDefault();
     
+    const now = new Date();
+    const hours = now.getHours(); 
+    const minutes = now.getMinutes(); 
+    const currentTime = `${hours}:${minutes}`;
+    const limit = "9:00 pm"
+
+    const [hours1, minutes1] = currentTime.split(":").map(Number);
+    const [hours2, minutes2] = formData.time.split(":").map(Number);
+
+    const current = new Date();
+    current.setHours(hours1, minutes1, 0); // Set hours and minutes
+    const picked = new Date();
+    picked.setHours(hours2, minutes2, 0);
+
+    console.log(picked, '-' , limit)
+    if(current >= picked && today === formData.date){
+      return alert(`We’re sorry, but your picked time has past`);
+    }
+
+    if(picked > new Date(`${now.toDateString()} ${limit}`) ){
+      return alert("We’re sorry, 9:00 pm is the reservation cutoff");
+    }
+ 
+
     if(formData.guestsQuantity > guestLimit){
       return alert(`We’re sorry, but we can only accommodate ${guestLimit} guest in that time`);
     }
@@ -30,12 +54,14 @@ const ReservationForm = () => {
     setShowOverlay(true);
   } 
 
+
   const handleGmailViewed = () => {
     setSuccessMessage(false);
   }
 
   const accept_terms = () => {
     setShowOverlay(false)    
+    window.open('https://mail.google.com/', '_blank')
     handleSubmit();
   }
 
@@ -51,13 +77,14 @@ const ReservationForm = () => {
   const handleSubmit = async () => { 
 
     try{
-      const response = await fetch('/api/submit/restaurantReservation', {
+      const response = await fetch('/api/reservation/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       if(response.ok){
+        const result = await response.json();
         setFormData({
           name: "",
           email: "",
@@ -67,13 +94,15 @@ const ReservationForm = () => {
           guestsQuantity: "",
         });
 
-        setSuccessMessage(true);
+        window.location.href = result.data.attributes.checkout_url;
       }
 
     }catch(err){
       console.log('frontend submit', err);
     }
   };
+
+
   
   useEffect(() => {
     const fetchAvailability = async () => {

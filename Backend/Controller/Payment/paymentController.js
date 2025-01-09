@@ -36,6 +36,7 @@ const createPaymentCheckout = async (req, res) => {
                   }
                 })
               };
+
               const response = await fetch('https://api.paymongo.com/v1/checkout_sessions', options)
               if(response.ok){
                 const result = await response.json();
@@ -49,6 +50,56 @@ const createPaymentCheckout = async (req, res) => {
         res.status(400).json({error: err.message})
     }
 }
+
+
+
+const restaurant_payment = async (req, res) => {
+
+  const options = {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+      authorization: 'Basic c2tfdGVzdF9RaHROOGZMRGlFVThndXdQVW9yV0FMenU6'
+    },
+
+    body: JSON.stringify({
+      data: {
+        attributes: {
+          send_email_receipt: true,
+          show_description: true,
+          show_line_items: true,
+          cancel_url: `${url}/api/submit/restaurantReservation`,
+          description: 'Restaurant Reservation Fee',
+          line_items: [
+            {
+              currency: 'PHP',
+              amount: 50000,
+              description: 'Restaurant Reservation',
+              quantity: 1,
+              name: 'Reservation Fee'
+            }
+          ],
+          success_url: `${url}/api/submit/restaurantReservation`,
+          statement_descriptor: 'Silverstone Restaurant',
+          payment_method_types: ['gcash', 'paymaya', 'brankas_metrobank'],
+          reference_number: 'dasdasdasdweq'
+        }
+      }
+    })
+  };
+
+  const response = await fetch('https://api.paymongo.com/v1/checkout_sessions', options)
+
+  if(response.ok){
+    const result = await response.json();
+    const token = jwt.sign({...req.body}, process.env.JWT_SECRET);
+    res.cookie('restaurantdata', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.status(200).json(result)
+  }
+  
+}
+
 
 const get_payments = async (req, res) => {
   try{
@@ -94,5 +145,6 @@ const get_reports = async (req, res) => {
 module.exports = {
     createPaymentCheckout,
     get_payments,
-    get_reports
+    get_reports,
+    restaurant_payment
 }
