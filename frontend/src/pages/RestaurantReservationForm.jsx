@@ -61,7 +61,6 @@ const ReservationForm = () => {
 
   const accept_terms = () => {
     setShowOverlay(false)    
-    window.open('https://mail.google.com/', '_blank')
     handleSubmit();
   }
 
