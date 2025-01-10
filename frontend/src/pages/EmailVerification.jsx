@@ -22,6 +22,7 @@ function VerifyEmail() {
     const [code, setCode] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [changeEmailClicked, setChangeEmailClicked] = useState(false);
+    const [isPinInvalid, setIsPinInvalid] = useState(false);
 
     const formatTime = () => {
         const minutes = Math.floor(timeLeft / 60);
@@ -128,6 +129,8 @@ function VerifyEmail() {
                         console.error(err)
                     }
     
+                }else{
+                    setIsPinInvalid(true);
                 }
             }
         }
@@ -145,11 +148,13 @@ function VerifyEmail() {
             
                 <div className="verify_container">
                     <p id='verification_title'>Input 4 digit code</p>
+                    <p>Input 4 digit code</p>
 
                     <div className="input_fields">
                         <input type="text" 
                                 value={numOne}
                                 onChange={(e) => setNumOne(e.target.value )}
+                                style={isPinInvalid ? {borderBottom: '1.5px solid red', color: 'red'} : {borderBottom:'1.5px solid #2a4b60', color:'#2a4b60'}}
                                 minLength={1}
                                 maxLength={1}
                                 required
@@ -158,6 +163,7 @@ function VerifyEmail() {
                         <input type="text" 
                                 value={numTwo}
                                 onChange={(e) => setNumTwo(e.target.value )}
+                                style={isPinInvalid ? {borderBottom: '1.5px solid red', color: 'red'} : {borderBottom:'1.5px solid #2a4b60', color:'#2a4b60'}}
                                 minLength={1}
                                 maxLength={1}
                                 required
@@ -166,6 +172,7 @@ function VerifyEmail() {
                             <input type="text" 
                                 value={numThree}
                                 onChange={(e) => setNumThree(e.target.value )}
+                                style={isPinInvalid ? {borderBottom: '1.5px solid red', color: 'red'} : {borderBottom:'1.5px solid #2a4b60', color:'#2a4b60'}}
                                 minLength={1}
                                 maxLength={1}
                                     required
@@ -174,6 +181,7 @@ function VerifyEmail() {
                         <input type="text" 
                                 value={numFour}
                                 onChange={(e) => setNumFour(e.target.value )}
+                                style={isPinInvalid ? {borderBottom: '1.5px solid red', color: 'red'} : {borderBottom:'1.5px solid #2a4b60', color:'#2a4b60'}}
                                 minLength={1}
                                 maxLength={1}
                                 required

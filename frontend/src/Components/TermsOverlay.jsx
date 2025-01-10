@@ -16,7 +16,6 @@ const TermsOverlay = ({ onAccept, onCancel }) => {
         <ul>
           <li>All reservations are subject to availability.</li>
           <li>A valid credit/debit card is required to secure your booking.</li>
-          <li>Guests must be at least 18 years old to make a reservation.</li>
           <li>
             Early check-in and late check-out are subject to availability and
             may incur additional charges.
