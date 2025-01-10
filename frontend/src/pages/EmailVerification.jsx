@@ -131,6 +131,11 @@ function VerifyEmail() {
     
                 }else{
                     setIsPinInvalid(true);
+                    const timer = setTimeout(() => {
+                        setIsPinInvalid(false);
+                    }, 3000); // Delay for 2 seconds
+                  
+                    return () => clearTimeout(timer); // Cleanup timeout
                 }
             }
         }
