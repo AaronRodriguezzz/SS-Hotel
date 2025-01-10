@@ -26,6 +26,7 @@ const BookNowPage = () => {
     const navigate = useNavigate();
     const [showCart, setShowCart] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false);
+    const today = new Date();
 
 
     const handleAddRoom = (room) => {
@@ -131,7 +132,9 @@ const BookNowPage = () => {
                             setCheckInDate(formatDate(new Date(e.$d)))
                         }}
                         value={!checkInDate ? null : dayjs(checkInDate)}
-                        minDate={dayjs(new Date())}
+                        minDate={today.getHours() < 12 
+                            ? dayjs(new Date(new Date().toLocaleDateString('en-US')))
+                            : dayjs(new Date().setDate(new Date().getDate() + 1))}
                         />
                     </DemoContainer>
                 </LocalizationProvider>
