@@ -20,10 +20,6 @@ const RestaurantTerms = ({ onAccept, onDecline }) => {
           <li>There's 3 hours dining time</li>
           <li>Reservation cannot be cancelled. The reservation payment will not be refunded</li>
           <li>The reservation fee is not refundable but consumable within the restaurant premises only</li>
-          <li>
-            Early check-in and late check-out are subject to availability and
-            may incur additional charges.
-          </li>
           <li>Guests must present a valid ID upon arriving to the restaurant</li>
           <li>We value punctuality. Guests should arrived on time. Reservation time will not be move if the client arrived late</li>
           <li>All guests are expected to respect restaurant property and other patrons.</li>
